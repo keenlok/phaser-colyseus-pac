@@ -1,6 +1,6 @@
-import * as levelData from '../leveldata/NewLevelData'
+const levelData = require('../leveldata/NewLevelData')
 
-export default class PhysicsFactory {
+class PhysicsFactory {
   constructor (scene, physics) {
     this.scene = scene
     this.physics = physics
@@ -48,3 +48,5 @@ export default class PhysicsFactory {
     coralLayer.setCollisionBetween(levelData.startGid, levelData.endGid, true)
   }
 }
+
+module.exports = PhysicsFactory

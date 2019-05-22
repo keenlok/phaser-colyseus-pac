@@ -12,13 +12,7 @@ class SoundFactory {
   }
 
   static createSoundEffects (soundManager, soundCreator) {
-    // scene.walkingSfx = []
-    // scene.scuttleSfx01 = soundManager.add('scuttling2', {volume: 0.4})
-    // for (let i = 1; i <= 8; i++) {
-    //   scene.walkingSfx.push(soundManager.add('scuttling' + i, {volume: 0.4}))
-    // }
 
-    //
     soundManager.walkingSfx = soundCreator.add('scuttling8', {volume: 1.3})
 
     soundManager.jellyPropelSfx = soundCreator.add('jellyPropel', {volume: 0.4})

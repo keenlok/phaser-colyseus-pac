@@ -1,4 +1,4 @@
-export default class AnimationFactory {
+class AnimationFactory {
   static createAllAnimations (animationManager) {
     this.createAnimationForScuttles(animationManager)
     this.createAnimationForEnemies(animationManager)
@@ -205,3 +205,5 @@ export default class AnimationFactory {
     })
   }
 }
+
+module.exports = AnimationFactory

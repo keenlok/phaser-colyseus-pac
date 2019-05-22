@@ -1,10 +1,10 @@
-import SpecialDots from '../SpecialDots'
-import Scuttles from '../Scuttles'
-import Enemies from '../Enemies'
-import * as levelData from '../leveldata/NewLevelData'
-import Phaser from 'phaser'
+const SpecialDots = require('../SpecialDots')
+const Scuttles = require('../Scuttles')
+const Enemies = require('../Enemies')
+const levelData = require('../leveldata/NewLevelData')
+const Phaser = require('phaser')
 
-export default class GameObjectFactory {
+class GameObjectFactory {
   static createAllGameObjects (scene) {
     this.createMap(scene)
     this.createEnemies(scene)
@@ -163,3 +163,5 @@ export default class GameObjectFactory {
       .setFontFamily('Fredoka One')
   }
 }
+
+module.exports = GameObjectFactory
