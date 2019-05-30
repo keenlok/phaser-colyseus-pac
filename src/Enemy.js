@@ -658,7 +658,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
       this.directions = constants.updateDirections(this.scene, point.x, point.y)
       this.moveAccordingToMode(convertedPoint, point.x, point.y, time)
     }
-    this.isNear()
+    // this.isNear()
     // this.checkAnimFrame()
   }
 
@@ -736,7 +736,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
         // this.scene.soundManager.playEnemyDeathSFX()
         // this.scene.soundManager.scuttleVO[1].play()
         let score = this.scene.increaseScore('enemy_exp')
-        this.scene.addTextScore(this.x, this.y, score)
+        // this.scene.addTextScore(this.x, this.y, score)
         this.mode = this.RETURNING_HOME
         this.isDead = true
         this.alreadyDead = false
@@ -781,10 +781,10 @@ class Enemy extends Phaser.GameObjects.Sprite {
           }
           // console.log(this.name + ' play alert sound and enemy chase sound')
           // TODO: this also breaks this.scene.popSFX is undefined. Probably a naming problem @keenlok
-          if (!this.scene.soundManager.popSfx.isPlaying) {
+          // if (!this.scene.soundManager.popSfx.isPlaying) {
             // this.scene.soundManager.playAlertSound()
             this.alreadyTriggered = true
-          }
+          // }
         }
       } else {
         // if the enemy is already out of the frame, reset the trigger flag
