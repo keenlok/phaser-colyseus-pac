@@ -868,7 +868,7 @@ class ExtendedGame extends Phaser.Scene {
       // this.soundManager.playScuttleDiesSequenceTwo(num)
     }
     player.dies()
-    if (NODE_ENV !== 'production' || this.isTwoPlayer) {
+    if ((typeof NODE_ENV !== 'undefined' && NODE_ENV !== 'production') || this.isTwoPlayer) {
       this.currentMode = 0
       this.enemies.scatter()
     } else {
