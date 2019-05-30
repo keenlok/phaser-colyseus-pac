@@ -12,6 +12,7 @@ class ExtendedGame extends Phaser.Scene {
   constructor () {
     super({ key: 'maingame' })
     this.isTwoPlayer = false
+    this.preload()
     this.initializeVariables()
     this.SPECIAL_TILES = [
       { x: 0, y: 0 }
@@ -823,30 +824,6 @@ class ExtendedGame extends Phaser.Scene {
     this.restartGame()
   }
 
-  createLights () {
-    // console.log(this.test)
-    // console.log('Before', this.tileLayer, this.scuttle.egg)
-    //
-    // this.tileLayer.setPipeline('Light2D')
-    //
-    // this.scuttle.egg.setPipeline('Light2D')
-    //
-    // console.log('After', this.tileLayer, this.scuttle.egg)
-    //
-    // this.light = this.lights.addLight(0, 0, 300, 16777215, 3)
-    // this.lights.enable().setAmbientColor(0x555555)
-    // this.light.setRadius(300)
-    // this.tileLayer.resetPipeline()
-    // this.scuttle.egg.resetPipeline()
-  }
-
-  followScuttle (scuttle) {
-    if (constants.DEBUG && typeof this.light !== 'undefined') {
-      this.light.x = scuttle.x - 150
-      this.light.y = scuttle.y + 150
-    }
-  }
-
   checkScoreToEndGame () {
     if (this.numFoodEaten >= levelData.numFood) {
       console.warn('gameover', this.numFoodEaten, this.normalBGM)
@@ -879,31 +856,6 @@ class ExtendedGame extends Phaser.Scene {
       isAlpha: isAlpha
     })
     this.scene.pause()
-  }
-
-  checkGameSize () {
-    let width = this.sys.game.config.width
-    let height = this.sys.game.config.height
-
-    if (width > levelData.WIDTH || height > levelData.HEIGHT) {
-      let scale1 = width / levelData.WIDTH
-      let scale2 = height / levelData.HEIGHT
-      if (scale1 > scale2) {
-        this.cameras.main.setZoom(scale1)
-      } else {
-        this.cameras.main.setZoom(scale2)
-      }
-      this.resizeGame(width, height)
-    } else {
-      this.cameras.main.setZoom()
-      this.cameraView = this.cameras.main.worldView
-      if (width !== this.cameraView.width ||
-        height !== this.cameraView.height) {
-        this.resizeGame(width, height)
-        console.log('did it resize')
-      }
-      // console.log(this.cameraView, width, height)
-    }
   }
 
   getTargetInformationForEnemy () {
