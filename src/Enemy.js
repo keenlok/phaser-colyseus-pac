@@ -2,6 +2,8 @@ import * as constants from './config/constants'
 import * as levelData from './leveldata/NewLevelData'
 // import Phaser from 'phaser'
 
+const directions = constants.directions
+
 class Enemy extends Phaser.GameObjects.Sprite {
   constructor (scene, x, y, texture, type) {
     super(scene, x, y, texture)
@@ -29,8 +31,8 @@ class Enemy extends Phaser.GameObjects.Sprite {
 
     this.directions = [null, null, null, null, null]
     this.opposites = [
-      constants.NONE, constants.RIGHT, constants.LEFT,
-      constants.DOWN, constants.UP
+      directions.NONE, directions.RIGHT, directions.LEFT,
+      directions.DOWN, directions.UP
     ]
     this.turnPoint = new Phaser.Geom.Point()
     this.lastPosition = {x: -1, y: -1}
@@ -104,7 +106,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
     }
 
     if (type === 'type_shark') {
-      this.currentDir = constants.LEFT
+      this.currentDir = directions.LEFT
     }
   }
 
@@ -201,7 +203,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
   returnToNormal () {
     this.isFrightened = false
     if (this.mode !== this.RETURNING_HOME) {
-      if (this.currentDir === constants.LEFT || this.currentDir === constants.UP) {
+      if (this.currentDir === directions.LEFT || this.currentDir === directions.UP) {
         this.play(this.name + '_left')
       } else {
         this.play(this.name + '_right')
@@ -210,8 +212,8 @@ class Enemy extends Phaser.GameObjects.Sprite {
     } else if (this.mode === this.RETURNING_HOME && this.isDead) {
       this.respawn()
     }
-    if (this.name === 'jelly' && (this.currentDir === constants.UP ||
-      this.currentDir === constants.DOWN)) {
+    if (this.name === 'jelly' && (this.currentDir === directions.UP ||
+      this.currentDir === directions.DOWN)) {
       this.setAngle(90)
     }
     if (this.mode === this.RANDOM) {
@@ -249,7 +251,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
     this.playRespectiveAnimation(direction, animType)
 
     this.setAngle(0)
-    if (direction === constants.LEFT || direction === constants.RIGHT) {
+    if (direction === directions.LEFT || direction === directions.RIGHT) {
       this.body.setVelocityX(speed)
     } else {
       if (this.name === 'jelly') {
@@ -274,7 +276,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
         this.mode = this.CHASE
       }
     }
-    if (direction === constants.LEFT || direction === constants.UP) {
+    if (direction === directions.LEFT || direction === directions.UP) {
       speed = -speed
     }
     return speed
@@ -282,7 +284,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
 
   playRespectiveAnimation (direction, animType) {
     let animKey
-    if (direction === constants.RIGHT || direction === constants.DOWN) {
+    if (direction === directions.RIGHT || direction === directions.DOWN) {
       if (this.mode === this.RETURNING_HOME) {
         animKey = animType
         this.flipX = false
@@ -351,11 +353,11 @@ class Enemy extends Phaser.GameObjects.Sprite {
         let direction = targetInformation.direction
         let offsetX = 0
         let offsetY = 0
-        if (direction === constants.LEFT || direction === constants.RIGHT) {
-          offsetX = (direction === constants.RIGHT) ? -4 : 4
+        if (direction === directions.LEFT || direction === directions.RIGHT) {
+          offsetX = (direction === directions.RIGHT) ? -4 : 4
         }
-        if (direction === constants.UP || direction === constants.DOWN) {
-          offsetY = (direction === constants.LEFT) ? -4 : 4
+        if (direction === directions.UP || direction === directions.DOWN) {
+          offsetY = (direction === directions.LEFT) ? -4 : 4
         }
         offsetX *= constants.TileSize
         offsetY *= constants.TileSize
@@ -476,7 +478,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
         // console.log('scatter')
         break
       case this.STOP:
-        this.move(constants.NONE)
+        this.move(directions.NONE)
         // console.log('stop')
         break
     }
@@ -557,16 +559,16 @@ class Enemy extends Phaser.GameObjects.Sprite {
     for (let i = 0; i < possibleExits.length; i++) {
       direction = possibleExits[i]
       switch (direction) {
-        case constants.LEFT:
+        case directions.LEFT:
           decision = constants.convertToPixels((x - 1), y)
           break
-        case constants.RIGHT:
+        case directions.RIGHT:
           decision = constants.convertToPixels((x + 1), y)
           break
-        case constants.UP:
+        case directions.UP:
           decision = constants.convertToPixels(x, y - 1)
           break
-        case constants.DOWN:
+        case directions.DOWN:
           decision = constants.convertToPixels(x, y + 1)
           break
         default:
@@ -584,12 +586,12 @@ class Enemy extends Phaser.GameObjects.Sprite {
 
     // If the enemy is currently on the special tile, don't allow it to go up,
     // according to the article
-    if (bestDecision === constants.UP) {
+    if (bestDecision === directions.UP) {
       // if (this.name === 'shark') {
       //   console.log(x, y)
       //   console.log(this.scene.isSpecialTile({x: x, y: y}))
       // } //TODO: For Debug remove if needed
-      if (this.scene.isSpecialTile({x: x, y: y}) && bestDecision === constants.UP) {
+      if (this.scene.isSpecialTile({x: x, y: y}) && bestDecision === directions.UP) {
         bestDecision = this.currentDir
         let canContinue = this.checkSafetile(this.directions[this.currentDir])
         if (!canContinue) {
@@ -609,7 +611,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
     //   // console.log('what is this ', x, y)
     //   this.resetPosition(x, y)
     //   // this is to make the enemy bounce around in their humble abode
-    //   let dir = (this.currentDir === constants.UP) ? constants.DOWN : constants.UP
+    //   let dir = (this.currentDir === directions.UP) ? directions.DOWN : directions.UP
     //   this.move(dir)
     // } else {
     //   this.move(this.currentDir)
@@ -622,7 +624,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
     }
     this.safetiles = [constants.SAFE_TILE]
     if (!this.isHome()) {
-      // (this.currentDir === constants.UP && y === constants.GHOST_HOUSE.EXIT.y - 1) {
+      // (this.currentDir === directions.UP && y === directions.GHOST_HOUSE.EXIT.y - 1) {
       // If the sprite is out of the box let it move out
       this.resetPosition(x, y)
       this.safetiles = [constants.SAFE_TILE, constants.DOT_TILE]
@@ -717,7 +719,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
       this.isAttacking = false
     }
 
-    if (this.currentDir === constants.LEFT || constants.UP) {
+    if (this.currentDir === directions.LEFT || directions.UP) {
       this.play(this.name + '_hunt_left')
     } else {
       this.play(this.name + '_hunt_right')
