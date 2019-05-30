@@ -377,7 +377,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
         }
 
         if (typeof destination === 'undefined') {
-          console.warn('Enemy cannot get destination', this)
+          console.warn('Enemy cannot get destination', this.name)
         }
 
         if (this.mode === this.RETURNING_HOME) {
