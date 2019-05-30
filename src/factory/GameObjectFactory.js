@@ -13,8 +13,8 @@ class GameObjectFactory {
     this.createAndConfigureCameras(scene)
 
     this.createCursors(scene)
-    this.createScoreAndText(scene)
-    this.createPauseButton(scene)
+    // this.createScoreAndText(scene)
+    // this.createPauseButton(scene)
   }
 
   static createMap (scene) {
