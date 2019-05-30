@@ -1,10 +1,10 @@
-import Phaser from 'phaser'
-import Boot from '../Boot'
-import Preload from '../Preload'
+// import Phaser from 'phaser'
+// import Boot from '../Boot'
+// import Preload from '../Preload'
 import ExtendedGame from '../ExtendedGame'
-import Menu from '../Menu'
-import GameOver from '../GameOver'
-import PauseScreen from '../PauseScreen'
+// import Menu from '../Menu'
+// import GameOver from '../GameOver'
+// import PauseScreen from '../PauseScreen'
 import * as constants from '../config/constants'
 // const SoundFadePlugin from 'phaser3-rex-plugins/plugins/soundfade-plugin')
 
@@ -54,7 +54,7 @@ let config = {
   // fps: {
   //   target: 60
   // },
-  scene: [Preload, GameSinglePlayer],
+  scene: GameSinglePlayer,
   autoFocus: false
 }
 
