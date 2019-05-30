@@ -14,6 +14,211 @@ class ExtendedGame extends Phaser.Scene {
     this.isTwoPlayer = false
     // this.preload()
     this.initializeVariables()
+  }
+
+  preload () {
+    console.log("Initialise: Preload")
+    this.loadAssets()
+  }
+
+  loadAssets () {
+    console.log("Initialise: Preload: Backgrounds")
+    this.load.image('background', './public/assets/background-2x.png')
+
+    console.log("Initialise: Preload: Dots")
+    this.load.spritesheet('specialDot', './public/assets/dots.png', {
+      frameHeight: 16,
+      frameWidth: 16
+    })
+
+    console.log("Initialise: Preload: Sprites")
+    this.loadSprites()
+    // this.loadAudio()
+
+    console.log("Initialise: Preload: Map")
+    this.loadMap()
+  }
+
+  loadMap () {
+    this.load.image('tile', './public/assets/map/final-extruded-again.png')
+    this.load.image('foodTile', './public/assets/map/food.png')
+    this.load.spritesheet('powerup', './public/assets/map/power-up-normal.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+    this.load.tilemapTiledJSON('newmap', './public/assets/map/map.json')
+
+    this.load.image('coral', './public/assets/map/coral-small-v1.png')
+  }
+
+  loadSprites () {
+    console.log("Initialise: Preload: Sprites: Scuttles")
+
+    /** Scuttles spritesheets */
+    this.load.spritesheet('scuttle', './public/assets/sprites/player/original/scuttle.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+    this.load.spritesheet('scuttle_die', './public/assets/sprites/player/original/crab-death.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+    this.load.spritesheet('scuttle_spawn', './public/assets/sprites/player/original/crab-pop.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+    this.load.spritesheet('scuttle_wobble', './public/assets/sprites/player/original/crab-wobble.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+
+    this.load.spritesheet('happy', './public/assets/sprites/player/original/superhappy.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+
+    console.log("Initialise: Preload: Sprites: Enemies")
+    this.loadEnemies()
+  }
+
+  loadEnemies () {
+    console.log("Initialise: Preload: Sprites: Enemies: Commons")
+
+    this.load.spritesheet('enemy_spawn', './public/assets/sprites/enemies/enemy-pop.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+    this.load.spritesheet('enemy_wobble', './public/assets/sprites/enemies/enemy-wobble.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+    this.load.spritesheet('dead_spirit', './public/assets/sprites/enemies/glow-loop.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+    this.loadHermit()
+    this.loadJelly()
+    this.loadOctopus()
+    this.loadShark()
+  }
+
+  loadHermit () {
+    console.log("Initialise: Preload: Sprites: Enemies: Hermit")
+
+    this.load.spritesheet('hermit_left', './public/assets/sprites/enemies/hermit/hermit-left-normal.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+    this.load.spritesheet('hermit_hunt_left', './public/assets/sprites/enemies/hermit/hermit-left-hunt.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+    this.load.spritesheet('hermit_right', './public/assets/sprites/enemies/hermit/hermit-right-normal.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+    this.load.spritesheet('hermit_hunt_right', './public/assets/sprites/enemies/hermit/hermit-right-hunt.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+    this.load.spritesheet('hermit_dying', './public/assets/sprites/enemies/hermit/hermit-death.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+  }
+
+  loadJelly () {
+    console.log("Initialise: Preload: Sprites: Enemies: Jelly")
+
+    /** Jelly */
+    this.load.spritesheet('jelly_left', './public/assets/sprites/enemies/jelly/jelly-left-normal.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+    this.load.spritesheet('jelly_right', './public/assets/sprites/enemies/jelly/jelly-right-normal.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+    this.load.spritesheet('jelly_hunt_left', './public/assets/sprites/enemies/jelly/jelly-left-hunt.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+    this.load.spritesheet('jelly_hunt_right', './public/assets/sprites/enemies/jelly/jelly-right-hunt.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+    this.load.spritesheet('jelly_dying', './public/assets/sprites/enemies/jelly/jelly-death.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+  }
+
+  loadShark () {
+    console.log("Initialise: Preload: Sprites: Enemies: Shark")
+
+    /** shark */
+    this.load.spritesheet('shark_left', './public/assets/sprites/enemies/shark/shark-left-normal.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+    this.load.spritesheet('shark_right', './public/assets/sprites/enemies/shark/shark-right-normal.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+    this.load.spritesheet('shark_hunt_left', './public/assets/sprites/enemies/shark/shark-left-hunt.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+    this.load.spritesheet('shark_hunt_right', './public/assets/sprites/enemies/shark/shark-right-hunt.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+  }
+
+  loadOctopus () {
+    console.log("Initialise: Preload: Sprites: Enemies: Octopus")
+
+    /** octo */
+    this.load.spritesheet('octo_left', './public/assets/sprites/enemies/octo/octo-left-normal.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+    this.load.spritesheet('octo_right', './public/assets/sprites/enemies/octo/octo-right-normal.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+    this.load.spritesheet('octo_hunt_left', './public/assets/sprites/enemies/octo/octo-left-hunt.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+    this.load.spritesheet('octo_hunt_right', './public/assets/sprites/enemies/octo/octo-right-hunt.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+    this.load.spritesheet('octo_dying', './public/assets/sprites/enemies/octo/octo-death.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+  }
+
+  initializeVariables () {
+    // map and tiles
+    this.map = null
+    this.scuttle = null
+    this.cursors = null
+    // scores
+    this.score = 0
+    this.scoreText = null
+    this.scoreString = 'Score: '
+    // lives
+    this.liveText = null
+    this.liveString = 'Lives: '
+    this.powerUp = false
+    this.specialFood = null
+    this.group = null
+    // pathFinding
+    this.numFoodEaten = 0
+
     this.SPECIAL_TILES = [
       { x: 0, y: 0 }
       // { x: 17, y: 12 },
@@ -73,241 +278,6 @@ class ExtendedGame extends Phaser.Scene {
     this.isFirstPlayer = true
   }
 
-  preload () {
-    console.log("preloading")
-    this.loadAssets()
-  }
-
-  loadAssets () {
-    this.load.image('background', './public/assets/background-2x.png')
-    this.load.spritesheet('specialDot', './public/assets/dots.png', {
-      frameHeight: 16,
-      frameWidth: 16
-    })
-
-    // this.load.spritesheet('scuttle', './public/assets/spritesheetV1.png', { frameWidth: 126, frameHeight: 60 })
-    this.loadSprites()
-    this.loadAudio()
-    this.loadMap()
-  }
-  loadMap () {
-    this.load.image('tile', './public/assets/map/final-extruded-again.png')
-    this.load.image('foodTile', './public/assets/map/food.png')
-    this.load.spritesheet('powerup', './public/assets/map/power-up-normal.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-    this.load.tilemapTiledJSON('newmap', './public/assets/map/map.json')
-
-    this.load.image('coral', './public/assets/map/coral-small-v1.png')
-  }
-
-  loadSprites () {
-    /** Scuttles spritesheets */
-    this.load.spritesheet('scuttle', './public/assets/sprites/player/original/scuttle.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-    this.load.spritesheet('scuttle_die', './public/assets/sprites/player/original/crab-death.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-    this.load.spritesheet('scuttle_spawn', './public/assets/sprites/player/original/crab-pop.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-    this.load.spritesheet('scuttle_wobble', './public/assets/sprites/player/original/crab-wobble.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-
-    this.load.spritesheet('happy', './public/assets/sprites/player/original/superhappy.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-
-    this.loadEnemies()
-  }
-
-  loadEnemies () {
-    this.load.spritesheet('enemy_spawn', './public/assets/sprites/enemies/enemy-pop.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-    this.load.spritesheet('enemy_wobble', './public/assets/sprites/enemies/enemy-wobble.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-    this.load.spritesheet('dead_spirit', './public/assets/sprites/enemies/glow-loop.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-    this.loadHermit()
-    this.loadJelly()
-    this.loadOctopus()
-    this.loadShark()
-  }
-
-  loadHermit () {
-    /** Hermit */
-    this.load.spritesheet('hermit_left', './public/assets/sprites/enemies/hermit/hermit-left-normal.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-    this.load.spritesheet('hermit_hunt_left', './public/assets/sprites/enemies/hermit/hermit-left-hunt.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-    this.load.spritesheet('hermit_right', './public/assets/sprites/enemies/hermit/hermit-right-normal.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-    this.load.spritesheet('hermit_hunt_right', './public/assets/sprites/enemies/hermit/hermit-right-hunt.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-    this.load.spritesheet('hermit_dying', './public/assets/sprites/enemies/hermit/hermit-death.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-  }
-
-  loadJelly () {
-    /** Jelly */
-    this.load.spritesheet('jelly_left', './public/assets/sprites/enemies/jelly/jelly-left-normal.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-    this.load.spritesheet('jelly_right', './public/assets/sprites/enemies/jelly/jelly-right-normal.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-    this.load.spritesheet('jelly_hunt_left', './public/assets/sprites/enemies/jelly/jelly-left-hunt.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-    this.load.spritesheet('jelly_hunt_right', './public/assets/sprites/enemies/jelly/jelly-right-hunt.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-    this.load.spritesheet('jelly_dying', './public/assets/sprites/enemies/jelly/jelly-death.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-  }
-
-  loadShark () {
-    /** shark */
-    this.load.spritesheet('shark_left', './public/assets/sprites/enemies/shark/shark-left-normal.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-    this.load.spritesheet('shark_right', './public/assets/sprites/enemies/shark/shark-right-normal.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-    this.load.spritesheet('shark_hunt_left', './public/assets/sprites/enemies/shark/shark-left-hunt.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-    this.load.spritesheet('shark_hunt_right', './public/assets/sprites/enemies/shark/shark-right-hunt.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-  }
-
-  loadOctopus () {
-    /** octo */
-    this.load.spritesheet('octo_left', './public/assets/sprites/enemies/octo/octo-left-normal.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-    this.load.spritesheet('octo_right', './public/assets/sprites/enemies/octo/octo-right-normal.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-    this.load.spritesheet('octo_hunt_left', './public/assets/sprites/enemies/octo/octo-left-hunt.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-    this.load.spritesheet('octo_hunt_right', './public/assets/sprites/enemies/octo/octo-right-hunt.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-    this.load.spritesheet('octo_dying', './public/assets/sprites/enemies/octo/octo-death.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-  }
-
-  loadAudio () {
-    this.loadSFX()
-    this.load.audio('huntBGM', './public/assets/audio/bgm_gameplay_hunt.wav')
-    this.load.audio('normalBGM', './public/assets/audio/bgm_gameplay_normal.wav')
-    this.load.audio('enemyVO01', './public/assets/audio/vo_generic_enemy_01.wav')
-    this.load.audio('enemyVO02', './public/assets/audio/vo_generic_enemy_02.wav')
-    this.load.audio('enemyVO03', './public/assets/audio/vo_generic_enemy_03.wav')
-    this.load.audio('diesVO2', './public/assets/audio/vo_crab_dies_02.wav')
-    this.load.audio('diesVO3', './public/assets/audio/vo_crab_dies_03.wav')
-    this.load.audio('scuttleatVO01', './public/assets/audio/vo_crab_eats_01.wav')
-    this.load.audio('scuttleatVO02', './public/assets/audio/vo_crab_eats_02.wav')
-    this.load.audio('scuttleatVO03', './public/assets/audio/vo_crab_eats_03.wav')
-  }
-
-  loadSFX () {
-    this.load.audio('eatenSfx', './public/assets/audio/ui_crab_eaten.wav')
-    this.load.audio('eatFoodSfx', './public/assets/audio/ui_crab_eat.wav')
-
-    this.load.audio('growingSfx', './public/assets/audio/sfx_crab_pop_growing.wav')
-    this.load.audio('popSfx', './public/assets/audio/sfx_crab_pop_only.wav')
-    this.load.audio('growNPopSfx', './public/assets/audio/sfx_crab_pop.wav')
-    this.load.audio('enemySpiritSfx', './public/assets/audio/sfx_enemy_spirit.wav')
-    this.load.audio('gameoverSfx', './public/assets/audio/sfx_gameover.wav')
-    this.load.audio('winSfx', './public/assets/audio/sfx_win.wav')
-    this.load.audio('sharkChompSfx', './public/assets/audio/sfx_shark_chomp.wav')
-
-    this.load.audio('scuttling8', './public/assets/audio/ui_crab_move_08.wav')
-    this.load.audio('eatSpecialSfx', './public/assets/audio/ui_crab_eats_special_powers.wav')
-    this.load.audio('eatNormalSfx', './public/assets/audio/ui_crab_eats_normal.wav')
-    this.load.audio('normalModeSfx', './public/assets/audio/sfx_normal_mode.wav')
-    this.load.audio('huntModeSfx', './public/assets/audio/sfx_hunt_mode.wav')
-    this.load.audio('hermitAlertSfx', './public/assets/audio/sfx_hermit_alert.wav')
-
-    this.load.audio('jellyPropel', './public/assets/audio/sfx_jellyfish_propel.wav')
-    this.load.audio('sharkChomp', './public/assets/audio/ui_shark_chomp.wav')
-    this.load.audio('octoCamo', './public/assets/audio/ui_octopus_camouflage.wav')
-    this.load.audio('octoAmbush', './public/assets/audio/sfx_octopus_appear.wav')
-    this.load.audio('pufferSpeed', './public/assets/audio/ui_pufferfish_speed_burst.wav')
-    this.load.audio('pufferBoom', './public/assets/audio/ui_pufferfish_explode.wav')
-    this.load.audio('hermitSteal', './public/assets/audio/sfx_hermit_steal.wav')
-    this.load.audio('genericEnemyAttackSfx', './public/assets/audio/sfx_generic_enemy_attack.wav')
-
-    this.load.audio('buttonSfx', './public/assets/audio/ui_generic_button.wav')
-  }
-
-  initializeVariables () {
-    // map and tiles
-    this.map = null
-    this.tileset = null
-    this.scuttle = null
-    this.cursors = null
-    this.emptyTile = constants.SAFE_TILE
-    this.dotTile = constants.DOT_TILE
-    // scores
-    this.score = 0
-    this.scoreText = null
-    this.scoreString = 'Score: '
-    // lives
-    this.liveText = null
-    this.liveString = 'Lives: '
-    this.powerUp = false
-    this.specialFood = null
-    this.group = null
-    // pathFinding
-    this.easyStar = null
-    this.numFoodEaten = 0
-  }
-
   init (data) {
     if (typeof data.menu !== 'undefined') {
       console.log(data)
@@ -316,24 +286,20 @@ class ExtendedGame extends Phaser.Scene {
   }
 
   create () {
-    console.log("Creating Anims!")
+    console.log("Initialise: Create")
+
+    console.log("Initialise: Create: Anims")
     AnimationFactory.createAllAnimations(this.anims)
 
-    console.log("Not creating sounds!")
-    // This object will manage all the sounds including playing then
-    // this.soundManager = SoundFactory.createAllAudio(this, this.sound)
-
+    console.log("Initialise: Create: GameObjects")
     GameObjectFactory.createAllGameObjects(this)
 
+    console.log("Initialise: Create: Setup Physics")
     this.physicsFactory = new PhysicsFactory(this, this.physics)
     this.physicsFactory.setupPhysicsForRelevantObjects(this.scuttle, this.enemies.children, this.specialFood.children)
 
+    console.log("Initialise: Create: Setup Score Manager")
     this.scoreManager = new ScoreManager(this)
-
-    // this.soundManager.playNormalBgm('loop', {delay: 0})
-
-    // For touch input
-    this.input.on('pointerup', this.endSwipe, this)
 
     if (constants.DEBUG) {
       this.createDebug()
@@ -412,35 +378,6 @@ class ExtendedGame extends Phaser.Scene {
     this.scuttle.testTimer = this.time.now
     // this.soundManager.resetTimer(this.time.now)
     this.changeModeTimer = this.time.now + this.TIME_MODES[this.currentMode].time
-  }
-
-  // TODO: Check if this moves player 1 if user is player 2 during multiplayer match
-  endSwipe (event) {
-    // Variables used for dragging in phaser
-    let swipeTime = event.upTime - event.downTime
-    let swipe = new Phaser.Geom.Point(event.upX - event.downX, event.upY - event.downY)
-    let swipeMagnitude = Phaser.Geom.Point.GetMagnitude(swipe)
-    let swipeNormal = new Phaser.Geom.Point(swipe.x / swipeMagnitude, swipe.y / swipeMagnitude)
-
-    if (swipeMagnitude > 20 && swipeTime < 1000 &&
-      (Math.abs(swipeNormal.x) > 0.8 || Math.abs(swipeNormal.y) > 0.8)) {
-      if (swipeNormal.x > 0.8) {
-        this.checkMoves(constants.RIGHT)
-        console.log('swiping right')
-      }
-      if (swipeNormal.x < -0.8) {
-        this.checkMoves(constants.LEFT)
-        console.log('swiping left')
-      }
-      if (swipeNormal.y > 0.8) {
-        this.checkMoves(constants.DOWN)
-        console.log('swiping down')
-      }
-      if (swipeNormal.y < -0.8) {
-        this.checkMoves(constants.UP)
-        console.log('swiping up')
-      }
-    }
   }
 
   checkMoves (direction) {
@@ -556,9 +493,7 @@ class ExtendedGame extends Phaser.Scene {
   // ------------------------------------ Methods for Players -------------------------------------//
   updatePlayer () {
     this.scuttle.control(this.cursors)
-    // this.followScuttle(this.scuttle)
     if (this.scuttle.body.speed > 0) {
-      // this.soundManager.playScuttleSFX(this.time.now)
     }
   }
 
@@ -586,16 +521,6 @@ class ExtendedGame extends Phaser.Scene {
       this.updateEnemies(time)
     }
     this.checkScoreToEndGame()
-    // this.checkGameSize()
-  }
-
-  animateTile (type) {
-    if (type) {
-      this.foodLayer.replaceByIndex(166, 167)
-    } else {
-      this.foodLayer.replaceByIndex(167, 166)
-    }
-    // console.log('is anything happening')
   }
 
   checkTimer () {
@@ -611,14 +536,12 @@ class ExtendedGame extends Phaser.Scene {
   }
 
   returnToNormal () {
-    // this.soundManager.doTransitionToNormalFromHunt()
     this.enemies.returnToNormal()
     this.scuttle.returnToNormal()
     this.count = 0
   }
 
   changeToHuntMode (player) {
-    // this.soundManager.eatSpecialSfx.play()
     // This should prevent the game from triggering hunt mode when the game is won
     if (!this.checkScoreToEndGame()) {
       this.enemies.becomeScared()
@@ -642,7 +565,6 @@ class ExtendedGame extends Phaser.Scene {
       player = args
     }
     console.log('Player has died, Restarting Game')
-    // this.liveText.setText(this.liveString + player.lives)
     this.currentMode = 0
     this.isHuntMode = false
     player.returnToNormal()
@@ -685,13 +607,9 @@ class ExtendedGame extends Phaser.Scene {
   }
 
   launchPauseScreen () {
-    // this.scene.launch('pause')
-    // this.scene.pause()
-    // this.soundManager.playButtonSoundEffect()
     this.scene.pause()
     this.scene.launch('pause', {
       scene: this,
-      // button: this.soundManager.buttonSfx
     })
   }
 
@@ -699,7 +617,6 @@ class ExtendedGame extends Phaser.Scene {
   // invisible, and increase the score.
   eatFood (player, tile) {
     if (tile.visible) {
-      // this.soundManager.playEatFoodEffect()
       tile.setVisible(false)
       this.increaseScore('normalfood', player)
       this.numFoodEaten++
@@ -809,9 +726,7 @@ class ExtendedGame extends Phaser.Scene {
         tile.setVisible(true)
       }
     })
-    // console.log(this.specialFood, this)
     this.specialFood.reEnableChildren()
-    // this.soundManager.playNormalBgm('loop')
     // }, tile, levelData.mapWidth, levelData.mapHeight,
     //   constants.TileSize, constants.TileSize,
     //   {isNotEmpty: true})
@@ -829,25 +744,11 @@ class ExtendedGame extends Phaser.Scene {
 
   gameOver (type) {
     let isAlpha = true // Change this to allow different screens
-    // console.log(this.plugins)
-    // console.log(this.normalBGM)
-    // let soundFadeOut = this.plugins.get('rexSoundFade').fadeIn
-    // let soundFadeIn = this.plugins.get('rexSoundFade').fadeOut
-    // soundFadeOut(this.scene.get('gameover'), this.normalBGM, 300, false)
-    // this.soundManager.setBgmVolume(0.1)
-    if (type === 'win') {
-      // this.soundManager.playWinSequence()
-    } else {
-      console.log('did it come here', this)
-      // this.soundManager.playGameOverSequence()
-    }
     this.scene.launch('gameover', {
       lives: this.scuttle.lives,
       score: this.score,
       prevScene: this,
-      // button: this.soundManager.buttonSfx,
       type: type,
-      // bgm: this.soundManager.normalBGM,
       isAlpha: isAlpha
     })
     this.scene.pause()
@@ -860,13 +761,6 @@ class ExtendedGame extends Phaser.Scene {
   }
 
   scuttleDies (num, player) {
-    if (this.optionFlag) {
-      // Option 1: getEaten and enemyVO happens together then scuttleDiesVO
-      // this.soundManager.playScuttleDiesSequenceOne(num)
-    } else {
-      // Option 2: getEaten --> crabVO --> enemyVO
-      // this.soundManager.playScuttleDiesSequenceTwo(num)
-    }
     player.dies()
     if ((typeof NODE_ENV !== 'undefined' && NODE_ENV !== 'production') || this.isTwoPlayer) {
       this.currentMode = 0
