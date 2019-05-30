@@ -13,12 +13,10 @@ class GameObjectFactory {
     this.createAndConfigureCameras(scene)
 
     this.createCursors(scene)
-    // this.createScoreAndText(scene)
-    // this.createPauseButton(scene)
   }
 
   static createMap (scene) {
-    console.log('Creating map')
+    this.messageLog('Creating map')
 
     scene.image = scene.add.image(0, 0, 'background')
     scene.image.setScale(3.5)
@@ -40,27 +38,27 @@ class GameObjectFactory {
   }
 
   static createSpecialFood (scene) {
-    console.log('Creating special food')
+    this.messageLog('Creating special food')
 
     scene.specialFood = new SpecialDots(scene)
   }
 
   static createPlayer1 (scene) {
-    console.log('Creating player 1')
+    this.messageLog('Creating player 1')
 
     scene.group = new Scuttles(scene)
     scene.scuttle = scene.group.scuttle
   }
 
   static createEnemies (scene) {
-    console.log('Creating enemies')
+    this.messageLog('Creating enemies')
 
     scene.enemies = new Enemies(scene)
     scene.enemy = scene.enemies.enemy
   }
 
   static createCursors (scene) {
-    console.log("Create cursors for input")
+    this.messageLog("Create cursors for input")
     scene.cursors = scene.input.keyboard.addKeys('W,A,S,D,UP,DOWN,LEFT,RIGHT,SPACE') // can only be
   }
 
@@ -71,14 +69,13 @@ class GameObjectFactory {
     scene.cameras.main.startFollow(scene.scuttle, true, 0.1, 0.1)
     scene.cameras.main.roundPixels = true
     let stuff = scene.cameras.main
-    console.log('What is my viewport', stuff.worldView, stuff.width, stuff.height,
+    this.messageLog("Initialise World View:", stuff.worldView, stuff.width, stuff.height,
       stuff.displayHeight, stuff.displayWidth)
     scene.cameraView = stuff.worldView
-    console.log("did it get past here")
   }
 
   static createPauseButton (scene) {
-    console.log("Create pause button")
+    this.messageLog("Create pause button")
     this.createButtonsGraphics(scene)
 
     // For some reason, a graphic can't listen to these events.....
@@ -166,6 +163,11 @@ class GameObjectFactory {
     scene.liveText = scene.add.text(370, 0, scene.liveString + scene.scuttle.lives)
       .setScrollFactor(0)
       .setFontFamily('Fredoka One')
+  }
+
+  static messageLog(message) {
+    const name = "GameObjectFactory"
+    console.log(`${name}: `, message)
   }
 }
 
