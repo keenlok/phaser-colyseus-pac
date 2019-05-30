@@ -1,20 +1,12 @@
 import Phaser from 'phaser'
-// import Boot from '../Boot'
-// import Preload from '../Preload'
 import ExtendedGame from '../ExtendedGame'
-// import Menu from '../Menu'
-// import GameOver from '../GameOver'
-// import PauseScreen from '../PauseScreen'
 import * as constants from '../config/constants'
-// const SoundFadePlugin from 'phaser3-rex-plugins/plugins/soundfade-plugin')
-
-// window.gameLoaded = () => { console.log("NOT OVERWRITTEN")}
 
 class GameSinglePlayer extends ExtendedGame {
   constructor () {
     super({ key: 'maingame' })
-    // super.initializeVariables()
     console.log('GameSinglePlayer')
+    console.log(this.sys.game)
   }
 
   update (time) {
