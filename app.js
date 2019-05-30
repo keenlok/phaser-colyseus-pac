@@ -16,17 +16,19 @@ function setupAutohritativeServer () {
     resources: "usable",
     pretendToBeVisual: true
   }).then((dom) => {
+    dom.window.gameLoaded = () => {
+      server.listen(3000, function () {
+        console.log(`Listening on ${server.address().port}`);
+      });
+    }
+    console.log("what is this", dom.window.gameLoaded)
     dom.window.URL.createObjectURL = (blob) => {
       if (blob) {
         return datauri.format(blob.type, blob[Object.getOwnPropertySymbols(blob)[0]]._buffer).content;
       }
     }
-    // console.log(dom.window)
-    dom.window.URL.revokeObjectURL = (objectURL) => {};
-      // dom.window.gameLoaded = () => {
-    server.listen(3000, function () {
-      console.log(`Listening on ${server.address().port}`);
-    });
+    dom.window.URL.revokeObjectURL = (objectURL) => {
+    };
   }).catch((error) => {
     console.log(error.message);
   });
