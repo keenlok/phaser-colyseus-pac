@@ -6,7 +6,6 @@ class GameSinglePlayer extends ExtendedGame {
   constructor () {
     super({ key: 'maingame' })
     console.log('GameSinglePlayer')
-    console.log(this.sys.game)
   }
 
   update (time) {
