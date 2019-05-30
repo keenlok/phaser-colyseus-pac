@@ -580,27 +580,27 @@ class ExtendedGame extends Phaser.Scene {
     }
   }
 
-  // update (time) {
-  //   if (!this.isPaused) {
-  //     this.checkTimer()
-  //     if (!this.scuttle.isDead || !this.isRepeating) {
-  //       this.checkEnemiesBehaviour(time)
-  //     }
-  //     this.updatePlayer()
-  //     this.updateEnemies(time)
-  //   }
-  //   this.checkScoreToEndGame()
-  //   // this.checkGameSize()
-  // }
+  update (time) {
+    if (!this.isPaused) {
+      this.checkTimer()
+      if (!this.scuttle.isDead || !this.isRepeating) {
+        this.checkEnemiesBehaviour(time)
+      }
+      this.updatePlayer()
+      this.updateEnemies(time)
+    }
+    this.checkScoreToEndGame()
+    // this.checkGameSize()
+  }
 
-  // animateTile (type) {
-  //   if (type) {
-  //     this.foodLayer.replaceByIndex(166, 167)
-  //   } else {
-  //     this.foodLayer.replaceByIndex(167, 166)
-  //   }
-  //   // console.log('is anything happening')
-  // }
+  animateTile (type) {
+    if (type) {
+      this.foodLayer.replaceByIndex(166, 167)
+    } else {
+      this.foodLayer.replaceByIndex(167, 166)
+    }
+    // console.log('is anything happening')
+  }
 
   checkTimer () {
     if (this.timerIsInvalid(this.changeModeTimer)) {
