@@ -1,4 +1,4 @@
-import Phaser from 'phaser'
+// import Phaser from 'phaser'
 import * as constants from './config/constants'
 import {specialFood} from './leveldata/NewLevelData'
 

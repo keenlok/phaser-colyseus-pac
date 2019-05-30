@@ -1,4 +1,4 @@
-import Phaser from 'phaser'
+// import Phaser from 'phaser'
 // import { GameTwoPlayers from 'src/frontend/Game'
 
 export default class Preload extends Phaser.Scene {

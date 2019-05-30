@@ -335,7 +335,7 @@ class Scuttle extends Phaser.GameObjects.Sprite {
         targets[0].parent.moveEgg()
       }
     })
-    this.scene.soundManager.growAndPopSfx.play()
+    // this.scene.soundManager.growAndPopSfx.play()
     this.currentDir = constants.RIGHT
     this.nextDirection = constants.NONE
     this.SPEED = 150

@@ -1,4 +1,4 @@
-const Phaser = require('phaser')
+// const Phaser = require('phaser')
 
 // map and tiles
 // const TileSize = 16
