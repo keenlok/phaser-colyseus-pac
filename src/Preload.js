@@ -4,17 +4,17 @@ import Phaser from 'phaser'
 export default class Preload extends Phaser.Scene {
   constructor () {
     super({key: 'preload'})
-    // console.log('Preloading')
+    console.log('Preloading')
   }
 
   preload () {
     let cx = this.sys.game.config.width
     let cy = this.sys.game.config.height
-    let haha = this.cache.json.get('loading')
+    // let haha = this.cache.json.get('loading')
 
     // let haha = this.cache.html
     // let dada = haha.get('loading')
-    console.log(haha)
+    // console.log(haha)
     this.loadAssets()
     this.createProgressbar(cx / 2, cy / 2)
   }

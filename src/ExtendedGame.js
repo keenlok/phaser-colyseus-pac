@@ -1,4 +1,4 @@
-import Game from './Game'
+// import Game from './Game'
 import * as constants from './config/constants'
 import * as levelData from './leveldata/NewLevelData'
 import Phaser from 'phaser'
@@ -8,11 +8,11 @@ import AnimationFactory from './factory/AnimationFactory'
 import SoundFactory from './factory/SoundFactory'
 import ScoreManager from './manager/ScoreManager'
 
-class ExtendedGame extends Game {
+class ExtendedGame extends Phaser.Scene {
   constructor () {
     super({ key: 'maingame' })
     this.isTwoPlayer = false
-    super.initializeVariables()
+    this.initializeVariables()
     this.SPECIAL_TILES = [
       { x: 0, y: 0 }
       // { x: 17, y: 12 },
@@ -70,6 +70,29 @@ class ExtendedGame extends Game {
     this.tileFlag = false
 
     this.isFirstPlayer = true
+  }
+
+  initializeVariables () {
+    // map and tiles
+    this.map = null
+    this.tileset = null
+    this.scuttle = null
+    this.cursors = null
+    this.emptyTile = constants.SAFE_TILE
+    this.dotTile = constants.DOT_TILE
+    // scores
+    this.score = 0
+    this.scoreText = null
+    this.scoreString = 'Score: '
+    // lives
+    this.liveText = null
+    this.liveString = 'Lives: '
+    this.powerUp = false
+    this.specialFood = null
+    this.group = null
+    // pathFinding
+    this.easyStar = null
+    this.numFoodEaten = 0
   }
 
   init (data) {
@@ -338,27 +361,27 @@ class ExtendedGame extends Game {
     }
   }
 
-  update (time) {
-    if (!this.isPaused) {
-      this.checkTimer()
-      if (!this.scuttle.isDead || !this.isRepeating) {
-        this.checkEnemiesBehaviour(time)
-      }
-      this.updatePlayer()
-      this.updateEnemies(time)
-    }
-    this.checkScoreToEndGame()
-    // this.checkGameSize()
-  }
+  // update (time) {
+  //   if (!this.isPaused) {
+  //     this.checkTimer()
+  //     if (!this.scuttle.isDead || !this.isRepeating) {
+  //       this.checkEnemiesBehaviour(time)
+  //     }
+  //     this.updatePlayer()
+  //     this.updateEnemies(time)
+  //   }
+  //   this.checkScoreToEndGame()
+  //   // this.checkGameSize()
+  // }
 
-  animateTile (type) {
-    if (type) {
-      this.foodLayer.replaceByIndex(166, 167)
-    } else {
-      this.foodLayer.replaceByIndex(167, 166)
-    }
-    // console.log('is anything happening')
-  }
+  // animateTile (type) {
+  //   if (type) {
+  //     this.foodLayer.replaceByIndex(166, 167)
+  //   } else {
+  //     this.foodLayer.replaceByIndex(167, 166)
+  //   }
+  //   // console.log('is anything happening')
+  // }
 
   checkTimer () {
     if (this.timerIsInvalid(this.changeModeTimer)) {
@@ -515,21 +538,21 @@ class ExtendedGame extends Game {
     let increase = this.scoreManager.increaseScore(key)
     this.score += increase
     this.scoreText.setText(this.scoreString + this.score)
-    let text = this.add.text(this.scoreText.width + 5 + this.scoreText.x,
-      this.scoreText.y, '+' + increase)
-      .setScrollFactor(0)
-      .setFontFamily('Fredoka One')
-      .setFontSize(25)
-    this.tweens.add({
-      targets: text,
-      duration: 1000,
-      y: '-=50',
-      alpha: 0,
-      delay: 200,
-      onComplete: (tweens, targets) => {
-        targets[0].destroy()
-      }
-    })
+    // let text = this.add.text(this.scoreText.width + 5 + this.scoreText.x,
+    //   this.scoreText.y, '+' + increase)
+    //   .setScrollFactor(0)
+    //   .setFontFamily('Fredoka One')
+    //   .setFontSize(25)
+    // this.tweens.add({
+    //   targets: text,
+    //   duration: 1000,
+    //   y: '-=50',
+    //   alpha: 0,
+    //   delay: 200,
+    //   onComplete: (tweens, targets) => {
+    //     targets[0].destroy()
+    //   }
+    // })
     return increase
   }
 
@@ -541,16 +564,16 @@ class ExtendedGame extends Game {
     let text = this.add.text(x - 2, y, score)
       .setFontSize(15)
       .setFontFamily('Fredoka One')
-    this.tweens.add({
-      targets: text,
-      alpha: 0,
-      duration: 1000,
-      scaleX: 2,
-      scaleY: 2,
-      onComplete: (tweens, target) => {
-        target[0].destroy()
-      }
-    })
+    // this.tweens.add({
+    //   targets: text,
+    //   alpha: 0,
+    //   duration: 1000,
+    //   scaleX: 2,
+    //   scaleY: 2,
+    //   onComplete: (tweens, target) => {
+    //     target[0].destroy()
+    //   }
+    // })
     // this.time.delayedCall(1000, () => { text.destroy() }, [], text)
   }
 

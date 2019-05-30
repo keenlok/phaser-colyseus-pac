@@ -8,6 +8,8 @@ import PauseScreen from '../PauseScreen'
 import * as constants from '../config/constants'
 // const SoundFadePlugin from 'phaser3-rex-plugins/plugins/soundfade-plugin')
 
+// window.gameLoaded = () => { console.log("NOT OVERWRITTEN")}
+
 class GameSinglePlayer extends ExtendedGame {
   constructor () {
     super({ key: 'maingame' })
@@ -58,6 +60,8 @@ let config = {
 
 // eslint-disable-next-line no-unused-vars
 let game = new Phaser.Game(config)
+
+window.gameLoaded()
 
 // console.log(game)
 // window.addEventListener('resize', function (e) {

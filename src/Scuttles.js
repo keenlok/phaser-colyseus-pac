@@ -227,39 +227,39 @@ class Scuttle extends Phaser.GameObjects.Sprite {
       } else {
         this.continueMoving()
       }
-      if (cursors.SPACE.isDown) {
-        if (constants.DEBUG) {
-          if (this.testTimer < this.scene.time.now) {
-            console.log('do something')
-            this.play('happy')
-            this.scene.tweens.add({
-              targets: this,
-              y: '-=80',
-              duration: 100,
-              onComplete: (tween, target) => {
-                console.log('hello? 1')
-                target[0].scene.tweens.add({
-                  targets: target[0],
-                  angle: 360,
-                  duration: 500,
-                  onComplete: (tween, target) => {
-                    console.log('hello? 2')
-                    target[0].scene.tweens.add({
-                      targets: target[0],
-                      y: '+=80',
-                      duration: 100,
-                      onComplete: (tween, target) => {
-                        target[0].doCelebratoryAction()
-                      }
-                    })
-                  }
-                })
-              }
-            })
-            this.testTimer += this.test_coolDown
-          }
-        }
-      }
+      // if (cursors.SPACE.isDown) {
+      //   if (constants.DEBUG) {
+      //     if (this.testTimer < this.scene.time.now) {
+      //       console.log('do something')
+      //       this.play('happy')
+      //       this.scene.tweens.add({
+      //         targets: this,
+      //         y: '-=80',
+      //         duration: 100,
+      //         onComplete: (tween, target) => {
+      //           console.log('hello? 1')
+      //           target[0].scene.tweens.add({
+      //             targets: target[0],
+      //             angle: 360,
+      //             duration: 500,
+      //             onComplete: (tween, target) => {
+      //               console.log('hello? 2')
+      //               target[0].scene.tweens.add({
+      //                 targets: target[0],
+      //                 y: '+=80',
+      //                 duration: 100,
+      //                 onComplete: (tween, target) => {
+      //                   target[0].doCelebratoryAction()
+      //                 }
+      //               })
+      //             }
+      //           })
+      //         }
+      //       })
+      //       this.testTimer += this.test_coolDown
+      //     }
+      //   }
+      // }
     }
   }
 
@@ -273,32 +273,32 @@ class Scuttle extends Phaser.GameObjects.Sprite {
   }
 
   doCelebratoryAction () {
-    console.log('did it even reach here?', this)
-    let fireworks = []
-    for (let i = 0; i < 5; i++) {
-      fireworks.push(this.scene.add.sprite(this.x, this.y, 'enemy_spawn'))
-    }
-    console.log(fireworks)
-    for (let i = 0; i < fireworks.length; i++) {
-      console.log(fireworks[i])
-      let num = Math.random() * ((this.scene.sys.game.config.width) - 80)
-      num *= Math.pow(-1, i)
-      console.log(num)
-      this.scene.tweens.add({
-        targets: fireworks[i],
-        x: num,
-        y: num,
-        duration: 2000,
-        ease: 'Sine.easeOut',
-        onComplete: (tweens, target) => {
-          console.log('hello')
-          target[0].play('enemy_spawn')
-          target[0].on('animationcomplete', () => {
-            target[0].destroy()
-          }, [], target[0])
-        }
-      })
-    }
+    console.log('Do celebratory action', this)
+    // let fireworks = []
+    // for (let i = 0; i < 5; i++) {
+    //   fireworks.push(this.scene.add.sprite(this.x, this.y, 'enemy_spawn'))
+    // }
+    // console.log(fireworks)
+    // for (let i = 0; i < fireworks.length; i++) {
+    //   console.log(fireworks[i])
+    //   let num = Math.random() * ((this.scene.sys.game.config.width) - 80)
+    //   num *= Math.pow(-1, i)
+    //   console.log(num)
+    //   this.scene.tweens.add({
+    //     targets: fireworks[i],
+    //     x: num,
+    //     y: num,
+    //     duration: 2000,
+    //     ease: 'Sine.easeOut',
+    //     onComplete: (tweens, target) => {
+    //       console.log('hello')
+    //       target[0].play('enemy_spawn')
+    //       target[0].on('animationcomplete', () => {
+    //         target[0].destroy()
+    //       }, [], target[0])
+    //     }
+    //   })
+    // }
   }
 
   powerUp () {
