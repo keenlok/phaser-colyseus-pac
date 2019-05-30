@@ -1,6 +1,6 @@
 import * as constants from './config/constants'
 import * as levelData from './leveldata/NewLevelData'
-import Phaser from 'phaser'
+// import Phaser from 'phaser'
 
 class Enemy extends Phaser.GameObjects.Sprite {
   constructor (scene, x, y, texture, type) {
@@ -133,14 +133,14 @@ class Enemy extends Phaser.GameObjects.Sprite {
     this.on('animationupdate', () => {
       if (this.anims.currentAnim.key.includes('jelly')) {
         if (this.visible && this.anims.currentFrame === 13) {
-          this.scene.soundManager.jellyPropelSfx.play()
+          // this.scene.soundManager.jellyPropelSfx.play()
         }
       }
     }, [], this)
 
     this.egg.on('animationcomplete', () => {
       if (this.egg.anims.currentAnim.key === 'enemy_spawn') {
-        this.scene.soundManager.popSfx.play()
+        // this.scene.soundManager.popSfx.play()
         this.setVisible(true)
         this.egg.setVisible(false)
         this.scene.time.delayedCall(3000, this.resetEgg, [], this)
@@ -505,7 +505,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
       this.turnTimer = time + this.RETURNING_COOLDOWN
     }
     if (constants.isInGrid(this.x, this.initX, this.y, this.initY, constants.THRESHOLD)) {
-      this.scene.soundManager.enemySpiritSfx.stop()
+      // this.scene.soundManager.enemySpiritSfx.stop()
       this.body.setVelocity(0)
       this.resetPosition(x, y)
       this.returnToNormal()
@@ -731,8 +731,8 @@ class Enemy extends Phaser.GameObjects.Sprite {
       if (this.scene.isHuntMode && player.isPowerUp) {
         // TODO: Move this to a method in extended game to remove coupling
         num = this.scene.scuttle.eatAudio
-        this.scene.soundManager.playEnemyDeathSFX()
-        this.scene.soundManager.scuttleVO[1].play()
+        // this.scene.soundManager.playEnemyDeathSFX()
+        // this.scene.soundManager.scuttleVO[1].play()
         let score = this.scene.increaseScore('enemy_exp')
         this.scene.addTextScore(this.x, this.y, score)
         this.mode = this.RETURNING_HOME
@@ -780,7 +780,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
           // console.log(this.name + ' play alert sound and enemy chase sound')
           // TODO: this also breaks this.scene.popSFX is undefined. Probably a naming problem @keenlok
           if (!this.scene.soundManager.popSfx.isPlaying) {
-            this.scene.soundManager.playAlertSound()
+            // this.scene.soundManager.playAlertSound()
             this.alreadyTriggered = true
           }
         }
