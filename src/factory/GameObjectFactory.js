@@ -1,8 +1,8 @@
-const SpecialDots = require('../SpecialDots')
-const Scuttles = require('../Scuttles')
-const Enemies = require('../Enemies')
-const levelData = require('../leveldata/NewLevelData')
-const Phaser = require('phaser')
+import SpecialDots from '../SpecialDots'
+import Scuttles from '../Scuttles'
+import Enemies from '../Enemies'
+import * as levelData from '../leveldata/NewLevelData'
+import Phaser from 'phaser'
 
 class GameObjectFactory {
   static createAllGameObjects (scene) {
@@ -60,6 +60,7 @@ class GameObjectFactory {
   }
 
   static createCursors (scene) {
+    console.log("Create cursors for input")
     scene.cursors = scene.input.keyboard.addKeys('W,A,S,D,UP,DOWN,LEFT,RIGHT,SPACE') // can only be
   }
 
@@ -73,9 +74,11 @@ class GameObjectFactory {
     console.log('What is my viewport', stuff.worldView, stuff.width, stuff.height,
       stuff.displayHeight, stuff.displayWidth)
     scene.cameraView = stuff.worldView
+    console.log("did it get past here")
   }
 
   static createPauseButton (scene) {
+    console.log("Create pause button")
     this.createButtonsGraphics(scene)
 
     // For some reason, a graphic can't listen to these events.....
@@ -101,6 +104,7 @@ class GameObjectFactory {
     scene.input.keyboard.on('keydown_ESC', scene.launchPauseScreen, scene)
 
     console.log(scene.pauseButton.eventNames())
+    console.log("")
   }
 
   static createButtonsGraphics (scene) {
@@ -154,6 +158,7 @@ class GameObjectFactory {
   }
 
   static createScoreAndText (scene) {
+    console.log("create score text")
     scene.scoreText = scene.add.text(60, 0, scene.scoreString + scene.score)
       .setScrollFactor(0)
       .setFontFamily('Fredoka One')
@@ -164,4 +169,4 @@ class GameObjectFactory {
   }
 }
 
-module.exports = GameObjectFactory
+export default GameObjectFactory
