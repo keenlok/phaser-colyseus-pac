@@ -12,7 +12,7 @@ class ExtendedGame extends Phaser.Scene {
   constructor () {
     super({ key: 'maingame' })
     this.isTwoPlayer = false
-    this.preload()
+    // this.preload()
     this.initializeVariables()
     this.SPECIAL_TILES = [
       { x: 0, y: 0 }
@@ -74,13 +74,13 @@ class ExtendedGame extends Phaser.Scene {
   }
 
   preload () {
-    let cx = this.sys.game.config.width
-    let cy = this.sys.game.config.height
+    // let cx = this.sys.game.config.width
+    // let cy = this.sys.game.config.height
     // let haha = this.cache.json.get('loading')
 
     // let haha = this.cache.html
     // let dada = haha.get('loading')
-    // console.log(haha)
+    console.log("preloading")
     this.loadAssets()
     // this.createProgressbar(cx / 2, cy / 2)
   }
@@ -323,10 +323,12 @@ class ExtendedGame extends Phaser.Scene {
   }
 
   create () {
+    console.log("Creating Anims!")
     AnimationFactory.createAllAnimations(this.anims)
 
+    console.log("Not creating sounds!")
     // This object will manage all the sounds including playing then
-    this.soundManager = SoundFactory.createAllAudio(this, this.sound)
+    // this.soundManager = SoundFactory.createAllAudio(this, this.sound)
 
     GameObjectFactory.createAllGameObjects(this)
 
@@ -335,7 +337,7 @@ class ExtendedGame extends Phaser.Scene {
 
     this.scoreManager = new ScoreManager(this)
 
-    this.soundManager.playNormalBgm('loop', {delay: 0})
+    // this.soundManager.playNormalBgm('loop', {delay: 0})
 
     // For touch input
     this.input.on('pointerup', this.endSwipe, this)
@@ -415,7 +417,7 @@ class ExtendedGame extends Phaser.Scene {
   resetTimer () {
     console.log(this.time.now, this.SFXTimer, this.changeModeTimer)
     this.scuttle.testTimer = this.time.now
-    this.soundManager.resetTimer(this.time.now)
+    // this.soundManager.resetTimer(this.time.now)
     this.changeModeTimer = this.time.now + this.TIME_MODES[this.currentMode].time
   }
 
@@ -563,7 +565,7 @@ class ExtendedGame extends Phaser.Scene {
     this.scuttle.control(this.cursors)
     this.followScuttle(this.scuttle)
     if (this.scuttle.body.speed > 0) {
-      this.soundManager.playScuttleSFX(this.time.now)
+      // this.soundManager.playScuttleSFX(this.time.now)
     }
   }
 
@@ -616,20 +618,20 @@ class ExtendedGame extends Phaser.Scene {
   }
 
   returnToNormal () {
-    this.soundManager.doTransitionToNormalFromHunt()
+    // this.soundManager.doTransitionToNormalFromHunt()
     this.enemies.returnToNormal()
     this.scuttle.returnToNormal()
     this.count = 0
   }
 
   changeToHuntMode (player) {
-    this.soundManager.eatSpecialSfx.play()
+    // this.soundManager.eatSpecialSfx.play()
     // This should prevent the game from triggering hunt mode when the game is won
     if (!this.checkScoreToEndGame()) {
       this.enemies.becomeScared()
       if (!this.isHuntMode) {
         this.remainingTime = this.changeModeTimer - this.time.now
-        this.soundManager.doTransitionToHuntFromNormal()
+        // this.soundManager.doTransitionToHuntFromNormal()
       }
       this.changeModeTimer = this.time.now + this.FRIGHTENED_MODE_TIME
       this.isHuntMode = true
@@ -692,11 +694,11 @@ class ExtendedGame extends Phaser.Scene {
   launchPauseScreen () {
     // this.scene.launch('pause')
     // this.scene.pause()
-    this.soundManager.playButtonSoundEffect()
+    // this.soundManager.playButtonSoundEffect()
     this.scene.pause()
     this.scene.launch('pause', {
       scene: this,
-      button: this.soundManager.buttonSfx
+      // button: this.soundManager.buttonSfx
     })
   }
 
@@ -704,7 +706,7 @@ class ExtendedGame extends Phaser.Scene {
   // invisible, and increase the score.
   eatFood (player, tile) {
     if (tile.visible) {
-      this.soundManager.playEatFoodEffect()
+      // this.soundManager.playEatFoodEffect()
       tile.setVisible(false)
       this.increaseScore('normalfood', player)
       this.numFoodEaten++
@@ -816,7 +818,7 @@ class ExtendedGame extends Phaser.Scene {
     })
     // console.log(this.specialFood, this)
     this.specialFood.reEnableChildren()
-    this.soundManager.playNormalBgm('loop')
+    // this.soundManager.playNormalBgm('loop')
     // }, tile, levelData.mapWidth, levelData.mapHeight,
     //   constants.TileSize, constants.TileSize,
     //   {isNotEmpty: true})
@@ -826,7 +828,7 @@ class ExtendedGame extends Phaser.Scene {
 
   checkScoreToEndGame () {
     if (this.numFoodEaten >= levelData.numFood) {
-      console.warn('gameover', this.numFoodEaten, this.normalBGM)
+      // console.warn('gameover', this.numFoodEaten, this.normalBGM)
       this.gameOver('win')
       return true
     }
@@ -839,20 +841,20 @@ class ExtendedGame extends Phaser.Scene {
     // let soundFadeOut = this.plugins.get('rexSoundFade').fadeIn
     // let soundFadeIn = this.plugins.get('rexSoundFade').fadeOut
     // soundFadeOut(this.scene.get('gameover'), this.normalBGM, 300, false)
-    this.soundManager.setBgmVolume(0.1)
+    // this.soundManager.setBgmVolume(0.1)
     if (type === 'win') {
-      this.soundManager.playWinSequence()
+      // this.soundManager.playWinSequence()
     } else {
       console.log('did it come here', this)
-      this.soundManager.playGameOverSequence()
+      // this.soundManager.playGameOverSequence()
     }
     this.scene.launch('gameover', {
       lives: this.scuttle.lives,
       score: this.score,
       prevScene: this,
-      button: this.soundManager.buttonSfx,
+      // button: this.soundManager.buttonSfx,
       type: type,
-      bgm: this.soundManager.normalBGM,
+      // bgm: this.soundManager.normalBGM,
       isAlpha: isAlpha
     })
     this.scene.pause()
@@ -867,10 +869,10 @@ class ExtendedGame extends Phaser.Scene {
   scuttleDies (num, player) {
     if (this.optionFlag) {
       // Option 1: getEaten and enemyVO happens together then scuttleDiesVO
-      this.soundManager.playScuttleDiesSequenceOne(num)
+      // this.soundManager.playScuttleDiesSequenceOne(num)
     } else {
       // Option 2: getEaten --> crabVO --> enemyVO
-      this.soundManager.playScuttleDiesSequenceTwo(num)
+      // this.soundManager.playScuttleDiesSequenceTwo(num)
     }
     player.dies()
     if (NODE_ENV !== 'production' || this.isTwoPlayer) {
