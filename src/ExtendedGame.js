@@ -74,15 +74,8 @@ class ExtendedGame extends Phaser.Scene {
   }
 
   preload () {
-    // let cx = this.sys.game.config.width
-    // let cy = this.sys.game.config.height
-    // let haha = this.cache.json.get('loading')
-
-    // let haha = this.cache.html
-    // let dada = haha.get('loading')
     console.log("preloading")
     this.loadAssets()
-    // this.createProgressbar(cx / 2, cy / 2)
   }
 
   loadAssets () {
@@ -563,7 +556,7 @@ class ExtendedGame extends Phaser.Scene {
   // ------------------------------------ Methods for Players -------------------------------------//
   updatePlayer () {
     this.scuttle.control(this.cursors)
-    this.followScuttle(this.scuttle)
+    // this.followScuttle(this.scuttle)
     if (this.scuttle.body.speed > 0) {
       // this.soundManager.playScuttleSFX(this.time.now)
     }
@@ -648,8 +641,8 @@ class ExtendedGame extends Phaser.Scene {
     } else {
       player = args
     }
-    console.log('Player has died, Restarting Game', player)
-    this.liveText.setText(this.liveString + player.lives)
+    console.log('Player has died, Restarting Game')
+    // this.liveText.setText(this.liveString + player.lives)
     this.currentMode = 0
     this.isHuntMode = false
     player.returnToNormal()
@@ -759,7 +752,7 @@ class ExtendedGame extends Phaser.Scene {
     }
     let increase = this.scoreManager.increaseScore(key)
     this.score += increase
-    this.scoreText.setText(this.scoreString + this.score)
+    // this.scoreText.setText(this.scoreString + this.score)
     // let text = this.add.text(this.scoreText.width + 5 + this.scoreText.x,
     //   this.scoreText.y, '+' + increase)
     //   .setScrollFactor(0)
