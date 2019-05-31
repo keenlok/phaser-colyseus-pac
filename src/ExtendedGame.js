@@ -1,11 +1,9 @@
-// import Game from './Game'
 import * as constants from './config/constants'
 import * as levelData from './leveldata/NewLevelData'
 // import Phaser from 'phaser'
 import GameObjectFactory from './factory/GameObjectFactory'
 import PhysicsFactory from './factory/PhysicsFactory'
 import AnimationFactory from './factory/AnimationFactory'
-import SoundFactory from './factory/SoundFactory'
 import ScoreManager from './manager/ScoreManager'
 
 class ExtendedGame extends Phaser.Scene {
@@ -18,25 +16,25 @@ class ExtendedGame extends Phaser.Scene {
   }
 
   preload () {
-    this.messageLog("Initialise: Preload")
+    ExtendedGame.messageLog("Initialise: Preload")
     this.loadAssets()
   }
 
   loadAssets () {
-    this.messageLog("Preload: Backgrounds")
+    ExtendedGame.messageLog("Preload: Backgrounds")
     this.load.image('background', './public/assets/background-2x.png')
 
-    this.messageLog("Preload: Dots")
+    ExtendedGame.messageLog("Preload: Dots")
     this.load.spritesheet('specialDot', './public/assets/dots.png', {
       frameHeight: 16,
       frameWidth: 16
     })
 
-    this.messageLog("Preload: Sprites")
+    ExtendedGame.messageLog("Preload: Sprites")
     this.loadSprites()
     // this.loadAudio()
 
-    this.messageLog("Preload: Map")
+    ExtendedGame.messageLog("Preload: Map")
     this.loadMap()
   }
 
@@ -53,7 +51,7 @@ class ExtendedGame extends Phaser.Scene {
   }
 
   loadSprites () {
-    this.messageLog("Preload: Sprites: Scuttles")
+    ExtendedGame.messageLog("Preload: Sprites: Scuttles")
 
     /** Scuttles spritesheets */
     this.load.spritesheet('scuttle', './public/assets/sprites/player/original/scuttle.png', {
@@ -78,12 +76,12 @@ class ExtendedGame extends Phaser.Scene {
       frameHeight: 160
     })
 
-    this.messageLog("Preload: Sprites: Enemies")
+    ExtendedGame.messageLog("Preload: Sprites: Enemies")
     this.loadEnemies()
   }
 
   loadEnemies () {
-    this.messageLog("Preload: Sprites: Enemies: Commons")
+    ExtendedGame.messageLog("Preload: Sprites: Enemies: Commons")
 
     this.load.spritesheet('enemy_spawn', './public/assets/sprites/enemies/enemy-pop.png', {
       frameWidth: 160,
@@ -104,7 +102,7 @@ class ExtendedGame extends Phaser.Scene {
   }
 
   loadHermit () {
-    this.messageLog("Preload: Sprites: Enemies: Hermit")
+    ExtendedGame.messageLog("Preload: Sprites: Enemies: Hermit")
 
     this.load.spritesheet('hermit_left', './public/assets/sprites/enemies/hermit/hermit-left-normal.png', {
       frameWidth: 160,
@@ -129,7 +127,7 @@ class ExtendedGame extends Phaser.Scene {
   }
 
   loadJelly () {
-    this.messageLog("Preload: Sprites: Enemies: Jelly")
+    ExtendedGame.messageLog("Preload: Sprites: Enemies: Jelly")
 
     /** Jelly */
     this.load.spritesheet('jelly_left', './public/assets/sprites/enemies/jelly/jelly-left-normal.png', {
@@ -155,7 +153,7 @@ class ExtendedGame extends Phaser.Scene {
   }
 
   loadShark () {
-    this.messageLog("Preload: Sprites: Enemies: Shark")
+    ExtendedGame.messageLog("Preload: Sprites: Enemies: Shark")
 
     /** shark */
     this.load.spritesheet('shark_left', './public/assets/sprites/enemies/shark/shark-left-normal.png', {
@@ -177,7 +175,7 @@ class ExtendedGame extends Phaser.Scene {
   }
 
   loadOctopus () {
-    this.messageLog("Preload: Sprites: Enemies: Octopus")
+    ExtendedGame.messageLog("Preload: Sprites: Enemies: Octopus")
 
     /** octo */
     this.load.spritesheet('octo_left', './public/assets/sprites/enemies/octo/octo-left-normal.png', {
@@ -281,25 +279,25 @@ class ExtendedGame extends Phaser.Scene {
 
   init (data) {
     if (typeof data.menu !== 'undefined') {
-      this.messageLog(data)
+      ExtendedGame.messageLog(data)
       this.scene.stop(data.menu.key)
     }
   }
 
   create () {
-    this.messageLog("Initialise: Create")
+    ExtendedGame.messageLog("Initialise: Create")
 
-    this.messageLog("Create: Anims")
+    ExtendedGame.messageLog("Create: Anims")
     AnimationFactory.createAllAnimations(this.anims)
 
-    this.messageLog("Create: GameObjects")
+    ExtendedGame.messageLog("Create: GameObjects")
     GameObjectFactory.createAllGameObjects(this)
 
-    this.messageLog("Create: Setup Physics")
+    ExtendedGame.messageLog("Create: Setup Physics")
     this.physicsFactory = new PhysicsFactory(this, this.physics)
     this.physicsFactory.setupPhysicsForRelevantObjects(this.scuttle, this.enemies.children, this.specialFood.children)
 
-    this.messageLog("Create: Setup Score Manager")
+    ExtendedGame.messageLog("Create: Setup Score Manager")
     this.scoreManager = new ScoreManager(this)
 
     if (constants.DEBUG) {
@@ -343,26 +341,26 @@ class ExtendedGame extends Phaser.Scene {
         this.scuttle.increaseSpeed()
         this.enemies.increaseSpeed()
       }
-      this.messageLog('Base Speed increased to:', this.scuttle.speed)
+      ExtendedGame.messageLog('Base Speed increased to:', this.scuttle.speed)
     }, this)
 
     this.input.keyboard.on('keydown_N', () => {
       this.scuttle.baseSpeed()
       this.scuttle.move(this.scuttle.currentDir)
       this.enemies.baseSpeed()
-      this.messageLog('Base Speed returned to:', this.scuttle.speed)
+      ExtendedGame.messageLog('Base Speed returned to:', this.scuttle.speed)
     }, this)
 
     this.input.keyboard.on('keydown_L', () => {
-      this.messageLog('lose')
+      ExtendedGame.messageLog('lose')
       this.gameOver('lose')
     }, this)
     this.input.keyboard.on('keydown_P', () => {
-      this.messageLog('win')
+      ExtendedGame.messageLog('win')
       this.gameOver('win')
     }, this)
     this.input.keyboard.on('keydown_T', () => {
-      this.messageLog('thanks for playing')
+      ExtendedGame.messageLog('thanks for playing')
       this.gameOver('thanks')
     }, this)
 
@@ -375,7 +373,7 @@ class ExtendedGame extends Phaser.Scene {
   }
 
   resetTimer () {
-    this.messageLog(this.time.now, this.SFXTimer, this.changeModeTimer)
+    ExtendedGame.messageLog(this.time.now, this.SFXTimer, this.changeModeTimer)
     this.scuttle.testTimer = this.time.now
     // this.soundManager.resetTimer(this.time.now)
     this.changeModeTimer = this.time.now + this.TIME_MODES[this.currentMode].time
@@ -443,7 +441,7 @@ class ExtendedGame extends Phaser.Scene {
   }
 
   logCurrentMode () {
-    this.messageLog('new mode:', this.TIME_MODES[this.currentMode].mode, this.TIME_MODES[this.currentMode].time)
+    ExtendedGame.messageLog('new mode:', this.TIME_MODES[this.currentMode].mode, this.TIME_MODES[this.currentMode].time)
     this.events.emit('changeMode')
   }
 
@@ -526,7 +524,7 @@ class ExtendedGame extends Phaser.Scene {
 
   checkTimer () {
     if (this.timerIsInvalid(this.changeModeTimer)) {
-      this.messageLog(this.changeModeTimer, this.time.now)
+      ExtendedGame.messageLog(this.changeModeTimer, this.time.now)
       this.resetTimer()
       // If the timer isnt started, the game wont enter the other modes
     }
@@ -553,7 +551,7 @@ class ExtendedGame extends Phaser.Scene {
       this.changeModeTimer = this.time.now + this.FRIGHTENED_MODE_TIME
       this.isHuntMode = true
       player.powerUp()
-      this.messageLog('Hunt Mode remaining time:', this.remainingTime)
+      ExtendedGame.messageLog('Hunt Mode remaining time:', this.remainingTime)
     }
   }
 
@@ -565,7 +563,7 @@ class ExtendedGame extends Phaser.Scene {
     } else {
       player = args
     }
-    this.messageLog('Player has died, Restarting Game')
+    ExtendedGame.messageLog('Player has died, Restarting Game')
     this.currentMode = 0
     this.isHuntMode = false
     player.returnToNormal()
@@ -772,13 +770,7 @@ class ExtendedGame extends Phaser.Scene {
     }
   }
 
-  resizeGame (width, height) {
-    this.cameras.main.setSize(width, height)
-    this.cameraView = this.cameras.main.worldView
-    // this.messageLog(this.cameraView, this.sys.game.config.width, this.sys.game.config.height)
-  }
-
-  messageLog(...messages) {
+  static messageLog(...messages) {
     constants.messageLog('Game', messages)
   }
 }
