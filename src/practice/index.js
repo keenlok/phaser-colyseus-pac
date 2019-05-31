@@ -1,8 +1,8 @@
 import Phaser from 'phaser'
-import ExtendedGame from '../ExtendedGame'
+import HeadlessGame from '../HeadlessGame'
 import * as constants from '../config/constants'
 
-class GameSinglePlayer extends ExtendedGame {
+class GameSinglePlayer extends HeadlessGame {
   constructor () {
     super({ key: 'maingame' })
     console.log('GameSinglePlayer')
@@ -10,10 +10,6 @@ class GameSinglePlayer extends ExtendedGame {
 
   update (time) {
     super.update(time)
-    // let cam = this.cameras.main
-    // cam.scrollX = this.scuttle.x - 500
-    // cam.scrollY = this.scuttle.y - 500
-    // console.log("this camera ", this.cameras.main.scrollX, this.cameras.main.scrollY)
   }
 }
 
