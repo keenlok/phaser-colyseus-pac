@@ -743,13 +743,13 @@ class ExtendedGame extends Phaser.Scene {
 
   gameOver (type) {
     let isAlpha = true // Change this to allow different screens
-    this.scene.launch('gameover', {
-      lives: this.scuttle.lives,
-      score: this.score,
-      prevScene: this,
-      type: type,
-      isAlpha: isAlpha
-    })
+    // this.scene.launch('gameover', {
+    //   lives: this.scuttle.lives,
+    //   score: this.score,
+    //   prevScene: this,
+    //   type: type,
+    //   isAlpha: isAlpha
+    // })
     this.scene.pause()
   }
 
