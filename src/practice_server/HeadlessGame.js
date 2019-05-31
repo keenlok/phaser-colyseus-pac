@@ -1,17 +1,15 @@
-import * as constants from './config/constants'
-import * as levelData from './leveldata/NewLevelData'
+import * as constants from '../config/constants'
+import * as levelData from '../leveldata/NewLevelData'
 // import Phaser from 'phaser'
-import GameObjectFactory from './factory/GameObjectFactory'
-import PhysicsFactory from './factory/PhysicsFactory'
-import AnimationFactory from './factory/AnimationFactory'
-import ScoreManager from './manager/ScoreManager'
+import GameObjectFactory from '../factory/GameObjectFactory'
+import PhysicsFactory from '../factory/PhysicsFactory'
+import AnimationFactory from '../factory/AnimationFactory'
+import ScoreManager from '../manager/ScoreManager'
 
 class HeadlessGame extends Phaser.Scene {
   constructor () {
     super({ key: 'maingame' })
-    this.name = 'Game'
     this.isTwoPlayer = false
-    // this.preload()
     this.initializeVariables()
   }
 
@@ -215,7 +213,6 @@ class HeadlessGame extends Phaser.Scene {
     this.powerUp = false
     this.specialFood = null
     this.group = null
-    // pathFinding
     this.numFoodEaten = 0
 
     this.SPECIAL_TILES = [

@@ -1,5 +1,5 @@
 import Phaser from 'phaser'
-import HeadlessGame from '../HeadlessGame'
+import HeadlessGame from './HeadlessGame'
 import * as constants from '../config/constants'
 
 class GameSinglePlayer extends HeadlessGame {
@@ -32,7 +32,6 @@ let config = {
   autoFocus: false
 }
 
-// console.log("Config is defined!", config)
 // eslint-disable-next-line no-unused-vars
 let game = new Phaser.Game(config)
 
