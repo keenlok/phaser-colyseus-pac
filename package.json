@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --config webpack.config.js",
-    "start": "nodemon run app.js"
+    "start": "nodemon run src/practice_server/app.js"
   },
   "author": "",
   "license": "ISC",
