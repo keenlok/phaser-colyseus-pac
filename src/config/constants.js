@@ -55,7 +55,7 @@ if (process.env.NODE_ENV === 'development') {
   DEBUG = true
 }
 
-const messageLog = (caller, ...messages) => {
+const messageLog = (caller, messages) => {
   let message = ''
   for (let i = 0; i < messages.length; i++) {
     message = message + ' ' + messages[i]

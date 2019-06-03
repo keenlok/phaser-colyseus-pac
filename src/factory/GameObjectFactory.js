@@ -166,9 +166,9 @@ class GameObjectFactory {
       .setFontFamily('Fredoka One')
   }
 
-  static messageLog(message) {
+  static messageLog(...messages) {
     const name = "GameObjectFactory"
-    messageLog(name, message)
+    messageLog(name, messages)
 
   }
 }
