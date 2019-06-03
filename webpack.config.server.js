@@ -6,19 +6,20 @@ const CleanWebpackPlugin = require('clean-webpack-plugin')
 module.exports = {
   watch: true,
   entry: {
-    server: './src/practice_server/index.js'
+    server: './src/practice_server/Server.js',
   },
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: '[name].bundle.js',
+    path: path.resolve(__dirname, 'dist/server'),
+    filename: '[name].js',
     publicPath: "/"
   },
-  // target: 'node',
+  target: 'node',
   module: {
     rules: [
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
+        include: /colyseus/,
         use: {
           loader: "babel-loader"
         }
@@ -26,19 +27,19 @@ module.exports = {
     ]
   },
   plugins: [
+    // new CleanWebpackPlugin(),
     // new CopyWebpackPlugin([
     //   {
-    //     from: 'src/index.html',
+    //     from: 'src/practice_server/index.html',
     //     to: 'index.html',
     //     toType: 'file'
     //   }
-    // ]),
-    new CleanWebpackPlugin()
+    // ])
   ],
-  // node: {
-  //   // Need this when working with express, otherwise the build fails
-  //   __dirname: false, // if you don't put this in, __dirname
-  //   __filename: false // and __filename return blank or /
-  // },
-  // externals: [nodeExternals()]
+  node: {
+    // Need this when working with express, otherwise the build fails
+    __dirname: false, // if you don't put this in, __dirname
+    __filename: false // and __filename return blank or /
+  },
+  externals: [nodeExternals()]
 };
