@@ -25,6 +25,10 @@ class ClientGame extends Scene {
         console.log("client joins room")
       }
     })
+
+    room.listen('enemies/:id/:attribute', ({path, operation, value}) => {
+      console.log("What is received for enemy", operation, path.id, path.attribute, value)
+    })
   }
 }
 const config = {

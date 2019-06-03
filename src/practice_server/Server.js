@@ -19,7 +19,7 @@ export class gameServer {
     }).then((dom) => {
       dom.window.gameLoaded = () => {
         self.game = dom.window.game
-        // console.log(dom.window.game)
+        console.log("is this a game", typeof self.game !== 'undefined')
       }
       dom.window.URL.createObjectURL = (blob) => {
         if (blob) {
@@ -32,6 +32,24 @@ export class gameServer {
       console.log(error.message);
     });
   }
+
+  getGame() {
+    return new Promise((resolve, reject) => {
+      let self = this
+      let interval = setInterval(()=> {
+        if (typeof self.game !== 'undefined') {
+          let scene = self.game.scene.scenes[0]
+          if (scene.group !== null) {
+            if (scene.enemy !== null) {
+              clearInterval(interval)
+              resolve(self.game)
+            }
+          }
+        }
+      })
+    })
+  }
+
 }
 
 
