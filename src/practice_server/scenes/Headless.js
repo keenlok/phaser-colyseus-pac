@@ -6,6 +6,9 @@ import PhysicsFactory from '../../shared/factory/PhysicsFactory'
 import AnimationFactory from '../../shared/factory/AnimationFactory'
 import ScoreManager from '../../shared/manager/ScoreManager'
 
+const SCATTER = 'scatter'
+const CHASE = 'chase'
+
 class Headless extends Phaser.Scene {
   constructor () {
     super({ key: 'maingame' })
@@ -13,189 +16,10 @@ class Headless extends Phaser.Scene {
     this.initializeVariables()
   }
 
+  /** ----- Start of Main methods ----- **/
   preload () {
     Headless.messageLog("Initialise: Preload")
     this.loadAssets()
-  }
-
-  loadAssets () {
-    Headless.messageLog("Preload: Backgrounds")
-    this.load.image('background', '../../public/assets/background-2x.png')
-
-    Headless.messageLog("Preload: Dots")
-    this.load.spritesheet('specialDot', '../../public/assets/dots.png', {
-      frameHeight: 16,
-      frameWidth: 16
-    })
-
-    Headless.messageLog("Preload: Sprites")
-    this.loadSprites()
-    // this.loadAudio()
-
-    Headless.messageLog("Preload: Map")
-    this.loadMap()
-  }
-
-  loadMap () {
-    this.load.image('tile', '../../public/assets/map/final-extruded-again.png')
-    this.load.image('foodTile', '../../public/assets/map/food.png')
-    this.load.spritesheet('powerup', '../../public/assets/map/power-up-normal.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-    this.load.tilemapTiledJSON('newmap', '../../public/assets/map/map.json')
-
-    this.load.image('coral', '../../public/assets/map/coral-small-v1.png')
-  }
-
-  loadSprites () {
-    Headless.messageLog("Preload: Sprites: Scuttles")
-
-    /** Scuttles spritesheets */
-    this.load.spritesheet('scuttle', '../../public/assets/sprites/player/original/scuttle.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-    this.load.spritesheet('scuttle_die', '../../public/assets/sprites/player/original/crab-death.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-    this.load.spritesheet('scuttle_spawn', '../../public/assets/sprites/player/original/crab-pop.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-    this.load.spritesheet('scuttle_wobble', '../../public/assets/sprites/player/original/crab-wobble.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-
-    this.load.spritesheet('happy', '../../public/assets/sprites/player/original/superhappy.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-
-    Headless.messageLog("Preload: Sprites: Enemies")
-    this.loadEnemies()
-  }
-
-  loadEnemies () {
-    Headless.messageLog("Preload: Sprites: Enemies: Commons")
-
-    this.load.spritesheet('enemy_spawn', '../../public/assets/sprites/enemies/enemy-pop.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-    this.load.spritesheet('enemy_wobble', '../../public/assets/sprites/enemies/enemy-wobble.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-    this.load.spritesheet('dead_spirit', '../../public/assets/sprites/enemies/glow-loop.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-    this.loadHermit()
-    this.loadJelly()
-    this.loadOctopus()
-    this.loadShark()
-  }
-
-  loadHermit () {
-    Headless.messageLog("Preload: Sprites: Enemies: Hermit")
-
-    this.load.spritesheet('hermit_left', '../../public/assets/sprites/enemies/hermit/hermit-left-normal.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-    this.load.spritesheet('hermit_hunt_left', '../../public/assets/sprites/enemies/hermit/hermit-left-hunt.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-    this.load.spritesheet('hermit_right', '../../public/assets/sprites/enemies/hermit/hermit-right-normal.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-    this.load.spritesheet('hermit_hunt_right', '../../public/assets/sprites/enemies/hermit/hermit-right-hunt.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-    this.load.spritesheet('hermit_dying', '../../public/assets/sprites/enemies/hermit/hermit-death.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-  }
-
-  loadJelly () {
-    Headless.messageLog("Preload: Sprites: Enemies: Jelly")
-
-    /** Jelly */
-    this.load.spritesheet('jelly_left', '../../public/assets/sprites/enemies/jelly/jelly-left-normal.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-    this.load.spritesheet('jelly_right', '../../public/assets/sprites/enemies/jelly/jelly-right-normal.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-    this.load.spritesheet('jelly_hunt_left', '../../public/assets/sprites/enemies/jelly/jelly-left-hunt.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-    this.load.spritesheet('jelly_hunt_right', '../../public/assets/sprites/enemies/jelly/jelly-right-hunt.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-    this.load.spritesheet('jelly_dying', '../../public/assets/sprites/enemies/jelly/jelly-death.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-  }
-
-  loadShark () {
-    Headless.messageLog("Preload: Sprites: Enemies: Shark")
-
-    /** shark */
-    this.load.spritesheet('shark_left', '../../public/assets/sprites/enemies/shark/shark-left-normal.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-    this.load.spritesheet('shark_right', '../../public/assets/sprites/enemies/shark/shark-right-normal.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-    this.load.spritesheet('shark_hunt_left', '../../public/assets/sprites/enemies/shark/shark-left-hunt.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-    this.load.spritesheet('shark_hunt_right', '../../public/assets/sprites/enemies/shark/shark-right-hunt.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-  }
-
-  loadOctopus () {
-    Headless.messageLog("Preload: Sprites: Enemies: Octopus")
-
-    /** octo */
-    this.load.spritesheet('octo_left', '../../public/assets/sprites/enemies/octo/octo-left-normal.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-    this.load.spritesheet('octo_right', '../../public/assets/sprites/enemies/octo/octo-right-normal.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-    this.load.spritesheet('octo_hunt_left', '../../public/assets/sprites/enemies/octo/octo-left-hunt.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-    this.load.spritesheet('octo_hunt_right', '../../public/assets/sprites/enemies/octo/octo-right-hunt.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
-    this.load.spritesheet('octo_dying', '../../public/assets/sprites/enemies/octo/octo-death.png', {
-      frameWidth: 160,
-      frameHeight: 160
-    })
   }
 
   initializeVariables () {
@@ -224,35 +48,35 @@ class Headless extends Phaser.Scene {
 
     this.TIME_MODES = [
       {
-        mode: 'scatter',
+        mode: SCATTER,
         time: 14000
       },
       {
-        mode: 'chase',
+        mode: CHASE,
         time: 40000
       },
       {
-        mode: 'scatter',
+        mode: SCATTER,
         time: 14000
       },
       {
-        mode: 'chase',
+        mode: CHASE,
         time: 40000
       },
       {
-        mode: 'scatter',
+        mode: SCATTER,
         time: 10000
       },
       {
-        mode: 'chase',
+        mode: CHASE,
         time: 40000
       },
       {
-        mode: 'scatter',
+        mode: SCATTER,
         time: 10000
       },
       {
-        mode: 'chase',
+        mode: CHASE,
         time: -1 // -1 = infinite
       }
     ]
@@ -301,20 +125,21 @@ class Headless extends Phaser.Scene {
     this.enemyTarget = this.scuttle
   }
 
-  resetTimer () {
-    Headless.messageLog(this.time.now, this.SFXTimer, this.changeModeTimer)
-    this.scuttle.testTimer = this.time.now
-    // this.soundManager.resetTimer(this.time.now)
-    this.changeModeTimer = this.time.now + this.TIME_MODES[this.currentMode].time
+  update (time) {
+    if (!this.isPaused) {
+      this.checkTimer()
+      if (!this.scuttle.isDead || !this.isRepeating) {
+        this.checkEnemiesBehaviour(time)
+      }
+      this.updatePlayer()
+      this.updateEnemies(time)
+    }
+    this.checkScoreToEndGame()
   }
+  /*  ----- End of Main methods -----   */
 
-  setupCollidersForPlayer (player) {
-    // this.messageLog('using new method')
-    this.physicsFactory.setupPhysicsForPlayer(player, this.enemies.children, this.specialFood.children)
-  }
 
   // ------------------------------------ Methods for Enemies -------------------------------------//
-
   checkEnemiesBehaviour (time) {
     if (!this.isPinkOut) {
       // this.messageLog('hello?')
@@ -339,7 +164,7 @@ class Headless extends Phaser.Scene {
       if (this.changeModeTimer !== -1 && !this.isHuntMode && this.changeModeTimer < time) {
         this.currentMode++
         this.changeModeTimer = time + this.TIME_MODES[this.currentMode].time
-        if (this.TIME_MODES[this.currentMode].mode === 'chase') {
+        if (this.TIME_MODES[this.currentMode].mode === CHASE) {
           this.sendAttackOrder()
         } else {
           this.sendScatterOrder()
@@ -350,7 +175,7 @@ class Headless extends Phaser.Scene {
         this.changeModeTimer = time + this.remainingTime
         this.isHuntMode = false
         this.returnToNormal()
-        if (this.TIME_MODES[this.currentMode].mode === 'chase') {
+        if (this.TIME_MODES[this.currentMode].mode === CHASE) {
           this.sendAttackOrder()
         } else {
           this.sendScatterOrder()
@@ -411,6 +236,8 @@ class Headless extends Phaser.Scene {
     this.isBlueOut = false
     this.isOrangeOut = false
   }
+  // ---------------------------------End of Methods for Enemies -----------------------------------//
+
 
   // ------------------------------------ Methods for Players -------------------------------------//
   updatePlayer () {
@@ -419,30 +246,27 @@ class Headless extends Phaser.Scene {
     }
   }
 
+  setupCollidersForPlayer (player) {
+    // this.messageLog('using new method')
+    this.physicsFactory.setupPhysicsForPlayer(player, this.enemies.children, this.specialFood.children)
+  }
+  // ---------------------------------End of Methods for Players -----------------------------------//
+
+
   // --------------------------------------- For The Game -----------------------------------------//
+  resetTimer () {
+    Headless.messageLog(this.time.now, this.SFXTimer, this.changeModeTimer)
+    this.scuttle.testTimer = this.time.now
+    // this.soundManager.resetTimer(this.time.now)
+    this.changeModeTimer = this.time.now + this.TIME_MODES[this.currentMode].time
+  }
 
   getCurrentMode () {
     if (!this.isHuntMode) {
-      if (this.TIME_MODES[this.currentMode].mode === 'scatter') {
-        return 'scatter'
-      } else {
-        return 'chase'
-      }
+      return this.TIME_MODES[this.currentMode].mode
     } else {
       return 'random'
     }
-  }
-
-  update (time) {
-    if (!this.isPaused) {
-      this.checkTimer()
-      if (!this.scuttle.isDead || !this.isRepeating) {
-        this.checkEnemiesBehaviour(time)
-      }
-      this.updatePlayer()
-      this.updateEnemies(time)
-    }
-    this.checkScoreToEndGame()
   }
 
   checkTimer () {
@@ -679,6 +503,7 @@ class Headless extends Phaser.Scene {
   }
 
   getTargetInformationForEnemy () {
+    // if (this.currentMode)
     let targetPosition = this.enemyTarget.getCurrentPosition()
     let targetDirection = this.enemyTarget.getCurrentDirection()
     return {position: targetPosition, direction: targetDirection}
@@ -695,6 +520,188 @@ class Headless extends Phaser.Scene {
       this.enemies.disappears()
     }
   }
+
+  /**  ----------  Start of preload methods --------- */
+  loadAssets () {
+    Headless.messageLog("Preload: Backgrounds")
+    this.load.image('background', '../../public/assets/background-2x.png')
+
+    Headless.messageLog("Preload: Dots")
+    this.load.spritesheet('specialDot', '../../public/assets/dots.png', {
+      frameHeight: 16,
+      frameWidth: 16
+    })
+
+    Headless.messageLog("Preload: Sprites")
+    this.loadSprites()
+    // this.loadAudio()
+
+    Headless.messageLog("Preload: Map")
+    this.loadMap()
+  }
+
+  loadMap () {
+    this.load.image('tile', '../../public/assets/map/final-extruded-again.png')
+    this.load.image('foodTile', '../../public/assets/map/food.png')
+    this.load.spritesheet('powerup', '../../public/assets/map/power-up-normal.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+    this.load.tilemapTiledJSON('newmap', '../../public/assets/map/map.json')
+
+    this.load.image('coral', '../../public/assets/map/coral-small-v1.png')
+  }
+
+  loadSprites () {
+    Headless.messageLog("Preload: Sprites: Scuttles")
+
+    /** Scuttles spritesheets */
+    this.load.spritesheet('scuttle', '../../public/assets/sprites/player/original/scuttle.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+    this.load.spritesheet('scuttle_die', '../../public/assets/sprites/player/original/crab-death.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+    this.load.spritesheet('scuttle_spawn', '../../public/assets/sprites/player/original/crab-pop.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+    this.load.spritesheet('scuttle_wobble', '../../public/assets/sprites/player/original/crab-wobble.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+
+    this.load.spritesheet('happy', '../../public/assets/sprites/player/original/superhappy.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+
+    Headless.messageLog("Preload: Sprites: Enemies")
+    this.loadEnemies()
+  }
+
+  loadEnemies () {
+    Headless.messageLog("Preload: Sprites: Enemies: Commons")
+
+    this.load.spritesheet('enemy_spawn', '../../public/assets/sprites/enemies/enemy-pop.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+    this.load.spritesheet('enemy_wobble', '../../public/assets/sprites/enemies/enemy-wobble.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+    this.load.spritesheet('dead_spirit', '../../public/assets/sprites/enemies/glow-loop.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+    this.loadHermit()
+    this.loadJelly()
+    this.loadOctopus()
+    this.loadShark()
+  }
+
+  loadHermit () {
+    Headless.messageLog("Preload: Sprites: Enemies: Hermit")
+
+    this.load.spritesheet('hermit_left', '../../public/assets/sprites/enemies/hermit/hermit-left-normal.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+    this.load.spritesheet('hermit_hunt_left', '../../public/assets/sprites/enemies/hermit/hermit-left-hunt.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+    this.load.spritesheet('hermit_right', '../../public/assets/sprites/enemies/hermit/hermit-right-normal.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+    this.load.spritesheet('hermit_hunt_right', '../../public/assets/sprites/enemies/hermit/hermit-right-hunt.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+    this.load.spritesheet('hermit_dying', '../../public/assets/sprites/enemies/hermit/hermit-death.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+  }
+
+  loadJelly () {
+    Headless.messageLog("Preload: Sprites: Enemies: Jelly")
+
+    /** Jelly */
+    this.load.spritesheet('jelly_left', '../../public/assets/sprites/enemies/jelly/jelly-left-normal.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+    this.load.spritesheet('jelly_right', '../../public/assets/sprites/enemies/jelly/jelly-right-normal.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+    this.load.spritesheet('jelly_hunt_left', '../../public/assets/sprites/enemies/jelly/jelly-left-hunt.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+    this.load.spritesheet('jelly_hunt_right', '../../public/assets/sprites/enemies/jelly/jelly-right-hunt.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+    this.load.spritesheet('jelly_dying', '../../public/assets/sprites/enemies/jelly/jelly-death.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+  }
+
+  loadShark () {
+    Headless.messageLog("Preload: Sprites: Enemies: Shark")
+
+    /** shark */
+    this.load.spritesheet('shark_left', '../../public/assets/sprites/enemies/shark/shark-left-normal.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+    this.load.spritesheet('shark_right', '../../public/assets/sprites/enemies/shark/shark-right-normal.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+    this.load.spritesheet('shark_hunt_left', '../../public/assets/sprites/enemies/shark/shark-left-hunt.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+    this.load.spritesheet('shark_hunt_right', '../../public/assets/sprites/enemies/shark/shark-right-hunt.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+  }
+
+  loadOctopus () {
+    Headless.messageLog("Preload: Sprites: Enemies: Octopus")
+
+    /** octo */
+    this.load.spritesheet('octo_left', '../../public/assets/sprites/enemies/octo/octo-left-normal.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+    this.load.spritesheet('octo_right', '../../public/assets/sprites/enemies/octo/octo-right-normal.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+    this.load.spritesheet('octo_hunt_left', '../../public/assets/sprites/enemies/octo/octo-left-hunt.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+    this.load.spritesheet('octo_hunt_right', '../../public/assets/sprites/enemies/octo/octo-right-hunt.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+    this.load.spritesheet('octo_dying', '../../public/assets/sprites/enemies/octo/octo-death.png', {
+      frameWidth: 160,
+      frameHeight: 160
+    })
+  }
+  /*  ---------  End of preload methods ---------- */
 
   static messageLog(...messages) {
     constants.messageLog('Game', messages)

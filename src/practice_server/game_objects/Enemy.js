@@ -358,6 +358,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
   getDestination () {
     let homePosition = this.getHomePosition()
     let destination
+    let currentMode = this.scene.getCurrentMode()
     let targetInformation = this.scene.getTargetInformationForEnemy()
     // this.messageLog("What is target Information,", targetInformation)
     switch (this.type) {
@@ -368,8 +369,10 @@ class Enemy extends Phaser.GameObjects.Sprite {
           this.messageLog('Destination is undefined')
 
         }
+        // this.messageLog("My destination", destination.x, destination.y)
         return destination
       case 'type2':
+
         destination = targetInformation.position
         if (typeof destination === 'undefined') {
           // console.warn('Destination is undefined')
@@ -413,6 +416,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
           // this.messageLog('will i reache here 10011001010100101010101010100101010101')
           destination = homePosition
         }
+        // this.messageLog("My destination", destination.x, destination.y)
         return destination
 
       case 'type3':
@@ -440,6 +444,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
         if (destination.y > levelData.WIDTH - constants.CenterOffset) {
           destination.y = levelData.WIDTH - constants.CenterOffset
         }
+        // this.messageLog("My destination", destination.x, destination.y)
         return destination
 
       case 'type4':
@@ -449,8 +454,11 @@ class Enemy extends Phaser.GameObjects.Sprite {
           if (typeof destination === 'undefined') {
             this.messageLog('undefined?', destination, bluePosition)
           }
+          // this.messageLog("My destination", destination.x, destination.y)
           return destination
-        } else { return new Phaser.Geom.Point(this.scatterDestination.x, this.scatterDestination.y) }
+        } else {
+          return new Phaser.Geom.Point(this.scatterDestination.x, this.scatterDestination.y)
+        }
 
       default:
         return new Phaser.Geom.Point(this.scatterDestination.x, this.scatterDestination.y)
@@ -549,6 +557,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
       if (typeof this.ghostDestination === 'undefined') {
         this.messageLog('error 404 impending in updateEnemyMode: ', this.ghostDestination)
       }
+      // this.messageLog('Moving here,',this.ghostDestination.x, this.ghostDestination.y)
       this.moveToTarget(possibleExits, x, y)
       this.turnTimer = time + this.TURNING_COOLDOWN
       if (x === 3 && y === 10) {
