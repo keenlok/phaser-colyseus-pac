@@ -1,8 +1,8 @@
-import SpecialDots from '../practice_server/game_objects/SpecialDots'
-import Scuttles from '../practice_server/game_objects/Scuttles'
-import Enemies from '../practice_server/game_objects/Enemies'
-import * as levelData from '../leveldata/NewLevelData'
-import { messageLog } from '../config/constants'
+import SpecialDots from '../game_objects/SpecialDots'
+import Scuttles from '../game_objects/Scuttles'
+import Enemies from '../game_objects/Enemies'
+import * as levelData from '../../shared/leveldata/NewLevelData'
+import { messageLog } from '../../shared/config/constants'
 import Phaser from 'phaser'
 
 class GameObjectFactory {
@@ -49,6 +49,7 @@ class GameObjectFactory {
 
     scene.group = new Scuttles(scene)
     scene.scuttle = scene.group.scuttle
+    scene.scuttle.name = 'player1'
   }
 
   static createEnemies (scene) {

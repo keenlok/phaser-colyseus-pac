@@ -49,6 +49,7 @@ class GameObjectFactory {
 
     scene.group = new Scuttles(scene)
     scene.scuttle = scene.group.scuttle
+    scene.scuttle.name = 'player1'
   }
 
   static createEnemies (scene) {
