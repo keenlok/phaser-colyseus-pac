@@ -56,12 +56,13 @@ export class GameRoom extends Room {
       children.iterate(enemy => {
         // GameRoom.messageLog(enemy.name, enemy.type, enemy.x, enemy.y)
         this.state.enemies[enemy.name + enemy.type] = {
-          x: enemy.x,
-          y: enemy.y,
-          mode: enemy.mode,
-          isFright: enemy.isFrightened,
-          isDead: enemy.isDead,
-          dest: enemy.ghostDestination
+          x:            enemy.x,
+          y:            enemy.y,
+          mode:         enemy.mode,
+          isFrightened: enemy.isFrightened,
+          isDead:       enemy.isDead,
+          dest:         enemy.ghostDestination,
+          currDir:      enemy.currentDir
         }
       })
     })
