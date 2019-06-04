@@ -40,9 +40,3 @@ export function createObjectsForHeadless(scene) {
   GameObjFactory.createCursors(scene)
 }
 
-
-export function createMiniMap(scene) {
-  GameObjFactory.createMiniMap(scene)
-}
-
-// export default GameObjectFactory

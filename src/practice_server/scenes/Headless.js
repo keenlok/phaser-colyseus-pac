@@ -297,76 +297,8 @@ class Headless extends Phaser.Scene {
     Headless.messageLog("Create: Setup Score Manager")
     this.scoreManager = new ScoreManager(this)
 
-    // if (constants.DEBUG) {
-    //   this.createDebug()
-    //   GameObjectFactory.createMiniMap(this)
-    //   this.createLights()
-    //   this.createCheats()
-    // }
-
     this.restartGame()
     this.enemyTarget = this.scuttle
-  }
-
-  // Help with debug
-  createCheats () {
-    let message = 'DEBUG TRUE'
-    let message1 = this.add.text(0, this.scoreText.height + 2, message)
-      .setScrollFactor(0)
-      .setFontSize(20)
-      .setTint(0xFF4500)
-    this.miniMap.ignore(message1)
-
-    let messages = [
-      'Press U to increase the speed of the game',
-      'Press N to return to normal speed',
-      'Press L to show Lose/Game over screen',
-      'Press P to show Win Screen',
-      'Press T to show Thank You Screen'
-    ]
-    let y = message1.height + message1.y + 2
-    for (let i = 0; i < messages.length; i++) {
-      let text = this.add.text(0, y, messages[i])
-        .setScrollFactor(0)
-        .setFontSize(16)
-      y = text.y + text.height + 2
-      this.miniMap.ignore(text)
-    }
-
-    this.input.keyboard.on('keydown_U', () => {
-      if (this.scuttle.speed < 600) {
-        this.scuttle.increaseSpeed()
-        this.enemies.increaseSpeed()
-      }
-      Headless.messageLog('Base Speed increased to:', this.scuttle.speed)
-    }, this)
-
-    this.input.keyboard.on('keydown_N', () => {
-      this.scuttle.baseSpeed()
-      this.scuttle.move(this.scuttle.currentDir)
-      this.enemies.baseSpeed()
-      Headless.messageLog('Base Speed returned to:', this.scuttle.speed)
-    }, this)
-
-    this.input.keyboard.on('keydown_L', () => {
-      Headless.messageLog('lose')
-      this.gameOver('lose')
-    }, this)
-    this.input.keyboard.on('keydown_P', () => {
-      Headless.messageLog('win')
-      this.gameOver('win')
-    }, this)
-    this.input.keyboard.on('keydown_T', () => {
-      Headless.messageLog('thanks for playing')
-      this.gameOver('thanks')
-    }, this)
-
-    this.optionFlag = true
-    this.input.keyboard.on('keydown_Q', () => {
-      this.optionFlag = !this.optionFlag
-    }, this)
-
-    // menu.destroy()
   }
 
   resetTimer () {

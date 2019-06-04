@@ -29,11 +29,17 @@ class Enemies extends Phaser.GameObjects.Group {
   }
 
   attack () {
-    this.children.iterate(child => child.attack())
+    this.children.iterate(child => {
+      child.attack()
+      child.messageLog("attack")
+    })
   }
 
   scatter () {
-    this.children.iterate(child => child.scatter())
+    this.children.iterate(child => {
+      child.scatter()
+      child.messageLog("scatter")
+    })
   }
 
   becomeScared () {
@@ -45,6 +51,7 @@ class Enemies extends Phaser.GameObjects.Group {
       child.returnToNormal()
       child.setTint()
       child.setAlpha()
+      child.messageLog("return to normal")
     })
   }
 

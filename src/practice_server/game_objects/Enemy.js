@@ -11,6 +11,32 @@ class Enemy extends Phaser.GameObjects.Sprite {
     scene.physics.world.enable(this)
     scene.children.add(this)
     // ------- Trying stuff -------- //
+    this.initializeVar(x, y, texture, type)
+
+    if (this.type !== 'type_shark') {
+      // this.messageLog(this)
+      this.createEgg()
+    }
+    this.createAnimListener()
+  }
+
+  update (time) {
+    let point = constants.convertToGridUnits(this.x, this.y)
+
+    this.checkWarp()
+    this.updateEnemyMode()
+    // this is to check if it can turn
+    let convertedPoint = constants.convertToPixels(point.x, point.y)
+    // Do  not turn if object is not in grid
+    if (constants.isInGrid(convertedPoint.x, this.x, convertedPoint.y, this.y, constants.THRESHOLD)) {
+      this.directions = constants.updateDirections(this.scene, point.x, point.y)
+      this.moveAccordingToMode(convertedPoint, point.x, point.y, time)
+    }
+    // this.isNear()
+    // this.checkAnimFrame()
+  }
+
+  initializeVar(x, y, texture, type) {
     this.initX = x
     this.initY = y
 
@@ -65,12 +91,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
     this.previousDir = this.currentDir
     this.isFrightened = false
     this.body.setSize(constants.TileSize, constants.TileSize)
-
-    if (this.type !== 'type_shark') {
-      // this.messageLog(this)
-      this.createEgg()
-    }
-    this.createAnimListener()
+    this.messageLog('initializing')
   }
 
   setBehaviourType (type) {
@@ -82,28 +103,26 @@ class Enemy extends Phaser.GameObjects.Sprite {
         this.safetiles = [constants.SAFE_TILE, constants.DOT_TILE]
         this.mode = this.AT_HOME
         this.start = levelData.START_COORD.A
-        this.currentDir = this.start.startDir
         break
       case 'type2':
         this.scatterDestination = constants.convertToPixels(0, 0)
         this.start = levelData.START_COORD.D
-        this.currentDir = this.start.startDir
 
         // this.move(this.currentDir)
         break
       case 'type3':
         this.scatterDestination = constants.convertToPixels(0, levelData.mapHeight)
         this.start = levelData.START_COORD.C
-        this.currentDir = this.start.startDir
         break
       case 'type4':
         this.start = levelData.START_COORD.B
-        this.currentDir = this.start.startDir
         break
       default:
         console.warn('INVALID ENEMY TYPE CREATED', this.type)
         break
     }
+
+    this.currentDir = this.start.startDir
 
     if (type === 'type_shark') {
       this.currentDir = directions.LEFT
@@ -345,7 +364,9 @@ class Enemy extends Phaser.GameObjects.Sprite {
       case 'type1':
         destination = targetInformation.position
         if (typeof destination === 'undefined') {
-          console.warn('Destination is undefined')
+          // console.warn('Destination is undefined')
+          this.messageLog('Destination is undefined')
+
         }
         return destination
       case 'type2':
@@ -379,7 +400,8 @@ class Enemy extends Phaser.GameObjects.Sprite {
         }
 
         if (typeof destination === 'undefined') {
-          console.warn('Enemy cannot get destination', this.name)
+          // console.warn('Enemy cannot get destination', this.name)
+          this.messageLog('Enemy cannot get destination', this.name)
         }
 
         if (this.mode === this.RETURNING_HOME) {
@@ -449,7 +471,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
 
   moveAccordingToMode (point, x, y, time) {
     let possibleExits = []
-    let canContinue = this.havePossibleExits(possibleExits)
+    let canContinue = this.checkPossibleExits(possibleExits)
 
     switch (this.mode) {
       case this.RANDOM:
@@ -484,7 +506,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
     }
   }
 
-  havePossibleExits (possibleExits) {
+  checkPossibleExits (possibleExits) {
     let canContinue
     if (this.directions[this.currentDir] === null && this.directions[this.opposites[this.currentDir]] !== null) {
       canContinue = true
@@ -637,29 +659,6 @@ class Enemy extends Phaser.GameObjects.Sprite {
       }
       // this.messageLog(this.name + ' ' + this.mode)
     }
-  }
-
-  update (time) {
-    let point = constants.convertToGridUnits(this.x, this.y)
-
-    // if (this.x < 0) {
-    //   this.x = levelData.WIDTH - 2
-    // }
-    // if (this.x >= levelData.WIDTH - 1) {
-    //   this.x = 1
-    // }
-
-    this.checkWarp()
-    this.updateEnemyMode()
-    // this is to check if it can turn
-    let convertedPoint = constants.convertToPixels(point.x, point.y)
-    // Do  not turn if object is not in grid
-    if (constants.isInGrid(convertedPoint.x, this.x, convertedPoint.y, this.y, constants.THRESHOLD)) {
-      this.directions = constants.updateDirections(this.scene, point.x, point.y)
-      this.moveAccordingToMode(convertedPoint, point.x, point.y, time)
-    }
-    // this.isNear()
-    // this.checkAnimFrame()
   }
 
   checkSafetile (tile) {
