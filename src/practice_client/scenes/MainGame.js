@@ -1,11 +1,11 @@
-import * as constants from '../shared/config/constants'
-import * as levelData from '../shared/leveldata/NewLevelData'
+import * as constants from '../../shared/config/constants'
+import * as levelData from '../../shared/leveldata/NewLevelData'
 import Phaser from 'phaser'
-import GameObjectFactory from '../shared/factory/GameObjectFactory'
-import PhysicsFactory from '../shared/factory/PhysicsFactory'
-import AnimationFactory from '../shared/factory/AnimationFactory'
-import SoundFactory from '../shared/factory/SoundFactory'
-import ScoreManager from '../shared/manager/ScoreManager'
+import GameObjectFactory from '../../shared/factory/GameObjectFactory'
+import PhysicsFactory from '../../shared/factory/PhysicsFactory'
+import AnimationFactory from '../../shared/factory/AnimationFactory'
+import SoundFactory from '../../shared/factory/SoundFactory'
+import ScoreManager from '../../shared/manager/ScoreManager'
 
 class MainGame extends Phaser.Scene {
   constructor () {
@@ -697,7 +697,7 @@ class MainGame extends Phaser.Scene {
       this.soundManager.playScuttleDiesSequenceTwo(num)
     }
     player.dies()
-    if (NODE_ENV !== 'production' || this.isTwoPlayer) {
+    if ((typeof NODE_ENV !== 'undefined' && NODE_ENV !== 'production')|| this.isTwoPlayer) {
       this.currentMode = 0
       this.enemies.scatter()
     } else {

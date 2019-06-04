@@ -6,13 +6,22 @@ import { messageLog } from '../config/constants'
 import Phaser from 'phaser'
 
 class GameObjectFactory {
+  static createObjectsForHeadless (scene) {
+    this.createMap(scene)
+    this.createEnemies(scene)
+    this.createPlayer1(scene)
+    this.createSpecialFood(scene)
+    this.createAndConfigureCameras(scene)
+    this.createCursors(scene)
+  }
+
   static createAllGameObjects (scene) {
     this.createMap(scene)
     this.createEnemies(scene)
     this.createPlayer1(scene)
     this.createSpecialFood(scene)
     this.createAndConfigureCameras(scene)
-
+    this.createScoreAndText(scene)
     this.createCursors(scene)
   }
 

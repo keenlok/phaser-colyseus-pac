@@ -1,5 +1,5 @@
 import Phaser from 'phaser'
-import {DEBUG} from './config/constants'
+import {DEBUG} from '../../shared/config/constants'
 
 export default class GameOver extends Phaser.Scene {
   constructor () {
