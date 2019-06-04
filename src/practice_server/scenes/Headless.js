@@ -1,12 +1,12 @@
-import * as constants from '../config/constants'
-import * as levelData from '../leveldata/NewLevelData'
-// import Phaser from 'phaser'
+import * as constants from '../../shared/config/constants'
+import * as levelData from '../../shared/leveldata/NewLevelData'
+import Phaser from 'phaser'
 import GameObjectFactory from '../factory/GameObjectFactory'
-import PhysicsFactory from '../factory/PhysicsFactory'
-import AnimationFactory from '../factory/AnimationFactory'
-import ScoreManager from '../manager/ScoreManager'
+import PhysicsFactory from '../../shared/factory/PhysicsFactory'
+import AnimationFactory from '../../shared/factory/AnimationFactory'
+import ScoreManager from '../../shared/manager/ScoreManager'
 
-class HeadlessGame extends Phaser.Scene {
+class Headless extends Phaser.Scene {
   constructor () {
     super({ key: 'maingame' })
     this.isTwoPlayer = false
@@ -14,25 +14,25 @@ class HeadlessGame extends Phaser.Scene {
   }
 
   preload () {
-    HeadlessGame.messageLog("Initialise: Preload")
+    Headless.messageLog("Initialise: Preload")
     this.loadAssets()
   }
 
   loadAssets () {
-    HeadlessGame.messageLog("Preload: Backgrounds")
+    Headless.messageLog("Preload: Backgrounds")
     this.load.image('background', '../../public/assets/background-2x.png')
 
-    HeadlessGame.messageLog("Preload: Dots")
+    Headless.messageLog("Preload: Dots")
     this.load.spritesheet('specialDot', '../../public/assets/dots.png', {
       frameHeight: 16,
       frameWidth: 16
     })
 
-    HeadlessGame.messageLog("Preload: Sprites")
+    Headless.messageLog("Preload: Sprites")
     this.loadSprites()
     // this.loadAudio()
 
-    HeadlessGame.messageLog("Preload: Map")
+    Headless.messageLog("Preload: Map")
     this.loadMap()
   }
 
@@ -49,7 +49,7 @@ class HeadlessGame extends Phaser.Scene {
   }
 
   loadSprites () {
-    HeadlessGame.messageLog("Preload: Sprites: Scuttles")
+    Headless.messageLog("Preload: Sprites: Scuttles")
 
     /** Scuttles spritesheets */
     this.load.spritesheet('scuttle', '../../public/assets/sprites/player/original/scuttle.png', {
@@ -74,12 +74,12 @@ class HeadlessGame extends Phaser.Scene {
       frameHeight: 160
     })
 
-    HeadlessGame.messageLog("Preload: Sprites: Enemies")
+    Headless.messageLog("Preload: Sprites: Enemies")
     this.loadEnemies()
   }
 
   loadEnemies () {
-    HeadlessGame.messageLog("Preload: Sprites: Enemies: Commons")
+    Headless.messageLog("Preload: Sprites: Enemies: Commons")
 
     this.load.spritesheet('enemy_spawn', '../../public/assets/sprites/enemies/enemy-pop.png', {
       frameWidth: 160,
@@ -100,7 +100,7 @@ class HeadlessGame extends Phaser.Scene {
   }
 
   loadHermit () {
-    HeadlessGame.messageLog("Preload: Sprites: Enemies: Hermit")
+    Headless.messageLog("Preload: Sprites: Enemies: Hermit")
 
     this.load.spritesheet('hermit_left', '../../public/assets/sprites/enemies/hermit/hermit-left-normal.png', {
       frameWidth: 160,
@@ -125,7 +125,7 @@ class HeadlessGame extends Phaser.Scene {
   }
 
   loadJelly () {
-    HeadlessGame.messageLog("Preload: Sprites: Enemies: Jelly")
+    Headless.messageLog("Preload: Sprites: Enemies: Jelly")
 
     /** Jelly */
     this.load.spritesheet('jelly_left', '../../public/assets/sprites/enemies/jelly/jelly-left-normal.png', {
@@ -151,7 +151,7 @@ class HeadlessGame extends Phaser.Scene {
   }
 
   loadShark () {
-    HeadlessGame.messageLog("Preload: Sprites: Enemies: Shark")
+    Headless.messageLog("Preload: Sprites: Enemies: Shark")
 
     /** shark */
     this.load.spritesheet('shark_left', '../../public/assets/sprites/enemies/shark/shark-left-normal.png', {
@@ -173,7 +173,7 @@ class HeadlessGame extends Phaser.Scene {
   }
 
   loadOctopus () {
-    HeadlessGame.messageLog("Preload: Sprites: Enemies: Octopus")
+    Headless.messageLog("Preload: Sprites: Enemies: Octopus")
 
     /** octo */
     this.load.spritesheet('octo_left', '../../public/assets/sprites/enemies/octo/octo-left-normal.png', {
@@ -276,25 +276,25 @@ class HeadlessGame extends Phaser.Scene {
 
   init (data) {
     if (typeof data.menu !== 'undefined') {
-      HeadlessGame.messageLog(data)
+      Headless.messageLog(data)
       this.scene.stop(data.menu.key)
     }
   }
 
   create () {
-    HeadlessGame.messageLog("Initialise: Create")
+    Headless.messageLog("Initialise: Create")
 
-    HeadlessGame.messageLog("Create: Anims")
+    Headless.messageLog("Create: Anims")
     AnimationFactory.createAllAnimations(this.anims)
 
-    HeadlessGame.messageLog("Create: GameObjects")
+    Headless.messageLog("Create: GameObjects")
     GameObjectFactory.createAllGameObjects(this)
 
-    HeadlessGame.messageLog("Create: Setup Physics")
+    Headless.messageLog("Create: Setup Physics")
     this.physicsFactory = new PhysicsFactory(this, this.physics)
     this.physicsFactory.setupPhysicsForRelevantObjects(this.scuttle, this.enemies.children, this.specialFood.children)
 
-    HeadlessGame.messageLog("Create: Setup Score Manager")
+    Headless.messageLog("Create: Setup Score Manager")
     this.scoreManager = new ScoreManager(this)
 
     if (constants.DEBUG) {
@@ -338,26 +338,26 @@ class HeadlessGame extends Phaser.Scene {
         this.scuttle.increaseSpeed()
         this.enemies.increaseSpeed()
       }
-      HeadlessGame.messageLog('Base Speed increased to:', this.scuttle.speed)
+      Headless.messageLog('Base Speed increased to:', this.scuttle.speed)
     }, this)
 
     this.input.keyboard.on('keydown_N', () => {
       this.scuttle.baseSpeed()
       this.scuttle.move(this.scuttle.currentDir)
       this.enemies.baseSpeed()
-      HeadlessGame.messageLog('Base Speed returned to:', this.scuttle.speed)
+      Headless.messageLog('Base Speed returned to:', this.scuttle.speed)
     }, this)
 
     this.input.keyboard.on('keydown_L', () => {
-      HeadlessGame.messageLog('lose')
+      Headless.messageLog('lose')
       this.gameOver('lose')
     }, this)
     this.input.keyboard.on('keydown_P', () => {
-      HeadlessGame.messageLog('win')
+      Headless.messageLog('win')
       this.gameOver('win')
     }, this)
     this.input.keyboard.on('keydown_T', () => {
-      HeadlessGame.messageLog('thanks for playing')
+      Headless.messageLog('thanks for playing')
       this.gameOver('thanks')
     }, this)
 
@@ -370,7 +370,7 @@ class HeadlessGame extends Phaser.Scene {
   }
 
   resetTimer () {
-    HeadlessGame.messageLog(this.time.now, this.SFXTimer, this.changeModeTimer)
+    Headless.messageLog(this.time.now, this.SFXTimer, this.changeModeTimer)
     this.scuttle.testTimer = this.time.now
     // this.soundManager.resetTimer(this.time.now)
     this.changeModeTimer = this.time.now + this.TIME_MODES[this.currentMode].time
@@ -438,7 +438,7 @@ class HeadlessGame extends Phaser.Scene {
   }
 
   logCurrentMode () {
-    HeadlessGame.messageLog('new mode:', this.TIME_MODES[this.currentMode].mode, this.TIME_MODES[this.currentMode].time)
+    Headless.messageLog('new mode:', this.TIME_MODES[this.currentMode].mode, this.TIME_MODES[this.currentMode].time)
     this.events.emit('changeMode')
   }
 
@@ -521,7 +521,7 @@ class HeadlessGame extends Phaser.Scene {
 
   checkTimer () {
     if (this.timerIsInvalid(this.changeModeTimer)) {
-      HeadlessGame.messageLog(this.changeModeTimer, this.time.now)
+      Headless.messageLog(this.changeModeTimer, this.time.now)
       this.resetTimer()
       // If the timer isnt started, the game wont enter the other modes
     }
@@ -548,7 +548,7 @@ class HeadlessGame extends Phaser.Scene {
       this.changeModeTimer = this.time.now + this.FRIGHTENED_MODE_TIME
       this.isHuntMode = true
       player.powerUp()
-      HeadlessGame.messageLog('Hunt Mode remaining time:', this.remainingTime)
+      Headless.messageLog('Hunt Mode remaining time:', this.remainingTime)
     }
   }
 
@@ -560,7 +560,7 @@ class HeadlessGame extends Phaser.Scene {
     } else {
       player = args
     }
-    HeadlessGame.messageLog('Player has died, Restarting Game')
+    Headless.messageLog('Player has died, Restarting Game')
     this.currentMode = 0
     this.isHuntMode = false
     player.returnToNormal()
@@ -774,4 +774,4 @@ class HeadlessGame extends Phaser.Scene {
   }
 }
 
-export default HeadlessGame
+export default Headless

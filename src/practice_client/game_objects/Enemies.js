@@ -1,7 +1,7 @@
 import Phaser from 'phaser'
 import * as constants from './config/constants'
 import { START_COORD } from './leveldata/NewLevelData'
-// import seedrandom from 'seedrandom'
+import seedrandom from 'seedrandom'
 import Enemy from './Enemy'
 
 class Enemies extends Phaser.GameObjects.Group {
@@ -85,11 +85,11 @@ class Enemies extends Phaser.GameObjects.Group {
     this.children.iterate(child => child.baseSpeed())
   }
 
-  // setRandomNumberGenerator (seed) {
-  //   this.children.iterate(child => {
-  //     child.rng = seedrandom(seed)
-  //   })
-  // }
+  setRandomNumberGenerator (seed) {
+    this.children.iterate(child => {
+      child.rng = seedrandom(seed)
+    })
+  }
 }
 
 export default Enemies

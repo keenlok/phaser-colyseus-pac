@@ -1,6 +1,6 @@
 import { Scene, Game, AUTO } from 'phaser'
 import { Client } from 'colyseus.js'
-import * as constants from "../config/constants"
+import * as constants from "../shared/config/constants"
 
 const client = new Client('ws://127.0.0.1:8000')
 

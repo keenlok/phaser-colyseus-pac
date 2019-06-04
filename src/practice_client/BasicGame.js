@@ -1,13 +1,13 @@
-import * as constants from '../config/constants'
-import * as levelData from '../leveldata/NewLevelData'
+import * as constants from '../shared/config/constants'
+import * as levelData from '../shared/leveldata/NewLevelData'
 import Phaser from 'phaser'
-import GameObjectFactory from '../factory/GameObjectFactory'
-import PhysicsFactory from '../factory/PhysicsFactory'
-import AnimationFactory from '../factory/AnimationFactory'
-import SoundFactory from '../factory/SoundFactory'
-import ScoreManager from '../manager/ScoreManager'
+import GameObjectFactory from '../shared/factory/GameObjectFactory'
+import PhysicsFactory from '../shared/factory/PhysicsFactory'
+import AnimationFactory from '../shared/factory/AnimationFactory'
+import SoundFactory from '../shared/factory/SoundFactory'
+import ScoreManager from '../shared/manager/ScoreManager'
 
-class ExtendedGame extends Phaser.Scene {
+class MainGame extends Phaser.Scene {
   constructor () {
     super({ key: 'maingame' })
     this.isTwoPlayer = false
@@ -713,4 +713,4 @@ class ExtendedGame extends Phaser.Scene {
   }
 }
 
-export default ExtendedGame
+export default MainGame

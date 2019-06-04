@@ -1,6 +1,6 @@
 import { Room,  FossilDeltaSerializer, serialize} from 'colyseus'
 import { gameServer } from '../practice_server/Server'
-import { messageLog, DEBUG } from '../config/constants'
+import { messageLog, DEBUG } from '../shared/config/constants'
 
 export class GameRoom extends Room {
   constructor () {

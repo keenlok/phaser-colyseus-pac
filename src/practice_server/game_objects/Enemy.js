@@ -1,6 +1,6 @@
-import * as constants from './config/constants'
-import * as levelData from './leveldata/NewLevelData'
-// import Phaser from 'phaser'
+import * as constants from '../../shared/config/constants'
+import * as levelData from '../../shared/leveldata/NewLevelData'
+import Phaser from 'phaser'
 
 const directions = constants.directions
 

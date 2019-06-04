@@ -1,30 +1,24 @@
-import Phaser from 'phaser'
-import HeadlessGame from './HeadlessGame'
-import * as constants from '../config/constants'
+import {HEADLESS, Game} from 'phaser'
+import Headless from './scenes/Headless'
+import {DEBUG} from '../shared/config/constants'
 
-class GameSinglePlayer extends HeadlessGame {
+class GameSinglePlayer extends Headless {
   constructor () {
     super({ key: 'maingame' })
     console.log('GameSinglePlayer')
   }
-
-  update (time) {
-    super.update(time)
-  }
 }
-
-console.log('DEBUG is', constants.DEBUG)
 
 let config = {
   parent: 'game',
-  type: Phaser.HEADLESS,
+  type: HEADLESS,
   width: 800,
   height: 600,
   physics: {
     default: 'arcade',
     arcade: {
       gravity: { y: 0 },
-      debug: constants.DEBUG
+      debug: DEBUG
     }
   },
 
@@ -33,7 +27,7 @@ let config = {
 }
 
 // eslint-disable-next-line no-unused-vars
-let game = new Phaser.Game(config)
+let game = new Game(config)
 
 window.game = game
 window.gameLoaded()
