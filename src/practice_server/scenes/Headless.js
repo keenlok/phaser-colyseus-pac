@@ -297,12 +297,12 @@ class Headless extends Phaser.Scene {
     Headless.messageLog("Create: Setup Score Manager")
     this.scoreManager = new ScoreManager(this)
 
-    if (constants.DEBUG) {
-      this.createDebug()
-      GameObjectFactory.createMiniMap(this)
-      this.createLights()
-      this.createCheats()
-    }
+    // if (constants.DEBUG) {
+    //   this.createDebug()
+    //   GameObjectFactory.createMiniMap(this)
+    //   this.createLights()
+    //   this.createCheats()
+    // }
 
     this.restartGame()
     this.enemyTarget = this.scuttle
@@ -760,7 +760,8 @@ class Headless extends Phaser.Scene {
 
   scuttleDies (num, player) {
     player.dies()
-    if ((typeof NODE_ENV !== 'undefined' && NODE_ENV !== 'production') || this.isTwoPlayer) {
+    // if ((typeof NODE_ENV === 'undefined' && NODE_ENV !== 'production') || this.isTwoPlayer) {
+    if ((true) || this.isTwoPlayer) {
       this.currentMode = 0
       this.enemies.scatter()
     } else {

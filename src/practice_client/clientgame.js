@@ -1,5 +1,8 @@
 import MainGame from "./scenes/MainGame"
+import {TileSize} from '../shared/config/constants'
+
 import {Client} from "colyseus.js"
+import {Math} from 'phaser'
 
 class ClientGame extends MainGame {
   constructor() {
@@ -26,11 +29,21 @@ class ClientGame extends MainGame {
       }
     })
     room.listen('enemies/:id/:attribute', ({path, operation, value}) => {
-      console.log("What is received for enemy", operation, path.id, path.attribute, value)
-      this.enemies[path.id][path.attribute] = value
+      let objToUpdate = this.enemieslist[path.id]
+      if (objToUpdate.mode !== objToUpdate.AT_HOME || objToUpdate.mode !== objToUpdate.EXIT_HOME) {
+        // if (path.attribute === 'x' || path.attribute === 'y') {
+          // if (!Math.Fuzzy.Equal(objToUpdate[path.attribute], value, TileSize)) {
+            console.log("What is received for enemy", operation, path.id, path.attribute, value)
+            objToUpdate[path.attribute] = value
+          // }
+        // }
+      }
     })
-    room.listen('start', () => {
-      this.scene.resume()
+    room.onMessage.add((message) => {
+      if (message === 'start') {
+        console.log('start!')
+        this.scene.resume()
+      }
     })
   }
 }

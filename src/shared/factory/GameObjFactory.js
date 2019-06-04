@@ -125,7 +125,7 @@ export default {
       .setZoom(zoomFactor)
       .setBounds(0, 0, levelData.WIDTH, levelData.HEIGHT, true)
       .startFollow(scene.scuttle)
-      .ignore([scene.scoreText, scene.liveText, scene.pauseButton])
+      // .ignore([scene.scoreText, scene.liveText, scene.pauseButton])
     scene.miniMap.setAlpha(0.95)
   },
 

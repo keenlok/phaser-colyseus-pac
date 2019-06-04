@@ -95,7 +95,7 @@ class Enemies extends Phaser.GameObjects.Group {
     return new Promise((resolve, reject) => {
       if (typeof this.enemy !== "undefined" && typeof this.enemy1 !== "undefined"
         && typeof this.enemy2 !== "undefined" && typeof this.enemy3 !== "undefined") {
-        console.log("Resolved")
+        // console.log("Resolved")
         resolve(this.children)
       }
     })

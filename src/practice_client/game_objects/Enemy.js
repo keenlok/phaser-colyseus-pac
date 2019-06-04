@@ -2,6 +2,8 @@ import * as constants from '../../shared/config/constants'
 import * as levelData from '../../shared/leveldata/NewLevelData'
 import Phaser from 'phaser'
 
+const directions = constants.directions
+
 class Enemy extends Phaser.GameObjects.Sprite {
   constructor (scene, x, y, texture, type) {
     super(scene, x, y, texture)
@@ -29,8 +31,8 @@ class Enemy extends Phaser.GameObjects.Sprite {
 
     this.directions = [null, null, null, null, null]
     this.opposites = [
-      constants.NONE, constants.RIGHT, constants.LEFT,
-      constants.DOWN, constants.UP
+      directions.NONE, directions.RIGHT, directions.LEFT,
+      directions.DOWN, directions.UP
     ]
     this.turnPoint = new Phaser.Geom.Point()
     this.lastPosition = {x: -1, y: -1}
@@ -65,7 +67,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
     this.body.setSize(constants.TileSize, constants.TileSize)
 
     if (this.type !== 'type_shark') {
-      // console.log(this)
+      // this.messageLog(this)
       this.createEgg()
     }
     this.createAnimListener()
@@ -126,7 +128,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
         this.alreadyDead = true
       }
       if (this.anims.currentAnim.key.includes('jelly')) {
-        console.log(this.anims.currentAnim.key)
+        this.messageLog(this.anims.currentAnim.key)
       }
     }, [], this)
 
@@ -338,7 +340,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
     let homePosition = this.getHomePosition()
     let destination
     let targetInformation = this.scene.getTargetInformationForEnemy()
-    // console.log("What is target Information,", targetInformation)
+    // this.messageLog("What is target Information,", targetInformation)
     switch (this.type) {
       case 'type1':
         destination = targetInformation.position
@@ -381,7 +383,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
         }
 
         if (this.mode === this.RETURNING_HOME) {
-          // console.log('will i reache here 10011001010100101010101010100101010101')
+          // this.messageLog('will i reache here 10011001010100101010101010100101010101')
           destination = homePosition
         }
         return destination
@@ -395,8 +397,8 @@ class Enemy extends Phaser.GameObjects.Sprite {
         }
         destination = new Phaser.Geom.Point(pacmanPostion.x + diff.x, pacmanPostion.y + diff.y)
         if (typeof destination === 'undefined') {
-          // console.log(destination, pacmanPostion, diff)
-          // console.log('oh no its a enemy')
+          // this.messageLog(destination, pacmanPostion, diff)
+          // this.messageLog('oh no its a enemy')
         }
         // Makes sure destination still within the map
         if (destination.x < constants.CenterOffset) {
@@ -418,7 +420,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
         let bluePosition = this.getCurrentPosition()
         if (this.getDistance(bluePosition, destination) > 8 * constants.TileSize) {
           if (typeof destination === 'undefined') {
-            console.log('undefined?', destination, bluePosition)
+            this.messageLog('undefined?', destination, bluePosition)
           }
           return destination
         } else { return new Phaser.Geom.Point(this.scatterDestination.x, this.scatterDestination.y) }
@@ -467,17 +469,17 @@ class Enemy extends Phaser.GameObjects.Sprite {
         break
       case this.EXIT_HOME:
         this.exitHome(canContinue, x, y)
-        // console.log('time to get yr ass out ol here')
+        // this.messageLog('time to get yr ass out ol here')
         break
       case this.SCATTER:
         this.ghostDestination = new Phaser.Geom.Point(this.scatterDestination.x,
           this.scatterDestination.y)
         this.mode = this.CHASE
-        // console.log('scatter')
+        // this.messageLog('scatter')
         break
       case this.STOP:
         this.move(constants.NONE)
-        // console.log('stop')
+        // this.messageLog('stop')
         break
     }
   }
@@ -510,7 +512,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
       this.resetPosition(x, y)
       this.returnToNormal()
       this.safetiles = [constants.SAFE_TILE]
-      // console.log(this)
+      // this.messageLog(this)
       this.scene.giveExitOrder(this)
     }
   }
@@ -518,13 +520,13 @@ class Enemy extends Phaser.GameObjects.Sprite {
   moveToDestination (time, possibleExits, x, y) {
     if (this.turnTimer < time) {
       if (typeof this.ghostDestination === 'undefined') {
-        console.log('error 404 impending in updateEnemyMode: ', this.ghostDestination)
+        this.messageLog('error 404 impending in updateEnemyMode: ', this.ghostDestination)
       }
       this.moveToTarget(possibleExits, x, y)
       this.turnTimer = time + this.TURNING_COOLDOWN
       if (x === 3 && y === 10) {
-        // console.log(this.currentDir)
-        // console.log('why am i stuck here,', possibleExits)
+        // this.messageLog(this.currentDir)
+        // this.messageLog('why am i stuck here,', possibleExits)
       }
     }
   }
@@ -557,23 +559,23 @@ class Enemy extends Phaser.GameObjects.Sprite {
     for (let i = 0; i < possibleExits.length; i++) {
       direction = possibleExits[i]
       switch (direction) {
-        case constants.LEFT:
+        case directions.LEFT:
           decision = constants.convertToPixels((x - 1), y)
           break
-        case constants.RIGHT:
+        case directions.RIGHT:
           decision = constants.convertToPixels((x + 1), y)
           break
-        case constants.UP:
+        case directions.UP:
           decision = constants.convertToPixels(x, y - 1)
           break
-        case constants.DOWN:
+        case directions.DOWN:
           decision = constants.convertToPixels(x, y + 1)
           break
         default:
           break
       }
       if (typeof this.ghostDestination === 'undefined' || typeof decision === 'undefined') {
-        console.log('error impending in moveToTarget: ', this.ghostDestination, decision)
+        this.messageLog('error impending in moveToTarget: ', this.ghostDestination, decision)
       }
       let dist = this.getDistance(this.ghostDestination, decision)
       if (dist < distanceToTarget) {
@@ -586,14 +588,14 @@ class Enemy extends Phaser.GameObjects.Sprite {
     // according to the article
     if (bestDecision === constants.UP) {
       // if (this.name === 'shark') {
-      //   console.log(x, y)
-      //   console.log(this.scene.isSpecialTile({x: x, y: y}))
+      //   this.messageLog(x, y)
+      //   this.messageLog(this.scene.isSpecialTile({x: x, y: y}))
       // } //TODO: For Debug remove if needed
       if (this.scene.isSpecialTile({x: x, y: y}) && bestDecision === constants.UP) {
         bestDecision = this.currentDir
         let canContinue = this.checkSafetile(this.directions[this.currentDir])
         if (!canContinue) {
-          // console.log('do something')
+          // this.messageLog('do something')
         }
       }
     }
@@ -606,7 +608,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
     this.setVisible(false)
     this.body.setVelocity(0)
     // if (!canContinue) {
-    //   // console.log('what is this ', x, y)
+    //   // this.messageLog('what is this ', x, y)
     //   this.resetPosition(x, y)
     //   // this is to make the enemy bounce around in their humble abode
     //   let dir = (this.currentDir === constants.UP) ? constants.DOWN : constants.UP
@@ -633,7 +635,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
       if (this.mode === this.RANDOM && this.prevMode !== this.AT_HOME) {
         this.mode = this.prevMode
       }
-      // console.log(this.name + ' ' + this.mode)
+      // this.messageLog(this.name + ' ' + this.mode)
     }
   }
 
@@ -672,7 +674,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
 
   getDistance (a, b) {
     if (typeof a === 'undefined' || typeof b === 'undefined') {
-      console.log('error impending', a, b)
+      this.messageLog('error impending', a, b)
     }
     let c = Math.pow((a.x - b.x), 2)
     let d = Math.pow((a.y - b.y), 2)
@@ -689,7 +691,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
 
   scatter () {
     if (this.mode !== this.RETURNING_HOME && this.mode !== this.AT_HOME) {
-      // console.log('currently moving in ', this.currentDir)
+      // this.messageLog('currently moving in ', this.currentDir)
       this.isAttacking = false
       if (this.mode !== this.AT_HOME && this.mode !== this.EXIT_HOME) {
         this.mode = this.SCATTER
@@ -701,7 +703,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
     if (this.mode !== this.RETURNING_HOME && this.mode !== this.AT_HOME) {
       this.isAttacking = true
       this.alreadyTriggered = false
-      // console.log('this is current attacking in this direction ', this.currentDir)
+      // this.messageLog('this is current attacking in this direction ', this.currentDir)
       if (this.mode !== this.AT_HOME && this.mode !== this.EXIT_HOME) {
         this.currentDir = this.opposites[this.currentDir]
       }
@@ -717,7 +719,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
       this.isAttacking = false
     }
 
-    if (this.currentDir === constants.LEFT || constants.UP) {
+    if (this.currentDir === directions.LEFT || directions.UP) {
       this.play(this.name + '_hunt_left')
     } else {
       this.play(this.name + '_hunt_right')
@@ -727,7 +729,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
   crabEatCrab (player) {
     let num
     if (!this.isDead) {
-      console.log('Met this player', player.name)
+      this.messageLog('Met this player', player.name)
       if (this.scene.isHuntMode && player.isPowerUp) {
         // TODO: Move this to a method in extended game to remove coupling
         num = this.scene.scuttle.eatAudio
@@ -751,7 +753,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
 
   checkAnimFrame () {
     if (this.anims.currentAnim.key.includes('jelly')) {
-      console.log(this.anims.currentFrame)
+      this.messageLog(this.anims.currentFrame)
     }
   }
 
@@ -775,9 +777,9 @@ class Enemy extends Phaser.GameObjects.Sprite {
       if (maxDistFromCrab > distance) {
         if (!this.alreadyTriggered) {
           if (this.name === 'octo' || this.name === 'jelly') {
-            // console.log(this.mode + ' ' + this.name)
+            // this.messageLog(this.mode + ' ' + this.name)
           }
-          // console.log(this.name + ' play alert sound and enemy chase sound')
+          // this.messageLog(this.name + ' play alert sound and enemy chase sound')
           // TODO: this also breaks this.scene.popSFX is undefined. Probably a naming problem @keenlok
           if (!this.scene.soundManager.popSfx.isPlaying) {
             this.scene.soundManager.playAlertSound()
@@ -789,6 +791,10 @@ class Enemy extends Phaser.GameObjects.Sprite {
         this.alreadyTriggered = false
       }
     }
+  }
+
+  messageLog(...message) {
+    constants.messageLog(this.name+this.type, message)
   }
 }
 

@@ -37,10 +37,11 @@ export class GameRoom extends Room {
       // GameRoom.messageLog(game)
       // console.log(game.scene.scenes[0].enemy, game.scene.scenes[0].group)
       // self.state.game = game
-      self.setEnemyStates(self.scene.enemies)
+      self.setEnemyStates(self.scene.enemies.getChildren())
       if (!self.isGameSet)  {
         // self.setPlayerState(self.scene.scuttle)
         GameRoom.messageLog("Game is Set")
+        self.broadcast('start')
         self.isGameSet = !self.isGameSet
       }
     })
@@ -51,16 +52,18 @@ export class GameRoom extends Room {
       return
     }
     // GameRoom.messageLog("Setting/Updating enemy states")
-    enemies.children.iterate(enemy => {
-      // GameRoom.messageLog(enemy.name, enemy.type, enemy.x, enemy.y)
-      this.state.enemies[enemy.name+enemy.type] = {
-        x:        enemy.x,
-        y:        enemy.y,
-        mode:     enemy.mode,
-        isFright: enemy.isFrightened,
-        isDead:   enemy.isDead,
-        dest:     enemy.ghostDestination
-      }
+    enemies.then((children) => {
+      children.iterate(enemy => {
+        // GameRoom.messageLog(enemy.name, enemy.type, enemy.x, enemy.y)
+        this.state.enemies[enemy.name + enemy.type] = {
+          x: enemy.x,
+          y: enemy.y,
+          mode: enemy.mode,
+          isFright: enemy.isFrightened,
+          isDead: enemy.isDead,
+          dest: enemy.ghostDestination
+        }
+      })
     })
   }
 

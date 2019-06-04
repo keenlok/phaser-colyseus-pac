@@ -50,14 +50,14 @@ const convertToGridUnits = (x, y) => {
   return new Phaser.Geom.Point(cx, cy)
 }
 
-let DEBUG = false
+let DEBUG = true
 console.log("what is this", process.env.NODE_ENV)
 if (process.env.NODE_ENV === 'development') {
   DEBUG = true
 }
 
 const messageLog = (caller, messages) => {
-  if (!DEBUG) {
+  if (DEBUG) {
     let message = ''
     for (let i = 0; i < messages.length; i++) {
       message = message + ' ' + messages[i]

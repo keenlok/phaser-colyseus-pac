@@ -116,13 +116,13 @@ class MainGame extends Phaser.Scene {
     this.input.on('pointerup', this.endSwipe, this)
 
     if (constants.DEBUG) {
-      this.createDebug()
+      // this.createDebug()
       GameObjectFactory.createMiniMap(this)
-      this.createLights()
-      this.createCheats()
+      // this.createLights()
+      // this.createCheats()
     }
 
-    // this.scene.pause()
+    this.scene.pause()
 
     this.restartGame()
     this.enemyTarget = this.scuttle
@@ -699,7 +699,8 @@ class MainGame extends Phaser.Scene {
       this.soundManager.playScuttleDiesSequenceTwo(num)
     }
     player.dies()
-    if ((typeof NODE_ENV !== 'undefined' && NODE_ENV !== 'production')|| this.isTwoPlayer) {
+    // if ((typeof NODE_ENV === 'undefined' && NODE_ENV !== 'production')|| this.isTwoPlayer) {
+    if ((true)|| this.isTwoPlayer) {
       this.currentMode = 0
       this.enemies.scatter()
     } else {
