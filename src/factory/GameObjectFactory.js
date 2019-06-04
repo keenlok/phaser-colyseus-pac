@@ -2,7 +2,7 @@ import SpecialDots from '../SpecialDots'
 import Scuttles from '../Scuttles'
 import Enemies from '../Enemies'
 import * as levelData from '../leveldata/NewLevelData'
-import { messageLog } from '../config/constants'
+import { messageLog, DEBUG } from '../config/constants'
 import Phaser from 'phaser'
 
 class GameObjectFactory {
@@ -169,7 +169,6 @@ class GameObjectFactory {
   static messageLog(...messages) {
     const name = "GameObjectFactory"
     messageLog(name, messages)
-
   }
 }
 

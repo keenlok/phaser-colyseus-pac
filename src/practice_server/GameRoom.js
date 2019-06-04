@@ -1,11 +1,12 @@
 import { Room,  FossilDeltaSerializer, serialize} from 'colyseus'
 import { gameServer } from '../practice_server/Server'
-import { messageLog } from '../config/constants'
+import { messageLog, DEBUG } from '../config/constants'
 
 export class GameRoom extends Room {
   constructor () {
     super()
     this.maxClients = 1
+    this.isGameSet = false
   }
 
   onInit (options) {
@@ -31,13 +32,16 @@ export class GameRoom extends Room {
     let gamePromise = server.getGame()
     let self = this
     gamePromise.then((game) => {
-      // GameRoom.messageLog("Is promised game undefined", typeof game === 'undefined')
       self.game = game
       self.scene = game.scene.scenes[0]
       // GameRoom.messageLog(game)
       // console.log(game.scene.scenes[0].enemy, game.scene.scenes[0].group)
       // self.state.game = game
       self.setEnemyStates(self.scene.enemies)
+      if (!self.isGameSet)  {
+        GameRoom.messageLog("Game is Set")
+        self.isGameSet = !self.isGameSet
+      }
     })
   }
 
@@ -56,9 +60,7 @@ export class GameRoom extends Room {
         isDead:   enemy.isDead
       }
     })
-
   }
-
 
   onJoin (client) {
     GameRoom.messageLog("New client join", client.id)
@@ -73,7 +75,9 @@ export class GameRoom extends Room {
   }
 
   update () {
-    this.setUpdateGame()
+    if (this.isGameSet) {
+      this.setUpdateGame()
+    }
     // this.setEnemyStates(this.scene.enemies)
   }
 

@@ -7,7 +7,10 @@
     "build-headless": "webpack --config webpack.config.headless.js",
     "build-server": "webpack --config webpack.config.server.js",
     "build-client": "webpack --config webpack.config.clientfront.js",
-    "start": "nodemon run dist/index/app.js"
+    "start": "nodemon run src/practice_client/app.js",
+    "headless-server": "nodemon run dist/server/server.js",
+    "dev-server": "NODE_ENV=development nodemon dist/server/server.js",
+    "dev-client": "NODE_ENV=development nodemon src/practice_client/app.js"
   },
   "author": "",
   "license": "ISC",
