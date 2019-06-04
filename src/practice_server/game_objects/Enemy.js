@@ -164,7 +164,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
         // this.scene.soundManager.popSfx.play()
         this.setVisible(true)
         this.egg.setVisible(false)
-        this.scene.time.delayedCall(3000, this.resetEgg, [], this)
+        this.scene.time.delayedCall(1000, this.resetEgg, [], this)
         this.mode = this.EXIT_HOME
       }
     }, [], this)
@@ -207,6 +207,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
   }
 
   respawn () {
+    this.messageLog("Respawning!")
     this.body.setVelocity(0)
     this.x = this.initX
     this.y = this.initY
@@ -260,7 +261,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
 
     this.flipX = false
 
-    if (this.currentDir === constants.NONE) {
+    if (this.currentDir === directions.NONE) {
       this.body.setVelocity(0, 0)
       return
     }
