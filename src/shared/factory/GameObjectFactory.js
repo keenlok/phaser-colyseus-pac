@@ -1,8 +1,8 @@
-import SpecialDots from '../SpecialDots'
-import Scuttles from '../Scuttles'
-import Enemies from '../Enemies'
+import SpecialDots from '../../practice_server/game_objects/SpecialDots'
+import Scuttles from '../../practice_server/game_objects/Scuttles'
+import Enemies from '../../practice_server/game_objects/Enemies'
 import * as levelData from '../leveldata/NewLevelData'
-import { messageLog, DEBUG } from '../config/constants'
+import { messageLog } from '../config/constants'
 import Phaser from 'phaser'
 
 class GameObjectFactory {
