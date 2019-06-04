@@ -15,6 +15,12 @@ class ClientGame extends Scene {
   }
 
   create() {
+    this.createRoom()
+
+
+  }
+
+  createRoom() {
     console.log("Joining rooms")
     const room = client.join('room')
     console.log("Joined room", room)

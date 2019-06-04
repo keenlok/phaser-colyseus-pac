@@ -43,7 +43,22 @@ class Scuttle extends Phaser.GameObjects.Sprite {
     super(scene, x, y, 'scuttle')
     scene.physics.world.enable(this)
     scene.children.add(this)
-    this.spawnPosition = { x: x, y: y }
+    this.initializeVar(x, y)
+
+    console.log(`this is its initial x and y ${this.x} ${this.y}`)
+
+    this.body.setSize(constants.TileSize, constants.TileSize)
+    // constants.CenterOffset, constants.CenterOffset)
+    // console.log("scuttle's body ", this.body)
+    // this.move(constants.LEFT)
+
+    this.createEgg(x, y)
+    this.createAnimCompleteListeners()
+    this.egg.anims.delayedPlay(Math.random() * 1000, 'egg')
+  }
+
+  initializeVar(x, y) {
+    this.spawnPosition = {x: x, y: y}
     this.directions = [null, null, null, null, null]
     this.opposites = [
       constants.NONE, constants.RIGHT, constants.LEFT,
@@ -62,17 +77,7 @@ class Scuttle extends Phaser.GameObjects.Sprite {
 
     this.alive = false
     this.test_coolDown = 2000
-
-    console.log(`this is its initial x and y ${this.x} ${this.y}`)
-
-    this.body.setSize(constants.TileSize, constants.TileSize)
-    // constants.CenterOffset, constants.CenterOffset)
-    // console.log("scuttle's body ", this.body)
-    // this.move(constants.LEFT)
-
-    this.createEgg(x, y)
-    this.createAnimCompleteListeners()
-    this.egg.anims.delayedPlay(Math.random() * 1000, 'egg')
+    this.name = ''
   }
 
   createEgg (x, y) {

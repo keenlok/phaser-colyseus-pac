@@ -39,6 +39,7 @@ export class GameRoom extends Room {
       // self.state.game = game
       self.setEnemyStates(self.scene.enemies)
       if (!self.isGameSet)  {
+        // self.setPlayerState(self.scene.scuttle)
         GameRoom.messageLog("Game is Set")
         self.isGameSet = !self.isGameSet
       }
@@ -62,8 +63,29 @@ export class GameRoom extends Room {
     })
   }
 
+  setPlayerState (id, player) {
+    if (typeof player === "undefined") {
+      if (typeof this.scene === "undefined") {
+        return
+      } else {
+        player = this.scene.scuttle
+      }
+    }
+    this.state.players[this.scene.scuttle.name+id] = {
+      x:        player.x,
+      y:        player.y,
+      currDir:  player.currentDir,
+      alive:    player.alive,
+      isDead:   player.isDead,
+      isPowUp:  player.isPowerUp,
+      lives:    player.lives
+    }
+
+  }
+
   onJoin (client) {
     GameRoom.messageLog("New client join", client.id)
+    this.setPlayerState(client.id)
   }
 
   onLeave (client) {
