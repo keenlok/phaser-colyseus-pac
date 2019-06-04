@@ -1,7 +1,6 @@
-
 import Phaser from 'phaser'
-import * as constants from './config/constants'
-import * as levelData from './leveldata/NewLevelData'
+import * as constants from '../../shared/config/constants'
+import * as levelData from '../../shared/leveldata/NewLevelData'
 
 class Scuttles extends Phaser.GameObjects.Group {
   constructor (scene) {

@@ -58,7 +58,8 @@ export class GameRoom extends Room {
         y:        enemy.y,
         mode:     enemy.mode,
         isFright: enemy.isFrightened,
-        isDead:   enemy.isDead
+        isDead:   enemy.isDead,
+        dest:     enemy.ghostDestination
       }
     })
   }

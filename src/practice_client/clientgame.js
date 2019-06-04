@@ -27,6 +27,10 @@ class ClientGame extends MainGame {
     })
     room.listen('enemies/:id/:attribute', ({path, operation, value}) => {
       console.log("What is received for enemy", operation, path.id, path.attribute, value)
+      this.enemies[path.id][path.attribute] = value
+    })
+    room.listen('start', () => {
+      this.scene.resume()
     })
   }
 }

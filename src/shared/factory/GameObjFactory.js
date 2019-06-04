@@ -1,36 +1,21 @@
-import SpecialDots from '../../practice_server/game_objects/SpecialDots'
-import Scuttles from '../../practice_server/game_objects/Scuttles'
-import Enemies from '../../practice_server/game_objects/Enemies'
 import * as levelData from '../leveldata/NewLevelData'
-import { messageLog } from '../config/constants'
+import { messageLog as log } from '../config/constants'
 import Phaser from 'phaser'
 
-class GameObjectFactory {
-  static createObjectsForHeadless (scene) {
-    this.createMap(scene)
-    this.createEnemies(scene)
-    this.createPlayer1(scene)
-    this.createSpecialFood(scene)
-    this.createAndConfigureCameras(scene)
-    this.createCursors(scene)
-  }
+let messageLog = (...messages) => {
+  const name = "GameObjectFactory"
+  log(name, messages)
+}
 
-  static createAllGameObjects (scene) {
-    this.createMap(scene)
-    this.createEnemies(scene)
-    this.createPlayer1(scene)
-    this.createSpecialFood(scene)
-    this.createAndConfigureCameras(scene)
-    this.createScoreAndText(scene)
-    this.createCursors(scene)
-  }
+export default {
+  messageLog,
 
-  static createMap (scene) {
-    this.messageLog('Creating map')
+  createMap(scene) {
+    messageLog('Creating map')
 
     scene.image = scene.add.image(0, 0, 'background')
     scene.image.setScale(3.5)
-    scene.map = scene.make.tilemap({ key: 'newmap' })
+    scene.map = scene.make.tilemap({key: 'newmap'})
 
     // If did not specify margin and spacing in Tiled use scene line:
     // scene.tileset = scene.map.addTilesetImage('FinalTiles(v1)-small', 'tile', 80, 80, 1, 2)
@@ -45,49 +30,28 @@ class GameObjectFactory {
     // Food Layer
     scene.food = scene.map.addTilesetImage('Food', 'foodTile')
     scene.foodLayer = scene.map.createDynamicLayer('Food', scene.food, 0, 0)
-  }
+  },
 
-  static createSpecialFood (scene) {
-    this.messageLog('Creating special food')
-
-    scene.specialFood = new SpecialDots(scene)
-  }
-
-  static createPlayer1 (scene) {
-    this.messageLog('Creating player 1')
-
-    scene.group = new Scuttles(scene)
-    scene.scuttle = scene.group.scuttle
-    scene.scuttle.name = 'player1'
-  }
-
-  static createEnemies (scene) {
-    this.messageLog('Creating enemies')
-
-    scene.enemies = new Enemies(scene)
-    scene.enemy = scene.enemies.enemy
-  }
-
-  static createCursors (scene) {
-    this.messageLog("Create cursors for input")
+  createCursors(scene) {
+    messageLog("Create cursors for input")
     scene.cursors = scene.input.keyboard.addKeys('W,A,S,D,UP,DOWN,LEFT,RIGHT,SPACE') // can only be
-  }
+  },
 
-  static createAndConfigureCameras (scene) {
+  createAndConfigureCameras(scene) {
     // This enables camera to zoom in on scuttle and follow him
     // scene.checkGameSize() // can handle sizes larger than the game map
     scene.cameras.main.setBounds(0, 0, levelData.WIDTH, levelData.HEIGHT)
     scene.cameras.main.startFollow(scene.scuttle, true, 0.1, 0.1)
     scene.cameras.main.roundPixels = true
     let stuff = scene.cameras.main
-    this.messageLog("Initialise World View:", stuff.worldView, stuff.width, stuff.height,
+    messageLog("Initialise World View:", stuff.worldView, stuff.width, stuff.height,
       stuff.displayHeight, stuff.displayWidth)
     scene.cameraView = stuff.worldView
-  }
+  },
 
-  static createPauseButton (scene) {
-    this.messageLog("Create pause button")
-    this.createButtonsGraphics(scene)
+  createPauseButton(scene) {
+    messageLog("Create pause button")
+    createButtonsGraphics(scene)
 
     // For some reason, a graphic can't listen to these events.....
     scene.pauseButton = scene.add.image(0, 0, 'pause')
@@ -113,9 +77,9 @@ class GameObjectFactory {
 
     console.log(scene.pauseButton.eventNames())
     console.log("")
-  }
+  },
 
-  static createButtonsGraphics (scene) {
+  createButtonsGraphics(scene) {
     let x = scene.scoreText.x
     let y = scene.scoreText.height
 
@@ -146,9 +110,9 @@ class GameObjectFactory {
 
     smallButton.generateTexture('smallbuttongraphic', 50, 50)
     smallButton.destroy()
-  }
+  },
 
-  static createMiniMap (scene) {
+  createMiniMap(scene) {
     let x = scene.sys.game.config.width
     let y = scene.sys.game.config.height
     console.log(x, y)
@@ -163,10 +127,10 @@ class GameObjectFactory {
       .startFollow(scene.scuttle)
       .ignore([scene.scoreText, scene.liveText, scene.pauseButton])
     scene.miniMap.setAlpha(0.95)
-  }
+  },
 
-  static createScoreAndText (scene) {
-    console.log("create score text")
+  createScoreAndText(scene) {
+    messageLog("create score text")
     scene.scoreText = scene.add.text(60, 0, scene.scoreString + scene.score)
       .setScrollFactor(0)
       .setFontFamily('Fredoka One')
@@ -174,12 +138,8 @@ class GameObjectFactory {
     scene.liveText = scene.add.text(370, 0, scene.liveString + scene.scuttle.lives)
       .setScrollFactor(0)
       .setFontFamily('Fredoka One')
-  }
-
-  static messageLog(...messages) {
-    const name = "GameObjectFactory"
-    messageLog(name, messages)
-  }
+  },
 }
 
-export default GameObjectFactory
+
+// export default GameObjFactory

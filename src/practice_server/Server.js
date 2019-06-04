@@ -40,7 +40,7 @@ export class gameServer {
         if (typeof self.game !== 'undefined') {
           let scene = self.game.scene.scenes[0]
           if (scene.group !== null) {
-            if (scene.enemy !== null) {
+            if (scene.enemies !== {}) {
               clearInterval(interval)
               resolve(self.game)
             }

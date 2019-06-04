@@ -1,7 +1,7 @@
 import * as constants from '../../shared/config/constants'
 import * as levelData from '../../shared/leveldata/NewLevelData'
 import Phaser from 'phaser'
-import GameObjectFactory from '../../shared/factory/GameObjectFactory'
+import * as GameObjectFactory from '../gameObjectFactory'
 import PhysicsFactory from '../../shared/factory/PhysicsFactory'
 import AnimationFactory from '../../shared/factory/AnimationFactory'
 import ScoreManager from '../../shared/manager/ScoreManager'
@@ -292,7 +292,7 @@ class Headless extends Phaser.Scene {
 
     Headless.messageLog("Create: Setup Physics")
     this.physicsFactory = new PhysicsFactory(this, this.physics)
-    this.physicsFactory.setupPhysicsForRelevantObjects(this.scuttle, this.enemies.children, this.specialFood.children)
+    this.physicsFactory.setupPhysicsForRelevantObjects(this.scuttle, this.enemies.getChildren(), this.specialFood.children)
 
     Headless.messageLog("Create: Setup Score Manager")
     this.scoreManager = new ScoreManager(this)

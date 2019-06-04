@@ -90,6 +90,28 @@ class Enemies extends Phaser.GameObjects.Group {
   //     child.rng = seedrandom(seed)
   //   })
   // }
+
+  getChildren () {
+    return new Promise((resolve, reject) => {
+      if (typeof this.enemy !== "undefined" && typeof this.enemy1 !== "undefined"
+        && typeof this.enemy2 !== "undefined" && typeof this.enemy3 !== "undefined") {
+        console.log("Resolved")
+        resolve(this.children)
+      }
+    })
+  }
 }
 
 export default Enemies
+
+export function getEnemies(scene) {
+  return new Promise((resolve, reject) => {
+    let enemies = new Enemies(scene)
+    if (typeof enemies.enemy !== "undefined" && typeof enemies.enemy1 !== "undefined"
+      && typeof enemies.enemy2 !== "undefined" && typeof enemies.enemy3 !== "undefined") {
+      console.log("Resolved")
+      resolve(enemies)
+    }
+  })
+}
+

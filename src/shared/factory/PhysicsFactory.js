@@ -1,4 +1,4 @@
-const levelData = require('../leveldata/NewLevelData')
+import * as levelData from '../leveldata/NewLevelData'
 
 class PhysicsFactory {
   constructor (scene, physics) {
@@ -14,7 +14,9 @@ class PhysicsFactory {
   }
 
   setupPhysicsForPlayer (player, enemies, specialFood) {
+
     let scene = this.scene
+    let self = this
     // console.log('what is this', this.physics.add.collider)
     // console.log(scene.tileLayer, scene.coralLayer)
     // For collision with tiles and coral tree
@@ -22,6 +24,7 @@ class PhysicsFactory {
     this.physics.add.collider(player, scene.coralLayer)
 
     // For eating food
+
     this.physics.add.overlap(player, scene.foodLayer, scene.eatFood, scene.canPlayerEat, scene)
 
     // For eating specialFood
@@ -29,17 +32,23 @@ class PhysicsFactory {
       this.physics.add.overlap(player, child, scene.eatBiggerCoin, scene.isOverlapping, scene)
     })
 
-    // For eating / getting eaten by enemies
-    enemies.iterate(child => {
-      this.physics.add.overlap(player, child, child.crabEatCrab, scene.isOverlapping, child)
+    enemies.then((children) => {
+      // For eating / getting eaten by enemies
+      children.iterate(child => {
+        self.physics.add.overlap(player, child, child.crabEatCrab, scene.isOverlapping, child)
+      })
     })
 
     // console.log(this.physics.colliders)
   }
 
   setupPhysicsForEnemies (enemies) {
-    enemies.iterate(child => {
-      this.physics.add.collider(child, this.scene.tileLayer)
+    let self = this
+
+    enemies.then((children) => {
+      children.iterate(child => {
+        self.physics.add.collider(child, self.scene.tileLayer)
+      })
     })
   }
 
@@ -49,4 +58,4 @@ class PhysicsFactory {
   }
 }
 
-module.exports = PhysicsFactory
+export default PhysicsFactory
