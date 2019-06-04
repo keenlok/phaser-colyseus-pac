@@ -365,7 +365,7 @@ class MainGame extends Phaser.Scene {
         this.checkEnemiesBehaviour(time)
       }
       this.updatePlayer()
-      this.updateEnemies(time)
+      // this.updateEnemies(time)
     }
     this.checkScoreToEndGame()
     // this.checkGameSize()

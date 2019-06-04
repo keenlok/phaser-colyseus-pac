@@ -216,7 +216,6 @@ class Enemy extends Phaser.GameObjects.Sprite {
     this.setVisible(false)
     this.currentDir = this.start.startDir
     this.safetiles = [constants.SAFE_TILE]
-    // }
   }
 
   returnToNormal () {
@@ -371,6 +370,11 @@ class Enemy extends Phaser.GameObjects.Sprite {
         return destination
       case 'type2':
         destination = targetInformation.position
+        if (typeof destination === 'undefined') {
+          // console.warn('Destination is undefined')
+          this.messageLog('Destination is undefined')
+
+        }
         let direction = targetInformation.direction
         let offsetX = 0
         let offsetY = 0
@@ -389,14 +393,14 @@ class Enemy extends Phaser.GameObjects.Sprite {
         if (destination.x < constants.CenterOffset) {
           destination.x = constants.CenterOffset
         }
-        if (destination.x > constants.WIDTH - constants.CenterOffset) {
-          destination.x = constants.WIDTH - constants.CenterOffset
+        if (destination.x > levelData.WIDTH - constants.CenterOffset) {
+          destination.x = levelData.WIDTH - constants.CenterOffset
         }
         if (destination.y < constants.CenterOffset) {
           destination.y = constants.CenterOffset
         }
-        if (destination.y > constants.WIDTH - constants.CenterOffset) {
-          destination.y = constants.WIDTH - constants.CenterOffset
+        if (destination.y > levelData.WIDTH - constants.CenterOffset) {
+          destination.y = levelData.WIDTH - constants.CenterOffset
         }
 
         if (typeof destination === 'undefined') {
@@ -419,21 +423,21 @@ class Enemy extends Phaser.GameObjects.Sprite {
         }
         destination = new Phaser.Geom.Point(pacmanPostion.x + diff.x, pacmanPostion.y + diff.y)
         if (typeof destination === 'undefined') {
-          // this.messageLog(destination, pacmanPostion, diff)
+          this.messageLog(destination, pacmanPostion, diff)
           // this.messageLog('oh no its a enemy')
         }
         // Makes sure destination still within the map
         if (destination.x < constants.CenterOffset) {
           destination.x = constants.CenterOffset
         }
-        if (destination.x > constants.WIDTH - constants.CenterOffset) {
-          destination.x = constants.WIDTH - constants.CenterOffset
+        if (destination.x > levelData.WIDTH - constants.CenterOffset) {
+          destination.x = levelData.WIDTH - constants.CenterOffset
         }
         if (destination.y < constants.CenterOffset) {
           destination.y = constants.CenterOffset
         }
-        if (destination.y > constants.WIDTH - constants.CenterOffset) {
-          destination.y = constants.WIDTH - constants.CenterOffset
+        if (destination.y > levelData.WIDTH - constants.CenterOffset) {
+          destination.y = levelData.WIDTH - constants.CenterOffset
         }
         return destination
 
@@ -642,12 +646,14 @@ class Enemy extends Phaser.GameObjects.Sprite {
 
   exitHome (canContinue, x, y) {
     if (this.body.speed === 0) {
+      this.messageLog("Exiting home", this.currentDir)
       this.move(this.currentDir)
     }
     this.safetiles = [constants.SAFE_TILE]
-    if (!this.isHome()) {
+    if (!this.isHome(x, y)) {
       // (this.currentDir === directions.UP && y === directions.GHOST_HOUSE.EXIT.y - 1) {
       // If the sprite is out of the box let it move out
+      this.messageLog("Left home", this.currentDir, this.x, this.y)
       this.resetPosition(x, y)
       this.safetiles = [constants.SAFE_TILE, constants.DOT_TILE]
       this.mode = this.scene.getCurrentMode()
@@ -657,7 +663,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
       if (this.mode === this.RANDOM && this.prevMode !== this.AT_HOME) {
         this.mode = this.prevMode
       }
-      // this.messageLog(this.name + ' ' + this.mode)
+      this.messageLog(this.name + ' ' + this.mode)
     }
   }
 
@@ -681,11 +687,11 @@ class Enemy extends Phaser.GameObjects.Sprite {
     return result
   }
 
-  isHome () {
-    return !(this.x < levelData.GHOST_HOUSE.MIN.x * constants.TileSize ||
-      this.x > levelData.GHOST_HOUSE.MAX.x * constants.TileSize ||
-      this.y < levelData.GHOST_HOUSE.MIN.y * constants.TileSize ||
-      this.y > levelData.GHOST_HOUSE.MAX.y * constants.TileSize)
+  isHome (x, y) {
+    return !(x < levelData.GHOST_HOUSE.MIN.x * constants.TileSize ||
+      x > levelData.GHOST_HOUSE.MAX.x * constants.TileSize ||
+      y < levelData.GHOST_HOUSE.MIN.y * constants.TileSize ||
+      y > levelData.GHOST_HOUSE.MAX.y * constants.TileSize)
   }
 
   scatter () {
@@ -702,7 +708,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
     if (this.mode !== this.RETURNING_HOME && this.mode !== this.AT_HOME) {
       this.isAttacking = true
       this.alreadyTriggered = false
-      // this.messageLog('this is current attacking in this direction ', this.currentDir)
+      this.messageLog('this is current attacking in this direction ', this.currentDir)
       if (this.mode !== this.AT_HOME && this.mode !== this.EXIT_HOME) {
         this.currentDir = this.opposites[this.currentDir]
       }
@@ -713,6 +719,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
     this.isFrightened = true
     if (this.mode !== this.EXIT_HOME && this.mode !== this.RETURNING_HOME &&
       this.mode !== this.AT_HOME) {
+      this.messageLog("am frightened")
       this.prevMode = this.mode
       this.mode = this.RANDOM
       this.isAttacking = false

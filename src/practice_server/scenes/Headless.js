@@ -308,12 +308,6 @@ class Headless extends Phaser.Scene {
     this.changeModeTimer = this.time.now + this.TIME_MODES[this.currentMode].time
   }
 
-  checkMoves (direction) {
-    if (this.scuttle.lives >= 0) {
-      this.scuttle.gestureControl(direction)
-    }
-  }
-
   setupCollidersForPlayer (player) {
     // this.messageLog('using new method')
     this.physicsFactory.setupPhysicsForPlayer(player, this.enemies.children, this.specialFood.children)

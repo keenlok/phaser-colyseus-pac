@@ -31,14 +31,12 @@ class Enemies extends Phaser.GameObjects.Group {
   attack () {
     this.children.iterate(child => {
       child.attack()
-      child.messageLog("attack")
     })
   }
 
   scatter () {
     this.children.iterate(child => {
       child.scatter()
-      child.messageLog("scatter")
     })
   }
 
@@ -51,7 +49,6 @@ class Enemies extends Phaser.GameObjects.Group {
       child.returnToNormal()
       child.setTint()
       child.setAlpha()
-      child.messageLog("return to normal")
     })
   }
 
@@ -110,15 +107,4 @@ class Enemies extends Phaser.GameObjects.Group {
 }
 
 export default Enemies
-
-export function getEnemies(scene) {
-  return new Promise((resolve, reject) => {
-    let enemies = new Enemies(scene)
-    if (typeof enemies.enemy !== "undefined" && typeof enemies.enemy1 !== "undefined"
-      && typeof enemies.enemy2 !== "undefined" && typeof enemies.enemy3 !== "undefined") {
-      console.log("Resolved")
-      resolve(enemies)
-    }
-  })
-}
 

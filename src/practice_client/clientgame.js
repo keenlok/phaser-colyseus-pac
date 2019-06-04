@@ -30,14 +30,14 @@ class ClientGame extends MainGame {
     })
     room.listen('enemies/:id/:attribute', ({path, operation, value}) => {
       let objToUpdate = this.enemieslist[path.id]
-      if (objToUpdate.mode !== objToUpdate.AT_HOME || objToUpdate.mode !== objToUpdate.EXIT_HOME) {
+      // if (objToUpdate.mode !== objToUpdate.AT_HOME || objToUpdate.mode !== objToUpdate.EXIT_HOME) {
         // if (path.attribute === 'x' || path.attribute === 'y') {
           // if (!Math.Fuzzy.Equal(objToUpdate[path.attribute], value, TileSize)) {
             console.log("What is received for enemy", operation, path.id, path.attribute, value)
             objToUpdate[path.attribute] = value
           // }
         // }
-      }
+      // }
     })
     room.onMessage.add((message) => {
       if (message === 'start') {
