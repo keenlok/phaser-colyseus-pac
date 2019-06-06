@@ -177,8 +177,10 @@ class Scuttle extends Phaser.GameObjects.Sprite {
 
     if (direction ===  directions.LEFT || direction ===  directions.RIGHT) {
       this.body.setVelocityX(speed)
+      this.body.setVelocityY(0)
     } else {
       this.body.setVelocityY(speed)
+      this.body.setVelocityX(0)
     }
 
     this.setAngle(0)

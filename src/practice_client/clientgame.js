@@ -50,9 +50,7 @@ class ClientGame extends MainGame {
           // console.log("What is received for enemy", operation, id, attribute, value)
           enemy[attribute] = value
         } else if (attribute === 'currDir') {
-          // if (id === 'hermittype2') {
-          //   console.log("What is received for enemy", operation, id, attribute, value)
-          // }
+          // console.log("What is received for enemy", operation, id, attribute, value)
           enemy.move(value)
         }
       // }

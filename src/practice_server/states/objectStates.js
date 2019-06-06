@@ -29,7 +29,7 @@ class PlayerState {
   }
 
   init(player) {
-    console.log(player.x, player.y)
+    // console.log(player.x, player.y)
     this.x =        player.x
     this.y =        player.y
     this.currDir =  player.currentDir
@@ -38,6 +38,17 @@ class PlayerState {
     this.isPowUp =  player.isPowerUp
     this.lives =    player.lives
   }
+}
+
+class World {
+  constructor() {
+    this.score = 0
+    this.player = null
+    this.enemies = null
+    this.currentTimeMode = 0
+    this.isPaused = false
+  }
+
 }
 
 export class State {
