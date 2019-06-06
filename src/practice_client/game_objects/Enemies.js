@@ -29,11 +29,11 @@ class Enemies extends Phaser.GameObjects.Group {
   }
 
   attack () {
-    this.children.iterate(child => child.attack())
+  //   this.children.iterate(child => child.attack())
   }
-
+  //
   scatter () {
-    this.children.iterate(child => child.scatter())
+  //   this.children.iterate(child => child.scatter())
   }
 
   becomeScared () {

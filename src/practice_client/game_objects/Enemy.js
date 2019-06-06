@@ -203,7 +203,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
   returnToNormal () {
     this.isFrightened = false
     if (this.mode !== this.RETURNING_HOME) {
-      if (this.currentDir === constants.LEFT || this.currentDir === constants.UP) {
+      if (this.currentDir === directions.LEFT || this.currentDir === directions.UP) {
         this.play(this.name + '_left')
       } else {
         this.play(this.name + '_right')
@@ -656,10 +656,10 @@ class Enemy extends Phaser.GameObjects.Sprite {
     // this is to check if it can turn
     let convertedPoint = constants.convertToPixels(point.x, point.y)
     // Do  not turn if object is not in grid
-    if (constants.isInGrid(convertedPoint.x, this.x, convertedPoint.y, this.y, constants.THRESHOLD)) {
-      this.directions = constants.updateDirections(this.scene, point.x, point.y)
-      this.moveAccordingToMode(convertedPoint, point.x, point.y, time)
-    }
+    // if (constants.isInGrid(convertedPoint.x, this.x, convertedPoint.y, this.y, constants.THRESHOLD)) {
+      // this.directions = constants.updateDirections(this.scene, point.x, point.y)
+      // this.moveAccordingToMode(convertedPoint, point.x, point.y, time)
+    // }
     this.isNear()
     // this.checkAnimFrame()
   }
