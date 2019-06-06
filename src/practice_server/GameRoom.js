@@ -33,6 +33,7 @@ export class GameRoom extends Room {
       self.game = game
       self.scene = game.scene.scenes[0]
       self.state.updateEnemies(self.scene.enemies.getChildren())
+      self.state.updatePlayer(self.clientid, self.scene.scuttle)
       if (!self.isGameSet)  {
         // self.state.setPlayer(self.scene.scuttle)
         GameRoom.messageLog("Game is Set")
@@ -46,6 +47,8 @@ export class GameRoom extends Room {
 
   onJoin (client, options) {
     GameRoom.messageLog("New client join", client.id)
+    // TODO: Make this less dependent
+    this.clientid = client.id
     // this.game_server.getScuttle()
     this.state.setPlayer(client.id)
   }
@@ -55,7 +58,9 @@ export class GameRoom extends Room {
   }
 
   onMessage (client, data) {
-
+    // console.log("From who", client.sessionId)
+    // console.log("What is received", data)
+    this.scene.scuttle.storeDirectionToMove(data.move)
   }
 
   update () {

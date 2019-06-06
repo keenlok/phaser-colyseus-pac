@@ -1,5 +1,5 @@
 import MainGame from "./scenes/MainGame"
-import {TileSize} from '../shared/config/constants'
+import {directions} from '../shared/config/constants'
 
 import {Client} from "colyseus.js"
 import {Math} from 'phaser'
@@ -23,11 +23,25 @@ class ClientGame extends MainGame {
     console.log("Joined room", room)
     this.room = room
 
-    room.listen('players/:id', ({path: {id}, operation, value}) => {
-      if (operation === "add") {
-        //TODO: Create new character
-        console.log("client joins room")
+    room.onJoin.add(() => {
+      //TODO: Create new character
+
+      console.log("client joins room")
+    })
+
+    room.listen('players/:id/:attribute', ({path: {attribute, id}, operation, value}) => {
+      if (operation === "replace" || operation === "remove") {
+        console.log(`Player ${id}:`, attribute, value)
+        this.scuttle[attribute] = value
       }
+
+      //Deprecated: add ==> onJoin
+      // if (operation === "add") {
+      //   //TODO: Create new character
+      //   console.log("client joins room")
+      // } else {
+      //   console.log("paths", path)
+      // }
     })
     room.listen('enemies/:id/:attribute', ({path: {attribute, id}, operation, value}) => {
       let enemy = this.enemieslist[id]
@@ -50,6 +64,20 @@ class ClientGame extends MainGame {
         this.scene.resume()
       }
     })
+  }
+
+  update() {
+    let cursors = this.cursors
+    let room = this.room
+    if (cursors.LEFT.isDown || cursors.A.isDown) {
+      room.send({move: directions.LEFT})
+    } else if (cursors.RIGHT.isDown || cursors.D.isDown) {
+      room.send({move: directions.RIGHT})
+    } else if (cursors.UP.isDown || cursors.W.isDown) {
+      room.send({move: directions.UP})
+    } else if (cursors.DOWN.isDown || cursors.S.isDown) {
+      room.send({move: directions.DOWN})
+    }
   }
 }
 

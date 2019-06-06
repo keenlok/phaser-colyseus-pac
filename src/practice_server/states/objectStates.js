@@ -13,6 +13,7 @@ class EnemyState {
 class PlayerState {
   constructor(player) {
     if (typeof player === 'undefined') {
+      console.log("Did it come here")
       player = {
         x:        0,
         y:        0,
@@ -28,6 +29,7 @@ class PlayerState {
   }
 
   init(player) {
+    console.log(player.x, player.y)
     this.x =        player.x
     this.y =        player.y
     this.currDir =  player.currentDir
@@ -63,7 +65,9 @@ export class State {
     this.players[id] = new PlayerState(player)
   }
 
-  update() {
+  updatePlayer(id, player) {
+    // console.log("Update player")
+    this.players[id] = new PlayerState(player)
 
   }
 }
