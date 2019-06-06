@@ -1,6 +1,6 @@
 import { Room,  FossilDeltaSerializer, serialize} from 'colyseus'
-import { gameServer } from '../practice_server/Server'
 import { messageLog, DEBUG } from '../shared/config/constants'
+import { State } from "./states/objectStates"
 
 export class GameRoom extends Room {
   constructor () {
@@ -11,20 +11,18 @@ export class GameRoom extends Room {
 
   onInit (options) {
     GameRoom.messageLog('Create New room')
-    this.createNewGame()
-    this.setState({
-      players: {},
-      enemies: {}
-    })
+    this.game_server = GameRoom.createNewGame(options.server)
+    this.setUpdateGame()
+    this.setState(new State())
+    // console.log("What is this scene", this.getScene())
     this.setSimulationInterval((deltaTime) => this.update(deltaTime));
 
   }
 
-  createNewGame() {
-    let game_server = new gameServer()
+  static createNewGame(server) {
+    let game_server = new server()
     game_server.setupAuthoritativeServer()
-    this.game_server = game_server
-    this.setUpdateGame()
+    return game_server
   }
 
   setUpdateGame () {
@@ -34,63 +32,22 @@ export class GameRoom extends Room {
     gamePromise.then((game) => {
       self.game = game
       self.scene = game.scene.scenes[0]
-      // GameRoom.messageLog(game)
-      // console.log(game.scene.scenes[0].enemy, game.scene.scenes[0].group)
-      // self.state.game = game
-      self.setEnemyStates(self.scene.enemies.getChildren())
+      self.state.updateEnemies(self.scene.enemies.getChildren())
       if (!self.isGameSet)  {
-        // self.setPlayerState(self.scene.scuttle)
+        // self.state.setPlayer(self.scene.scuttle)
         GameRoom.messageLog("Game is Set")
         self.broadcast('start')
         self.isGameSet = !self.isGameSet
       }
+    }, (err) => {
+      console.log("What is the", err)
     })
   }
 
-  setEnemyStates (enemies) {
-    if (typeof enemies === "undefined") {
-      return
-    }
-    // GameRoom.messageLog("Setting/Updating enemy states")
-    enemies.then((children) => {
-      children.iterate(enemy => {
-        // GameRoom.messageLog(enemy.name, enemy.type, enemy.x, enemy.y)
-        this.state.enemies[enemy.name + enemy.type] = {
-          x:            enemy.x,
-          y:            enemy.y,
-          mode:         enemy.mode,
-          isFrightened: enemy.isFrightened,
-          isDead:       enemy.isDead,
-          dest:         enemy.ghostDestination,
-          currDir:      enemy.currentDir
-        }
-      })
-    })
-  }
-
-  setPlayerState (id, player) {
-    if (typeof player === "undefined") {
-      if (typeof this.scene === "undefined") {
-        return
-      } else {
-        player = this.scene.scuttle
-      }
-    }
-    this.state.players[this.scene.scuttle.name+id] = {
-      x:        player.x,
-      y:        player.y,
-      currDir:  player.currentDir,
-      alive:    player.alive,
-      isDead:   player.isDead,
-      isPowUp:  player.isPowerUp,
-      lives:    player.lives
-    }
-
-  }
-
-  onJoin (client) {
+  onJoin (client, options) {
     GameRoom.messageLog("New client join", client.id)
-    this.setPlayerState(client.id)
+    // this.game_server.getScuttle()
+    this.state.setPlayer(client.id)
   }
 
   onLeave (client) {

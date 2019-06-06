@@ -7,6 +7,7 @@ const datauri = new Datauri()
 export class gameServer {
   constructor() {
     this.game = undefined
+    this.scene = undefined
     // this.jsdom1
   }
 
@@ -39,6 +40,7 @@ export class gameServer {
       let interval = setInterval(()=> {
         if (typeof self.game !== 'undefined') {
           let scene = self.game.scene.scenes[0]
+          self.scene = scene
           if (scene.group !== null) {
             if (scene.enemies !== {}) {
               clearInterval(interval)
@@ -46,7 +48,20 @@ export class gameServer {
             }
           }
         }
+      }, 1)
+    })
+  }
+
+  async getPlayer ( ) {
+    return new Promise((resolve, reject) => {
+      let self = this
+      let game = self.getGame()
+      game.then((game) => {
+
       })
+
+
+
     })
   }
 
@@ -63,7 +78,7 @@ const colyServer = new Server({
   server: server
 })
 
-colyServer.register("room", GameRoom)
+colyServer.register("room", GameRoom, { server: gameServer })
 
 // let game_server = new gameServer()
 // game_server.setupAuthoritativeServer()
