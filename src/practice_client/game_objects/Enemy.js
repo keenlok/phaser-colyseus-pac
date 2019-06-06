@@ -283,8 +283,10 @@ class Enemy extends Phaser.GameObjects.Sprite {
   }
 
   playRespectiveAnimation (direction, animType) {
+    let editedName = this.name + '_'
+    animType = this.getCurrentAnimType(editedName)
     let animKey
-    if (direction === constants.RIGHT || direction === constants.DOWN) {
+    if (direction === directions.RIGHT || direction === directions.DOWN) {
       if (this.mode === this.RETURNING_HOME) {
         animKey = animType
         this.flipX = false
