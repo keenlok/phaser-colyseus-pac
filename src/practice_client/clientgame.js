@@ -33,10 +33,13 @@ class ClientGame extends MainGame {
       let enemy = this.enemieslist[id]
       // if (objToUpdate.mode !== objToUpdate.AT_HOME || objToUpdate.mode !== objToUpdate.EXIT_HOME) {
         if (attribute === 'x' || attribute === 'y') {
-          console.log("What is received for enemy", operation, id, attribute, value)
+          // console.log("What is received for enemy", operation, id, attribute, value)
           enemy[attribute] = value
         } else if (attribute === 'currDir') {
-          enemy.playRespectiveAnimation(value)
+          if (id === 'hermittype2') {
+            console.log("What is received for enemy", operation, id, attribute, value)
+          }
+          enemy.move(value)
         }
       // }
     })

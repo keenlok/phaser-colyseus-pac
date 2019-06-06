@@ -242,7 +242,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
 
     this.flipX = false
 
-    if (this.currentDir === constants.NONE) {
+    if (this.currentDir === directions.NONE) {
       this.body.setVelocity(0, 0)
       return
     }
@@ -251,40 +251,42 @@ class Enemy extends Phaser.GameObjects.Sprite {
     this.playRespectiveAnimation(direction, animType)
 
     this.setAngle(0)
-    if (direction === constants.LEFT || direction === constants.RIGHT) {
+    if (direction === directions.LEFT || direction === directions.RIGHT) {
       this.body.setVelocityX(speed)
+      this.body.setVelocityY(0)
     } else {
       if (this.name === 'jelly') {
         this.setAngle(90)
       }
+      this.body.setVelocityX(0)
       this.body.setVelocityY(speed)
     }
   }
 
   getVelocity (direction) {
     let speed = this.enemySpeed
-    if (this.scene.getCurrentMode() === this.SCATTER) {
-      speed = this.enemyScatterSpeed
-    }
-    if (this.mode === this.RANDOM) {
-      speed = this.enemyFrightenedSpeed
-    } else if (this.mode === this.RETURNING_HOME) {
-      speed = this.cruiseElroySpeed
-    } else {
-      if (this.type === 'type1' && this.scene.numFoodEaten > (0.9 * levelData.numFood)) {
-        speed = this.cruiseElroySpeed
-        this.mode = this.CHASE
-      }
-    }
-    if (direction === constants.LEFT || direction === constants.UP) {
+    // if (this.scene.getCurrentMode() === this.SCATTER) {
+    //   speed = this.enemyScatterSpeed
+    // }
+    // if (this.mode === this.RANDOM) {
+    //   speed = this.enemyFrightenedSpeed
+    // } else if (this.mode === this.RETURNING_HOME) {
+    //   speed = this.cruiseElroySpeed
+    // } else {
+    //   if (this.type === 'type1' && this.scene.numFoodEaten > (0.9 * levelData.numFood)) {
+    //     speed = this.cruiseElroySpeed
+    //     this.mode = this.CHASE
+    //   }
+    // }
+    if (direction === directions.LEFT || direction === directions.UP) {
       speed = -speed
     }
     return speed
   }
 
   playRespectiveAnimation (direction, animType) {
-    let editedName = this.name + '_'
-    animType = this.getCurrentAnimType(editedName)
+    // let editedName = this.name + '_'
+    // animType = this.getCurrentAnimType(editedName)
     let animKey
     if (direction === directions.RIGHT || direction === directions.DOWN) {
       if (this.mode === this.RETURNING_HOME) {
