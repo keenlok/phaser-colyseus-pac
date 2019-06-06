@@ -337,8 +337,8 @@ class MainGame extends Phaser.Scene {
 
   // ------------------------------------ Methods for Players -------------------------------------//
   updatePlayer () {
-    this.scuttle.control(this.cursors)
-    this.followScuttle(this.scuttle)
+    // this.scuttle.control(this.cursors)
+    // this.followScuttle(this.scuttle)
     if (this.scuttle.body.speed > 0) {
       this.soundManager.playScuttleSFX(this.time.now)
     }

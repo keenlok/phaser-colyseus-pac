@@ -32,16 +32,16 @@ class ClientGame extends MainGame {
     room.listen('players/:id/:attribute', ({path: {attribute, id}, operation, value}) => {
       if (operation === "replace" || operation === "remove") {
         console.log(`Player ${id}:`, attribute, value)
-        this.scuttle[attribute] = value
+        if (attribute === 'x' || attribute === 'y') {
+          this.scuttle[attribute] = value
+        }
+        if (attribute === 'currDir') {
+          this.scuttle.move(value)
+        }
+        // if (attribute === 'isPowUp') {
+        //
+        // }
       }
-
-      //Deprecated: add ==> onJoin
-      // if (operation === "add") {
-      //   //TODO: Create new character
-      //   console.log("client joins room")
-      // } else {
-      //   console.log("paths", path)
-      // }
     })
     room.listen('enemies/:id/:attribute', ({path: {attribute, id}, operation, value}) => {
       let enemy = this.enemieslist[id]
@@ -50,9 +50,9 @@ class ClientGame extends MainGame {
           // console.log("What is received for enemy", operation, id, attribute, value)
           enemy[attribute] = value
         } else if (attribute === 'currDir') {
-          if (id === 'hermittype2') {
-            console.log("What is received for enemy", operation, id, attribute, value)
-          }
+          // if (id === 'hermittype2') {
+          //   console.log("What is received for enemy", operation, id, attribute, value)
+          // }
           enemy.move(value)
         }
       // }

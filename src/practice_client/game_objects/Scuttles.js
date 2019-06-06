@@ -2,6 +2,8 @@ import Phaser from 'phaser'
 import * as constants from '../../shared/config/constants'
 import * as levelData from '../../shared/leveldata/NewLevelData'
 
+const directions = constants.directions
+
 class Scuttles extends Phaser.GameObjects.Group {
   constructor (scene) {
     super(scene)
@@ -22,15 +24,15 @@ class Scuttles extends Phaser.GameObjects.Group {
     this.scuttle = this.create(startPoint.x, startPoint.y, 'scuttle')
   }
 
-  getNumberOfScuttlesPlaying (playerList) {
-    console.log('player 191919919191919991919119991919991119191919')
-    for (let i = 0; i < playerList.length; i++) {
-      console.log('18181818181818181818818188181818 what is thy i here?')
-      console.log(playerList[i])
-      this.create((15 * constants.TileSize) + constants.CenterOffset,
-        (18 * constants.TileSize) + constants.CenterOffset, 'scuttle')
-    }
-  }
+  // getNumberOfScuttlesPlaying (playerList) {
+  //   console.log('player 191919919191919991919119991919991119191919')
+  //   for (let i = 0; i < playerList.length; i++) {
+  //     console.log('18181818181818181818818188181818 what is thy i here?')
+  //     console.log(playerList[i])
+  //     this.create((15 * constants.TileSize) + constants.CenterOffset,
+  //       (18 * constants.TileSize) + constants.CenterOffset, 'scuttle')
+  //   }
+  // }
 
   createSecondScuttle () {
     let point = levelData.PLAYER_START[1]
@@ -48,15 +50,15 @@ class Scuttle extends Phaser.GameObjects.Sprite {
     this.spawnPosition = { x: x, y: y }
     this.directions = [null, null, null, null, null]
     this.opposites = [
-      constants.NONE, constants.RIGHT, constants.LEFT,
-      constants.DOWN, constants.UP
+       directions.NONE,  directions.RIGHT,  directions.LEFT,
+       directions.DOWN,  directions.UP
     ]
 
     this.baseSpeed() // Threshold is basically the speed / game frame rate
     this.marker = new Phaser.Geom.Point()
     this.turnPoint = new Phaser.Geom.Point()
-    this.currentDir = constants.NONE
-    this.turning = constants.NONE
+    this.currentDir =  directions.NONE
+    this.turning =  directions.NONE
     this.lives = 3
     this.count = 1
     this.isDead = false
@@ -70,7 +72,7 @@ class Scuttle extends Phaser.GameObjects.Sprite {
     this.body.setSize(constants.TileSize, constants.TileSize)
     // constants.CenterOffset, constants.CenterOffset)
     console.log("scuttle's body ", this.body)
-    // this.move(constants.LEFT)
+    // this.move( directions.LEFT)
 
     this.createEgg(x, y)
     this.createAnimCompleteListeners()
@@ -148,7 +150,7 @@ class Scuttle extends Phaser.GameObjects.Sprite {
 
       this.move(this.turning)
 
-      this.turning = constants.NONE
+      this.turning =  directions.NONE
 
       return true
     }
@@ -166,11 +168,11 @@ class Scuttle extends Phaser.GameObjects.Sprite {
       }
     }
 
-    if (direction === constants.LEFT || direction === constants.UP) {
+    if (direction ===  directions.LEFT || direction ===  directions.UP) {
       speed = -speed
     }
 
-    if (direction === constants.LEFT || direction === constants.RIGHT) {
+    if (direction ===  directions.LEFT || direction ===  directions.RIGHT) {
       this.body.setVelocityX(speed)
     } else {
       this.body.setVelocityY(speed)
@@ -179,10 +181,10 @@ class Scuttle extends Phaser.GameObjects.Sprite {
     this.setAngle(0)
 
     this.play(animType, true)
-    if (direction === constants.LEFT) {
+    if (direction ===  directions.LEFT) {
       // this.play(animType + '_left')
       this.flipX = false
-    } else if (direction === constants.RIGHT) {
+    } else if (direction ===  directions.RIGHT) {
       // this.play(animType + '_right')
       this.flipX = true
     }
@@ -192,7 +194,7 @@ class Scuttle extends Phaser.GameObjects.Sprite {
 
   gestureControl (direction) {
     if (this.alive) {
-      if (this.count === 1 && (direction !== constants.NONE)) {
+      if (this.count === 1 && (direction !==  directions.NONE)) {
         // this.scene.ghosts.startMoving()
         this.move(direction)
         this.count++
@@ -207,21 +209,21 @@ class Scuttle extends Phaser.GameObjects.Sprite {
       if (this.count === 1 && (cursors.LEFT.isDown || cursors.RIGHT.isDown ||
         cursors.UP.isDown || cursors.DOWN.isDown)) {
         // this.scene.ghosts.startMoving()
-        this.move(constants.LEFT)
+        this.move( directions.LEFT)
         this.count++
       }
 
       if (cursors.LEFT.isDown || cursors.A.isDown) {
-        this.nextDirection = constants.LEFT
+        this.nextDirection =  directions.LEFT
         this.cheaperControls(this.nextDirection)
       } else if (cursors.RIGHT.isDown || cursors.D.isDown) {
-        this.nextDirection = constants.RIGHT
+        this.nextDirection =  directions.RIGHT
         this.cheaperControls(this.nextDirection)
       } else if (cursors.UP.isDown || cursors.W.isDown) {
-        this.nextDirection = constants.UP
+        this.nextDirection =  directions.UP
         this.cheaperControls(this.nextDirection)
       } else if (cursors.DOWN.isDown || cursors.S.isDown) {
-        this.nextDirection = constants.DOWN
+        this.nextDirection =  directions.DOWN
         this.cheaperControls(this.nextDirection)
       } else {
         this.continueMoving()
@@ -303,7 +305,7 @@ class Scuttle extends Phaser.GameObjects.Sprite {
   powerUp () {
     this.isPowerUp = true
     this.play('move_hunt')
-    if (this.currentDir === constants.LEFT || this.currentDir === constants.UP) {
+    if (this.currentDir ===  directions.LEFT || this.currentDir ===  directions.UP) {
       this.flipX = false
     } else {
       this.flipX = true
@@ -316,10 +318,10 @@ class Scuttle extends Phaser.GameObjects.Sprite {
   }
 
   cheaperControls (direction) {
-    if (!this.scene.alreadyStarted && (direction === constants.LEFT ||
-      direction === constants.RIGHT || direction === constants.UP ||
-      direction === constants.DOWN)) {
-      this.move(constants.LEFT)
+    if (!this.scene.alreadyStarted && (direction ===  directions.LEFT ||
+      direction ===  directions.RIGHT || direction ===  directions.UP ||
+      direction ===  directions.DOWN)) {
+      this.move( directions.LEFT)
       this.scene.alreadyStarted = true
     }
 
@@ -329,7 +331,7 @@ class Scuttle extends Phaser.GameObjects.Sprite {
 
     this.cheaperCheckKeys(direction)
 
-    if (this.turning !== constants.NONE) {
+    if (this.turning !==  directions.NONE) {
       this.turn()
     }
 
@@ -337,20 +339,20 @@ class Scuttle extends Phaser.GameObjects.Sprite {
   }
 
   cheaperCheckKeys (direction) {
-    if (direction === constants.LEFT && this.currentDir !== constants.LEFT) {
+    if (direction ===  directions.LEFT && this.currentDir !==  directions.LEFT) {
       // console.log('left')
-      this.checkDirection(constants.LEFT)
-    } else if (direction === constants.RIGHT && this.currentDir !== constants.RIGHT) {
+      this.checkDirection( directions.LEFT)
+    } else if (direction ===  directions.RIGHT && this.currentDir !==  directions.RIGHT) {
       // console.log('right')
-      this.checkDirection(constants.RIGHT)
-    } else if (direction === constants.DOWN && this.currentDir !== constants.DOWN) {
+      this.checkDirection( directions.RIGHT)
+    } else if (direction ===  directions.DOWN && this.currentDir !==  directions.DOWN) {
       // console.log('down')
-      this.checkDirection(constants.DOWN)
-    } else if (direction === constants.UP && this.currentDir !== constants.UP) {
+      this.checkDirection( directions.DOWN)
+    } else if (direction ===  directions.UP && this.currentDir !==  directions.UP) {
       // console.log('up')
-      this.checkDirection(constants.UP)
+      this.checkDirection( directions.UP)
     } else {
-      this.turning = constants.NONE
+      this.turning =  directions.NONE
     }
   }
 
@@ -360,7 +362,7 @@ class Scuttle extends Phaser.GameObjects.Sprite {
 
     // This isDead flag is to prevent multiple calls(?) for the code below
     if (!this.isDead) {
-      this.nextDirection = constants.NONE
+      this.nextDirection =  directions.NONE
       // this.scene.physics.pause()
       this.alive = false
       this.isDead = true
@@ -400,8 +402,8 @@ class Scuttle extends Phaser.GameObjects.Sprite {
       }
     })
     this.scene.soundManager.growAndPopSfx.play()
-    this.currentDir = constants.RIGHT
-    this.nextDirection = constants.NONE
+    this.currentDir =  directions.RIGHT
+    this.nextDirection =  directions.NONE
     this.SPEED = 150
     this.body.setVelocity(0, 0)
     this.setAngle(0)
