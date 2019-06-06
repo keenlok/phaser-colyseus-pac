@@ -24,13 +24,13 @@ class Scuttles extends Phaser.GameObjects.Group {
     this.scuttle = this.create(startPoint.x, startPoint.y, 'scuttle')
   }
 
-  getNumberOfScuttlesPlaying (playerList) {
-    for (let i = 0; i < playerList.length; i++) {
-      console.log(playerList[i])
-      this.create((15 * constants.TileSize) + constants.CenterOffset,
-        (18 * constants.TileSize) + constants.CenterOffset, 'scuttle')
-    }
-  }
+  // getNumberOfScuttlesPlaying (playerList) {
+  //   for (let i = 0; i < playerList.length; i++) {
+  //     console.log(playerList[i])
+  //     this.create((15 * constants.TileSize) + constants.CenterOffset,
+  //       (18 * constants.TileSize) + constants.CenterOffset, 'scuttle')
+  //   }
+  // }
 
   createSecondScuttle () {
     let point = levelData.PLAYER_START[1]
@@ -345,7 +345,7 @@ class Scuttle extends Phaser.GameObjects.Sprite {
       }
     })
     // this.scene.soundManager.growAndPopSfx.play()
-    this.currentDir =  directions.RIGHT
+    this.currentDir =  directions.NONE
     this.nextDirection =  directions.NONE
     this.SPEED = 150
     this.body.setVelocity(0, 0)

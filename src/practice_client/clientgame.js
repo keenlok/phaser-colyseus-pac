@@ -31,11 +31,11 @@ class ClientGame extends MainGame {
 
     room.listen('players/:id/:attribute', ({path: {attribute, id}, operation, value}) => {
       if (operation === "replace" || operation === "remove") {
-        console.log(`Player ${id}:`, attribute, value)
         if (attribute === 'x' || attribute === 'y') {
           this.scuttle[attribute] = value
         }
         if (attribute === 'currDir') {
+          console.log(`Player ${id}:`, attribute, value)
           this.scuttle.move(value)
         }
         // if (attribute === 'isPowUp') {
