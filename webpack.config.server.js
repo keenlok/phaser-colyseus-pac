@@ -6,7 +6,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin')
 module.exports = {
   watch: true,
   entry: {
-    server: './src/practice_server/Server.js',
+    server: './src/server/Server.js',
   },
   output: {
     path: path.resolve(__dirname, 'dist/server'),

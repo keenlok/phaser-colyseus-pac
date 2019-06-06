@@ -6,11 +6,11 @@
   "scripts": {
     "build-headless": "webpack --config webpack.config.headless.js",
     "build-server": "webpack --config webpack.config.server.js",
-    "build-client": "webpack --config webpack.config.clientfront.js",
-    "start": "nodemon run src/practice_client/app.js",
+    "build-client": "webpack --config webpack.config.client.js",
+    "start": "nodemon run src/client/app.js",
     "headless-server": "nodemon run dist/server/server.js",
     "dev-server": "NODE_ENV=development nodemon dist/server/server.js",
-    "dev-client": "NODE_ENV=development nodemon src/practice_client/app.js"
+    "dev-client": "NODE_ENV=development nodemon src/client/app.js"
   },
   "author": "",
   "license": "ISC",
