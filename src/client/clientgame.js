@@ -84,6 +84,7 @@ class ClientGame extends MainGame {
         if (message === 'start') {
           console.log('start!')
           this.scene.resume()
+
         } else if (message === 'hunt') {
           console.log("Room: ", "Change game to hunt")
           this.changeToHuntMode(this.scuttle)
@@ -96,6 +97,7 @@ class ClientGame extends MainGame {
           this.enemieslist[id].dies()
         } else if (message.startsWith("enemy_exit")) {
           let id = message.substr(11)
+          console.log("Enemy exit! received")
           this.enemieslist[id].delayedSpawn()
         } else if (message.startsWith("eat_player")) {
           //TODO: CHANGE WHEN MULTIPLAYER ALLOWED.

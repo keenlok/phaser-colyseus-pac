@@ -40,7 +40,9 @@ export class PracticeRoom extends Room {
         // self.state.setPlayer(self.scene.scuttle)
         PracticeRoom.messageLog("Game is Set")
         self.broadcast('start')
+        console.log("Resume!")
         self.isGameSet = !self.isGameSet
+        self.scene.scene.resume()
       }
     }, (err) => {
       console.log("What is the", err)
@@ -85,6 +87,11 @@ export class PracticeRoom extends Room {
   }
 
   async setPlayer(id) {
+
+
+  }
+
+  async getGame() {
 
   }
 

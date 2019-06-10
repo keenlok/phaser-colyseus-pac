@@ -287,15 +287,15 @@ class MainGame extends Phaser.Scene {
     return false
   }
 
-  // resetEnemies () {
-  //   this.enemies.resetEnemies()
-  //   this.sendExitOrder(this.enemies.enemy3)
-  //   this.sendExitOrder(this.enemies.enemy)
-  //   this.currentMode = 0
-  //   this.isPinkOut = false
-  //   this.isBlueOut = false
-  //   this.isOrangeOut = false
-  // }
+  resetEnemies () {
+    // this.enemies.resetEnemies()
+    this.enemies.enemy3.delayedSpawn()
+    this.enemies.enemy.delayedSpawn()
+    // this.currentMode = 0
+    // this.isPinkOut = false
+    // this.isBlueOut = false
+    // this.isOrangeOut = false
+  }
 
   // ------------------------------------ Methods for Players -------------------------------------//
   updatePlayer () {
@@ -394,9 +394,9 @@ class MainGame extends Phaser.Scene {
       player.respawn()
       this.isPaused = false
       // This makes sure that the enemies doesn't always respawn when scuttle dies
-      // if (player.lives === 3) {
-      //   this.resetEnemies()
-      // }
+      if (player.lives === 3) {
+        this.resetEnemies()
+      }
       this.isRepeating = false
       this.changeModeTimer = this.time.now + this.TIME_MODES[this.currentMode].time
       this.count = 0

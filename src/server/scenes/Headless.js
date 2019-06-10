@@ -121,6 +121,8 @@ class Headless extends Phaser.Scene {
     Headless.messageLog("Create: Setup Score Manager")
     this.scoreManager = new ScoreManager(this)
 
+    this.scene.pause()
+    console.log("Paused! Waiting to Resume")
     this.restartGame()
     this.enemyTarget = this.scuttle
   }
@@ -210,7 +212,9 @@ class Headless extends Phaser.Scene {
   }
 
   sendExitOrder (enemy) {
+    console.log("Waking enemy", enemy.name, enemy.type)
     this.events.emit('send_exit', enemy)
+
     // this.messageLog(enemy)
     // enemy.mode = this.enemy.EXIT_HOME
     enemy.egg.anims.delayedPlay(1, 'enemy_spawn')
@@ -321,9 +325,9 @@ class Headless extends Phaser.Scene {
       player.respawn()
       this.isPaused = false
       // This makes sure that the enemies doesn't always respawn when scuttle dies
-      // if (player.lives === 3) {
-      //   this.resetEnemies()
-      // }
+      if (player.lives === 3) {
+        this.resetEnemies()
+      }
       this.isRepeating = false
       this.changeModeTimer = this.time.now + this.TIME_MODES[this.currentMode].time
       this.count = 0

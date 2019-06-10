@@ -107,9 +107,9 @@ class Scuttle extends Phaser.GameObjects.Sprite {
         this.alive = true
         this.isDead = false
         this.setVisible(true)
-        if (this.lives === 3) {
-          this.scene.resetEnemies()
-        }
+        // if (this.lives === 3) {
+        //   this.scene.resetEnemies()
+        // }
       }
     }, [], this)
   }
