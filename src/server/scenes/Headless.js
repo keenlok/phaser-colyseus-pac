@@ -136,7 +136,7 @@ class Headless extends Phaser.Scene {
     }
     this.checkScoreToEndGame()
   }
-  /*  ----- End of Main methods -----   */
+  /**  ----- End of Main methods -----   */
 
 
   // ------------------------------------ Methods for Enemies -------------------------------------//
@@ -189,8 +189,8 @@ class Headless extends Phaser.Scene {
   }
 
   logCurrentMode () {
-    Headless.messageLog('new mode:', this.TIME_MODES[this.currentMode].mode, this.TIME_MODES[this.currentMode].time)
     this.events.emit('changeMode')
+    Headless.messageLog('new mode:', this.TIME_MODES[this.currentMode].mode, this.TIME_MODES[this.currentMode].time)
   }
 
   giveExitOrder (enemy) {
@@ -205,13 +205,15 @@ class Headless extends Phaser.Scene {
   }
 
   sendAttackOrder () {
+    this.events.emit('send_attack')
     this.enemies.attack()
   }
 
-  sendExitOrder (ghost) {
+  sendExitOrder (enemy) {
+    this.events.emit('send_exit', enemy)
     // this.messageLog(enemy)
     // enemy.mode = this.enemy.EXIT_HOME
-    ghost.egg.anims.delayedPlay(1, 'enemy_spawn')
+    enemy.egg.anims.delayedPlay(1, 'enemy_spawn')
   }
 
   sendScatterOrder () {
@@ -282,12 +284,14 @@ class Headless extends Phaser.Scene {
   }
 
   returnToNormal () {
+    this.events.emit('return_normal')
     this.enemies.returnToNormal()
     this.scuttle.returnToNormal()
     this.count = 0
   }
 
   changeToHuntMode (player) {
+    this.events.emit('change_to_hunt')
     // This should prevent the game from triggering hunt mode when the game is won
     if (!this.checkScoreToEndGame()) {
       this.enemies.becomeScared()
@@ -303,6 +307,7 @@ class Headless extends Phaser.Scene {
   }
 
   restartGame (args) {
+    this.events.emit('restartGame')
     let player
     // this.messageLog(args === this.scuttle)
     if (typeof args === 'undefined') {

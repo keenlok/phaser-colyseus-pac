@@ -49,7 +49,25 @@ export class GameRoom extends Room {
 
   createEventListeners(scene) {
     let self = this
-    scene.on()
+
+    scene.events.on('change_to_hunt', () => {
+      self.broadcast('hunt')
+    }, self)
+
+    scene.events.on('return_normal', () => {
+      self.broadcast('normal')
+    }, self)
+
+    scene.events.on('restartGame', () => {
+      self.broadcast('restart')
+    }, self)
+    scene.events.on('changeMode', () => {
+      self.broadcast('changeMode')
+    }, self)
+
+    scene.events.on('send_exit', () => {
+      self.broadcast('enemy_exit')
+    }, self)
   }
 
   onJoin (client, options) {

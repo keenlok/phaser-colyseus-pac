@@ -81,6 +81,8 @@ class ClientGame extends MainGame {
       if (message === 'start') {
         console.log('start!')
         this.scene.resume()
+      } else {
+        console.log("Room: ", message)
       }
     })
   }
