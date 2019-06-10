@@ -751,8 +751,8 @@ class Enemy extends Phaser.GameObjects.Sprite {
         num = this.scene.scuttle.eatAudio
         this.dies()
       } else if (!player.isDead) {
-        this.scene.events.emit('eat_player', player)
         num = this.eatAudio
+        this.scene.events.emit('eat_player', player, num)
         this.scene.scuttleDies(num, player)
       }
     }

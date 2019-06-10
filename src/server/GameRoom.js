@@ -70,8 +70,8 @@ export class GameRoom extends Room {
       self.broadcast('enemy_exit'+'_'+enemy.name+enemy.type)
     }, self)
 
-    scene.events.on('eat_ player', (player) => {
-      self.broadcast('eat_ player')
+    scene.events.on('eat_player', (player, num) => {
+      self.broadcast('eat_player'+'_'+num+'_')
     }, self)
 
     scene.events.on('eat_enemy', (enemy) => {
