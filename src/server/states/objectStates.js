@@ -7,6 +7,8 @@ class EnemyState {
     this.isDead =       enemy.isDead
     this.destination =  enemy.ghostDestination
     this.currDir =      enemy.currentDir
+    this.velocityX =    enemy.body.velocity.x
+    this.velocityY =    enemy.body.velocity.y
   }
 }
 

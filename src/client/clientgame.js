@@ -52,6 +52,12 @@ class ClientGame extends MainGame {
         } else if (attribute === 'currDir') {
           // console.log("What is received for enemy", operation, id, attribute, value)
           enemy.move(value)
+        } else if (attribute === 'velocityX' ) {
+          // console.log('Changing velocity X', value)
+          enemy.body.setVelocityX(value)
+        } else if (attribute === 'velocityY') {
+          // console.log('Changing velocity Y', value)
+          enemy.body.setVelocityY(value)
         }
       // }
     })

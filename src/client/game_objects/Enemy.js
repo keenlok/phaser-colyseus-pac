@@ -237,10 +237,10 @@ class Enemy extends Phaser.GameObjects.Sprite {
 
   /** This movement function is quite similar to scuttle */
   move (direction) {
-    if (direction === directions.NONE) {
-      this.body.setVelocity(0, 0)
-      return
-    }
+    // if (direction === directions.NONE) {
+    //   this.body.setVelocity(0, 0)
+    //   return
+    // }
     this.previousDir = this.currentDir
     this.currentDir = direction
     let editedName = this.name + '_'
@@ -249,47 +249,47 @@ class Enemy extends Phaser.GameObjects.Sprite {
 
     this.flipX = false
 
-    if (this.currentDir === directions.NONE) {
-      this.body.setVelocity(0, 0)
-      return
-    }
+    // if (this.currentDir === directions.NONE) {
+    //   this.body.setVelocity(0, 0)
+    //   return
+    // }
 
-    let speed = this.getVelocity(direction)
+    // let speed = this.getVelocity(direction)
     this.playRespectiveAnimation(direction, animType)
 
     this.setAngle(0)
     if (direction === directions.LEFT || direction === directions.RIGHT) {
-      this.body.setVelocityX(speed)
-      this.body.setVelocityY(0)
+      // this.body.setVelocityX(speed)
+      // this.body.setVelocityY(0)
     } else {
       if (this.name === 'jelly') {
         this.setAngle(90)
       }
-      this.body.setVelocityX(0)
-      this.body.setVelocityY(speed)
+      // this.body.setVelocityX(0)
+      // this.body.setVelocityY(speed)
     }
   }
 
-  getVelocity (direction) {
-    let speed = this.enemySpeed
-    // if (this.scene.getCurrentMode() === this.SCATTER) {
-    //   speed = this.enemyScatterSpeed
-    // }
-    // if (this.mode === this.RANDOM) {
-    //   speed = this.enemyFrightenedSpeed
-    // } else if (this.mode === this.RETURNING_HOME) {
-    //   speed = this.cruiseElroySpeed
-    // } else {
-    //   if (this.type === 'type1' && this.scene.numFoodEaten > (0.9 * levelData.numFood)) {
-    //     speed = this.cruiseElroySpeed
-    //     this.mode = this.CHASE
-    //   }
-    // }
-    if (direction === directions.LEFT || direction === directions.UP) {
-      speed = -speed
-    }
-    return speed
-  }
+  // getVelocity (direction) {
+  //   let speed = this.enemySpeed
+  //   // if (this.scene.getCurrentMode() === this.SCATTER) {
+  //   //   speed = this.enemyScatterSpeed
+  //   // }
+  //   // if (this.mode === this.RANDOM) {
+  //   //   speed = this.enemyFrightenedSpeed
+  //   // } else if (this.mode === this.RETURNING_HOME) {
+  //   //   speed = this.cruiseElroySpeed
+  //   // } else {
+  //   //   if (this.type === 'type1' && this.scene.numFoodEaten > (0.9 * levelData.numFood)) {
+  //   //     speed = this.cruiseElroySpeed
+  //   //     this.mode = this.CHASE
+  //   //   }
+  //   // }
+  //   if (direction === directions.LEFT || direction === directions.UP) {
+  //     speed = -speed
+  //   }
+  //   return speed
+  // }
 
   playRespectiveAnimation (direction, animType) {
     // let editedName = this.name + '_'
@@ -347,99 +347,99 @@ class Enemy extends Phaser.GameObjects.Sprite {
     return new Phaser.Geom.Point(this.initX, this.initY)
   }
 
-  getDestination () {
-    let homePosition = this.getHomePosition()
-    let destination
-    let targetInformation = this.scene.getTargetInformationForEnemy()
-    // this.messageLog("What is target Information,", targetInformation)
-    switch (this.type) {
-      case 'type1':
-        destination = targetInformation.position
-        if (typeof destination === 'undefined') {
-          console.warn('Destination is undefined')
-        }
-        return destination
-      case 'type2':
-        destination = targetInformation.position
-        let direction = targetInformation.direction
-        let offsetX = 0
-        let offsetY = 0
-        if (direction ===  directions.LEFT || direction ===  directions.RIGHT) {
-          offsetX = (direction ===  directions.RIGHT) ? -4 : 4
-        }
-        if (direction ===  directions.UP || direction ===  directions.DOWN) {
-          offsetY = (direction === constants.LEFT) ? -4 : 4
-        }
-        offsetX *= constants.TileSize
-        offsetY *= constants.TileSize
-        destination.x -= offsetX
-        destination.y -= offsetY
-
-        // Makes sure destination still within the map
-        if (destination.x < constants.CenterOffset) {
-          destination.x = constants.CenterOffset
-        }
-        if (destination.x > constants.WIDTH - constants.CenterOffset) {
-          destination.x = constants.WIDTH - constants.CenterOffset
-        }
-        if (destination.y < constants.CenterOffset) {
-          destination.y = constants.CenterOffset
-        }
-        if (destination.y > constants.WIDTH - constants.CenterOffset) {
-          destination.y = constants.WIDTH - constants.CenterOffset
-        }
-
-        if (typeof destination === 'undefined') {
-          console.warn('Enemy cannot get destination', this)
-        }
-
-        if (this.mode === this.RETURNING_HOME) {
-          // this.messageLog('will i reache here 10011001010100101010101010100101010101')
-          destination = homePosition
-        }
-        return destination
-
-      case 'type3':
-        let pacmanPostion = targetInformation.position
-        let sharkPosition = this.scene.enemy.getCurrentPosition()
-        let diff = {
-          x: pacmanPostion.x - sharkPosition.x,
-          y: pacmanPostion.y - sharkPosition.y
-        }
-        destination = new Phaser.Geom.Point(pacmanPostion.x + diff.x, pacmanPostion.y + diff.y)
-        if (typeof destination === 'undefined') {
-          // this.messageLog(destination, pacmanPostion, diff)
-          // this.messageLog('oh no its a enemy')
-        }
-        // Makes sure destination still within the map
-        if (destination.x < constants.CenterOffset) {
-          destination.x = constants.CenterOffset
-        }
-        if (destination.x > constants.WIDTH - constants.CenterOffset) {
-          destination.x = constants.WIDTH - constants.CenterOffset
-        }
-        if (destination.y < constants.CenterOffset) {
-          destination.y = constants.CenterOffset
-        }
-        if (destination.y > constants.WIDTH - constants.CenterOffset) {
-          destination.y = constants.WIDTH - constants.CenterOffset
-        }
-        return destination
-
-      case 'type4':
-        destination = targetInformation.position
-        let bluePosition = this.getCurrentPosition()
-        if (this.getDistance(bluePosition, destination) > 8 * constants.TileSize) {
-          if (typeof destination === 'undefined') {
-            this.messageLog('undefined?', destination, bluePosition)
-          }
-          return destination
-        } else { return new Phaser.Geom.Point(this.scatterDestination.x, this.scatterDestination.y) }
-
-      default:
-        return new Phaser.Geom.Point(this.scatterDestination.x, this.scatterDestination.y)
-    }
-  }
+  // getDestination () {
+  //   let homePosition = this.getHomePosition()
+  //   let destination
+  //   let targetInformation = this.scene.getTargetInformationForEnemy()
+  //   // this.messageLog("What is target Information,", targetInformation)
+  //   switch (this.type) {
+  //     case 'type1':
+  //       destination = targetInformation.position
+  //       if (typeof destination === 'undefined') {
+  //         console.warn('Destination is undefined')
+  //       }
+  //       return destination
+  //     case 'type2':
+  //       destination = targetInformation.position
+  //       let direction = targetInformation.direction
+  //       let offsetX = 0
+  //       let offsetY = 0
+  //       if (direction ===  directions.LEFT || direction ===  directions.RIGHT) {
+  //         offsetX = (direction ===  directions.RIGHT) ? -4 : 4
+  //       }
+  //       if (direction ===  directions.UP || direction ===  directions.DOWN) {
+  //         offsetY = (direction === constants.LEFT) ? -4 : 4
+  //       }
+  //       offsetX *= constants.TileSize
+  //       offsetY *= constants.TileSize
+  //       destination.x -= offsetX
+  //       destination.y -= offsetY
+  //
+  //       // Makes sure destination still within the map
+  //       if (destination.x < constants.CenterOffset) {
+  //         destination.x = constants.CenterOffset
+  //       }
+  //       if (destination.x > constants.WIDTH - constants.CenterOffset) {
+  //         destination.x = constants.WIDTH - constants.CenterOffset
+  //       }
+  //       if (destination.y < constants.CenterOffset) {
+  //         destination.y = constants.CenterOffset
+  //       }
+  //       if (destination.y > constants.WIDTH - constants.CenterOffset) {
+  //         destination.y = constants.WIDTH - constants.CenterOffset
+  //       }
+  //
+  //       if (typeof destination === 'undefined') {
+  //         console.warn('Enemy cannot get destination', this)
+  //       }
+  //
+  //       if (this.mode === this.RETURNING_HOME) {
+  //         // this.messageLog('will i reache here 10011001010100101010101010100101010101')
+  //         destination = homePosition
+  //       }
+  //       return destination
+  //
+  //     case 'type3':
+  //       let pacmanPostion = targetInformation.position
+  //       let sharkPosition = this.scene.enemy.getCurrentPosition()
+  //       let diff = {
+  //         x: pacmanPostion.x - sharkPosition.x,
+  //         y: pacmanPostion.y - sharkPosition.y
+  //       }
+  //       destination = new Phaser.Geom.Point(pacmanPostion.x + diff.x, pacmanPostion.y + diff.y)
+  //       if (typeof destination === 'undefined') {
+  //         // this.messageLog(destination, pacmanPostion, diff)
+  //         // this.messageLog('oh no its a enemy')
+  //       }
+  //       // Makes sure destination still within the map
+  //       if (destination.x < constants.CenterOffset) {
+  //         destination.x = constants.CenterOffset
+  //       }
+  //       if (destination.x > constants.WIDTH - constants.CenterOffset) {
+  //         destination.x = constants.WIDTH - constants.CenterOffset
+  //       }
+  //       if (destination.y < constants.CenterOffset) {
+  //         destination.y = constants.CenterOffset
+  //       }
+  //       if (destination.y > constants.WIDTH - constants.CenterOffset) {
+  //         destination.y = constants.WIDTH - constants.CenterOffset
+  //       }
+  //       return destination
+  //
+  //     case 'type4':
+  //       destination = targetInformation.position
+  //       let bluePosition = this.getCurrentPosition()
+  //       if (this.getDistance(bluePosition, destination) > 8 * constants.TileSize) {
+  //         if (typeof destination === 'undefined') {
+  //           this.messageLog('undefined?', destination, bluePosition)
+  //         }
+  //         return destination
+  //       } else { return new Phaser.Geom.Point(this.scatterDestination.x, this.scatterDestination.y) }
+  //
+  //     default:
+  //       return new Phaser.Geom.Point(this.scatterDestination.x, this.scatterDestination.y)
+  //   }
+  // }
 
   // checkWarp () {
   //   this.x = Phaser.Math.Wrap(this.x, 0, levelData.WIDTH)
@@ -495,160 +495,160 @@ class Enemy extends Phaser.GameObjects.Sprite {
   //   }
   // }
 
-  havePossibleExits (possibleExits) {
-    let canContinue
-    if (this.directions[this.currentDir] === null && this.directions[this.opposites[this.currentDir]] !== null) {
-      canContinue = true
-      possibleExits.push(this.currentDir)
-    } else {
-      canContinue = this.checkSafetile(this.directions[this.currentDir])
-      for (let i = 1; i < this.directions.length; i++) {
-        if (this.checkSafetile(this.directions[i]) && i !== this.opposites[this.currentDir]) {
-          possibleExits.push(i)
-        }
-      }
-    }
-    return canContinue
-  }
+  // havePossibleExits (possibleExits) {
+  //   let canContinue
+  //   if (this.directions[this.currentDir] === null && this.directions[this.opposites[this.currentDir]] !== null) {
+  //     canContinue = true
+  //     possibleExits.push(this.currentDir)
+  //   } else {
+  //     canContinue = this.checkSafetile(this.directions[this.currentDir])
+  //     for (let i = 1; i < this.directions.length; i++) {
+  //       if (this.checkSafetile(this.directions[i]) && i !== this.opposites[this.currentDir]) {
+  //         possibleExits.push(i)
+  //       }
+  //     }
+  //   }
+  //   return canContinue
+  // }
+  //
+  // returnHome (time, possibleExits, x, y) {
+  //   if (this.turnTimer < time) {
+  //     this.ghostDestination = new Phaser.Geom.Point(this.initX, this.initY)
+  //     this.moveToTarget(possibleExits, x, y)
+  //     this.turnTimer = time + this.RETURNING_COOLDOWN
+  //   }
+  //   if (constants.isInGrid(this.x, this.initX, this.y, this.initY, constants.THRESHOLD)) {
+  //     this.scene.soundManager.enemySpiritSfx.stop()
+  //     this.body.setVelocity(0)
+  //     this.resetPosition(x, y)
+  //     this.returnToNormal()
+  //     this.safetiles = [constants.SAFE_TILE]
+  //     // this.messageLog(this)
+  //     this.scene.giveExitOrder(this)
+  //   }
+  // }
+  //
+  // moveToDestination (time, possibleExits, x, y) {
+  //   if (this.turnTimer < time) {
+  //     if (typeof this.ghostDestination === 'undefined') {
+  //       this.messageLog('error 404 impending in updateEnemyMode: ', this.ghostDestination)
+  //     }
+  //     this.moveToTarget(possibleExits, x, y)
+  //     this.turnTimer = time + this.TURNING_COOLDOWN
+  //     if (x === 3 && y === 10) {
+  //       // this.messageLog(this.currentDir)
+  //       // this.messageLog('why am i stuck here,', possibleExits)
+  //     }
+  //   }
+  // }
+  //
+  // moveRandomly (possibleExits, x, y) {
+  //   let select
+  //   if (typeof this.rng === 'undefined') {
+  //     select = Math.floor(Math.random() * possibleExits.length)
+  //   } else {
+  //     select = Math.floor(this.rng() * possibleExits.length)
+  //   }
+  //   let newDirection = possibleExits[select]
+  //
+  //   this.checkAbilityToTurn(newDirection, x, y)
+  //   this.move(newDirection)
+  // }
 
-  returnHome (time, possibleExits, x, y) {
-    if (this.turnTimer < time) {
-      this.ghostDestination = new Phaser.Geom.Point(this.initX, this.initY)
-      this.moveToTarget(possibleExits, x, y)
-      this.turnTimer = time + this.RETURNING_COOLDOWN
-    }
-    if (constants.isInGrid(this.x, this.initX, this.y, this.initY, constants.THRESHOLD)) {
-      this.scene.soundManager.enemySpiritSfx.stop()
-      this.body.setVelocity(0)
-      this.resetPosition(x, y)
-      this.returnToNormal()
-      this.safetiles = [constants.SAFE_TILE]
-      // this.messageLog(this)
-      this.scene.giveExitOrder(this)
-    }
-  }
-
-  moveToDestination (time, possibleExits, x, y) {
-    if (this.turnTimer < time) {
-      if (typeof this.ghostDestination === 'undefined') {
-        this.messageLog('error 404 impending in updateEnemyMode: ', this.ghostDestination)
-      }
-      this.moveToTarget(possibleExits, x, y)
-      this.turnTimer = time + this.TURNING_COOLDOWN
-      if (x === 3 && y === 10) {
-        // this.messageLog(this.currentDir)
-        // this.messageLog('why am i stuck here,', possibleExits)
-      }
-    }
-  }
-
-  moveRandomly (possibleExits, x, y) {
-    let select
-    if (typeof this.rng === 'undefined') {
-      select = Math.floor(Math.random() * possibleExits.length)
-    } else {
-      select = Math.floor(this.rng() * possibleExits.length)
-    }
-    let newDirection = possibleExits[select]
-
-    this.checkAbilityToTurn(newDirection, x, y)
-    this.move(newDirection)
-  }
-
-  checkAbilityToTurn (newDirection, x, y) {
-    if (newDirection !== this.currentDir) {
-      this.scene.events.emit('changeDir', newDirection, this.type)
-      // Sets the position of the enemy in place before letting it move
-      this.resetPosition(x, y)
-    }
-  }
-
-  moveToTarget (possibleExits, x, y) {
-    let distanceToTarget = 999999
-    let direction, decision, bestDecision
-
-    for (let i = 0; i < possibleExits.length; i++) {
-      direction = possibleExits[i]
-      switch (direction) {
-        case directions.LEFT:
-          decision = constants.convertToPixels((x - 1), y)
-          break
-        case directions.RIGHT:
-          decision = constants.convertToPixels((x + 1), y)
-          break
-        case directions.UP:
-          decision = constants.convertToPixels(x, y - 1)
-          break
-        case directions.DOWN:
-          decision = constants.convertToPixels(x, y + 1)
-          break
-        default:
-          break
-      }
-      if (typeof this.ghostDestination === 'undefined' || typeof decision === 'undefined') {
-        this.messageLog('error impending in moveToTarget: ', this.ghostDestination, decision)
-      }
-      let dist = this.getDistance(this.ghostDestination, decision)
-      if (dist < distanceToTarget) {
-        bestDecision = direction
-        distanceToTarget = dist
-      }
-    }
-
-    // If the enemy is currently on the special tile, don't allow it to go up,
-    // according to the article
-    if (bestDecision === constants.UP) {
-      // if (this.name === 'shark') {
-      //   this.messageLog(x, y)
-      //   this.messageLog(this.scene.isSpecialTile({x: x, y: y}))
-      // } //TODO: For Debug remove if needed
-      if (this.scene.isSpecialTile({x: x, y: y}) && bestDecision === constants.UP) {
-        bestDecision = this.currentDir
-        let canContinue = this.checkSafetile(this.directions[this.currentDir])
-        if (!canContinue) {
-          // this.messageLog('do something')
-        }
-      }
-    }
-    // only resets the position if it is going to turn
-    this.checkAbilityToTurn(bestDecision, x, y)
-    this.move(bestDecision)
-  }
-
-  atHome (canContinue, x, y) {
-    this.setVisible(false)
-    this.body.setVelocity(0)
-    // if (!canContinue) {
-    //   // this.messageLog('what is this ', x, y)
-    //   this.resetPosition(x, y)
-    //   // this is to make the enemy bounce around in their humble abode
-    //   let dir = (this.currentDir === constants.UP) ? constants.DOWN : constants.UP
-    //   this.move(dir)
-    // } else {
-    //   this.move(this.currentDir)
-    // }
-  }
-
-  exitHome (canContinue, x, y) {
-    if (this.body.speed === 0) {
-      this.move(this.currentDir)
-    }
-    this.safetiles = [constants.SAFE_TILE]
-    if (!this.isHome()) {
-      // (this.currentDir === constants.UP && y === constants.GHOST_HOUSE.EXIT.y - 1) {
-      // If the sprite is out of the box let it move out
-      this.resetPosition(x, y)
-      this.safetiles = [constants.SAFE_TILE, constants.DOT_TILE]
-      this.mode = this.scene.getCurrentMode()
-      if (this.mode === this.CHASE) {
-        this.isAttacking = true
-      }
-      if (this.mode === this.RANDOM && this.prevMode !== this.AT_HOME) {
-        this.mode = this.prevMode
-      }
-      // this.messageLog(this.name + ' ' + this.mode)
-    }
-  }
+  // checkAbilityToTurn (newDirection, x, y) {
+  //   if (newDirection !== this.currentDir) {
+  //     this.scene.events.emit('changeDir', newDirection, this.type)
+  //     // Sets the position of the enemy in place before letting it move
+  //     this.resetPosition(x, y)
+  //   }
+  // }
+  //
+  // moveToTarget (possibleExits, x, y) {
+  //   let distanceToTarget = 999999
+  //   let direction, decision, bestDecision
+  //
+  //   for (let i = 0; i < possibleExits.length; i++) {
+  //     direction = possibleExits[i]
+  //     switch (direction) {
+  //       case directions.LEFT:
+  //         decision = constants.convertToPixels((x - 1), y)
+  //         break
+  //       case directions.RIGHT:
+  //         decision = constants.convertToPixels((x + 1), y)
+  //         break
+  //       case directions.UP:
+  //         decision = constants.convertToPixels(x, y - 1)
+  //         break
+  //       case directions.DOWN:
+  //         decision = constants.convertToPixels(x, y + 1)
+  //         break
+  //       default:
+  //         break
+  //     }
+  //     if (typeof this.ghostDestination === 'undefined' || typeof decision === 'undefined') {
+  //       this.messageLog('error impending in moveToTarget: ', this.ghostDestination, decision)
+  //     }
+  //     let dist = this.getDistance(this.ghostDestination, decision)
+  //     if (dist < distanceToTarget) {
+  //       bestDecision = direction
+  //       distanceToTarget = dist
+  //     }
+  //   }
+  //
+  //   // If the enemy is currently on the special tile, don't allow it to go up,
+  //   // according to the article
+  //   if (bestDecision === constants.UP) {
+  //     // if (this.name === 'shark') {
+  //     //   this.messageLog(x, y)
+  //     //   this.messageLog(this.scene.isSpecialTile({x: x, y: y}))
+  //     // } //TODO: For Debug remove if needed
+  //     if (this.scene.isSpecialTile({x: x, y: y}) && bestDecision === constants.UP) {
+  //       bestDecision = this.currentDir
+  //       let canContinue = this.checkSafetile(this.directions[this.currentDir])
+  //       if (!canContinue) {
+  //         // this.messageLog('do something')
+  //       }
+  //     }
+  //   }
+  //   // only resets the position if it is going to turn
+  //   this.checkAbilityToTurn(bestDecision, x, y)
+  //   this.move(bestDecision)
+  // }
+  //
+  // atHome (canContinue, x, y) {
+  //   this.setVisible(false)
+  //   this.body.setVelocity(0)
+  //   // if (!canContinue) {
+  //   //   // this.messageLog('what is this ', x, y)
+  //   //   this.resetPosition(x, y)
+  //   //   // this is to make the enemy bounce around in their humble abode
+  //   //   let dir = (this.currentDir === constants.UP) ? constants.DOWN : constants.UP
+  //   //   this.move(dir)
+  //   // } else {
+  //   //   this.move(this.currentDir)
+  //   // }
+  // }
+  //
+  // exitHome (canContinue, x, y) {
+  //   if (this.body.speed === 0) {
+  //     this.move(this.currentDir)
+  //   }
+  //   this.safetiles = [constants.SAFE_TILE]
+  //   if (!this.isHome()) {
+  //     // (this.currentDir === constants.UP && y === constants.GHOST_HOUSE.EXIT.y - 1) {
+  //     // If the sprite is out of the box let it move out
+  //     this.resetPosition(x, y)
+  //     this.safetiles = [constants.SAFE_TILE, constants.DOT_TILE]
+  //     this.mode = this.scene.getCurrentMode()
+  //     if (this.mode === this.CHASE) {
+  //       this.isAttacking = true
+  //     }
+  //     if (this.mode === this.RANDOM && this.prevMode !== this.AT_HOME) {
+  //       this.mode = this.prevMode
+  //     }
+  //     // this.messageLog(this.name + ' ' + this.mode)
+  //   }
+  // }
 
   update (time) {
     // let point = constants.convertToGridUnits(this.x, this.y)
@@ -673,32 +673,32 @@ class Enemy extends Phaser.GameObjects.Sprite {
     // this.checkAnimFrame()
   }
 
-  checkSafetile (tile) {
-    if (tile !== null && typeof tile !== 'undefined') {
-      for (let i = 0; i < this.safetiles.length; i++) {
-        if (tile.index === this.safetiles[i]) {
-          return true
-        }
-      }
-    }
-  }
-
-  getDistance (a, b) {
-    if (typeof a === 'undefined' || typeof b === 'undefined') {
-      this.messageLog('error impending', a, b)
-    }
-    let c = Math.pow((a.x - b.x), 2)
-    let d = Math.pow((a.y - b.y), 2)
-    let result = Math.sqrt(c + d)
-    return result
-  }
-
-  isHome () {
-    return !(this.x < levelData.GHOST_HOUSE.MIN.x * constants.TileSize ||
-      this.x > levelData.GHOST_HOUSE.MAX.x * constants.TileSize ||
-      this.y < levelData.GHOST_HOUSE.MIN.y * constants.TileSize ||
-      this.y > levelData.GHOST_HOUSE.MAX.y * constants.TileSize)
-  }
+  // checkSafetile (tile) {
+  //   if (tile !== null && typeof tile !== 'undefined') {
+  //     for (let i = 0; i < this.safetiles.length; i++) {
+  //       if (tile.index === this.safetiles[i]) {
+  //         return true
+  //       }
+  //     }
+  //   }
+  // }
+  //
+  // getDistance (a, b) {
+  //   if (typeof a === 'undefined' || typeof b === 'undefined') {
+  //     this.messageLog('error impending', a, b)
+  //   }
+  //   let c = Math.pow((a.x - b.x), 2)
+  //   let d = Math.pow((a.y - b.y), 2)
+  //   let result = Math.sqrt(c + d)
+  //   return result
+  // }
+  //
+  // isHome () {
+  //   return !(this.x < levelData.GHOST_HOUSE.MIN.x * constants.TileSize ||
+  //     this.x > levelData.GHOST_HOUSE.MAX.x * constants.TileSize ||
+  //     this.y < levelData.GHOST_HOUSE.MIN.y * constants.TileSize ||
+  //     this.y > levelData.GHOST_HOUSE.MAX.y * constants.TileSize)
+  // }
 
   scatter () {
     if (this.mode !== this.RETURNING_HOME && this.mode !== this.AT_HOME) {
