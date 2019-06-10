@@ -1,17 +1,22 @@
 ## TODO:   
 ### Enemy: 
-- [x] Sync Position
+- [ ] Spawn
+- [ ] Delete unnecessary methods on client 
 - [x] Sync Movement
+    - [x] Position
+    - [x] Speed
+    - [x] Direction
 - [ ] Sync Animation/Modes
-- [x] Sync Speed
 - [ ] Sync Death
 
 ### Player:
-- [ ] Delete unnecessary methods on client 
-- [x] Sync position
-- [x] Sync movement
+- [ ] Spawn
+- [x] Delete unnecessary methods on client (mostly) 
+- [x] Sync Movement
+    - [x] Position
+    - [x] Speed
+    - [x] Direction
 - [ ] Sync Animation/Modes
-- [x] Sync Speed
 - [ ] Sync Death
 - [ ] Lives
 
