@@ -87,9 +87,9 @@ class Scuttle extends Phaser.GameObjects.Sprite {
         this.alive = true
         this.isDead = false
         this.setVisible(true)
-        if (this.lives === 3) {
-          this.scene.resetEnemies()
-        }
+        // if (this.lives === 3) {
+        //   this.scene.resetEnemies()
+        // }
       }
     }, [], this)
   }
@@ -194,6 +194,7 @@ class Scuttle extends Phaser.GameObjects.Sprite {
 
     // This isDead flag is to prevent multiple calls(?) for the code below
     if (!this.isDead) {
+      console.log("This is called! SCUTTLE DIES")
       this.nextDirection =  directions.NONE
       // this.scene.physics.pause()
       this.alive = false

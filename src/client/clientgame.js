@@ -44,10 +44,11 @@ class ClientGame extends MainGame {
             this.scuttle[attribute] = value
           }
           if (attribute === 'isDead' || attribute === 'alive') {
+            this.scuttle[attribute] = value
             // ie it died
-            if (!value) {
-              this.scuttle.dies()
-            }
+            // if (!value) {
+            //   this.scuttle.dies()
+            // }
           }
         }
       })
@@ -96,8 +97,15 @@ class ClientGame extends MainGame {
         } else if (message.startsWith("enemy_exit")) {
           let id = message.substr(11)
           this.enemieslist[id].delayedSpawn()
+        } else if (message.startsWith("eat_player")) {
+          //TODO: CHANGE WHEN MULTIPLAYER ALLOWED.
+          let numplayer = message.substr(11)
+          let args = numplayer.split('_')
+          let num = args[0]
+          console.log("This audio num is to be played", num)
+          this.scuttleDies(num, this.scuttle)
         } else {
-          console.log("Room: ", message)
+          console.log("Room: Received:", message)
         }
       })
     })

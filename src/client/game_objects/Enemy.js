@@ -368,6 +368,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
 
   crabEatCrab (player) {
     let num
+    this.messageLog("This method is called")
     if (!this.isDead) {
       this.messageLog('Met this player', player.name)
       // if (this.scene.isHuntMode && player.isPowerUp) {

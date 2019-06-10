@@ -287,15 +287,15 @@ class MainGame extends Phaser.Scene {
     return false
   }
 
-  resetEnemies () {
-    this.enemies.resetEnemies()
-    this.sendExitOrder(this.enemies.enemy3)
-    this.sendExitOrder(this.enemies.enemy)
-    this.currentMode = 0
-    this.isPinkOut = false
-    this.isBlueOut = false
-    this.isOrangeOut = false
-  }
+  // resetEnemies () {
+  //   this.enemies.resetEnemies()
+  //   this.sendExitOrder(this.enemies.enemy3)
+  //   this.sendExitOrder(this.enemies.enemy)
+  //   this.currentMode = 0
+  //   this.isPinkOut = false
+  //   this.isBlueOut = false
+  //   this.isOrangeOut = false
+  // }
 
   // ------------------------------------ Methods for Players -------------------------------------//
   updatePlayer () {
@@ -385,7 +385,7 @@ class MainGame extends Phaser.Scene {
     } else {
       player = args
     }
-    console.log('Player has died, Restarting Game', player)
+    console.log('Restarting Game', player)
     this.liveText.setText(this.liveString + player.lives)
     this.currentMode = 0
     this.isHuntMode = false
