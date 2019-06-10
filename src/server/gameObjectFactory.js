@@ -9,11 +9,13 @@ function createEnemies(scene) {
   scene.enemies = new Enemies(scene)
   let promisedEnemies = scene.enemies.getChildren()
 
-  scene.enemieslist = {}
+  let enemieslist = {}
   promisedEnemies.then((children) => {
     children.iterate(enemy => {
-      scene.enemieslist[enemy.name + enemy.type] = enemy
+      enemieslist[enemy.name + enemy.type] = enemy
     })
+    scene.enemieslist = enemieslist
+    scene.enemy = scene.enemies.enemy
     GameObjFactory.messageLog('Enemies created')
   })
 }
