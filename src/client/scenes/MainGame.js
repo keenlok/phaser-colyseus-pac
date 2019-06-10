@@ -526,14 +526,36 @@ class MainGame extends Phaser.Scene {
     }
   }
 
-  increaseScore (key, player) {
-    // If the score to increase is not for first player do not increase it.
-    if ((this.isFirstPlayer && this.scuttle !== player) ||
-      (!this.isFirstPlayer && this.player2 !== player)) {
-      return
-    }
-    let increase = this.scoreManager.increaseScore(key)
-    this.score += increase
+  // increaseScore (key, player) {
+  //   // If the score to increase is not for first player do not increase it.
+  //   if ((this.isFirstPlayer && this.scuttle !== player) ||
+  //     (!this.isFirstPlayer && this.player2 !== player)) {
+  //     return
+  //   }
+  //   let increase = this.scoreManager.increaseScore(key)
+  //   this.score += increase
+  //   this.scoreText.setText(this.scoreString + this.score)
+  //   let text = this.add.text(this.scoreText.width + 5 + this.scoreText.x,
+  //     this.scoreText.y, '+' + increase)
+  //     .setScrollFactor(0)
+  //     .setFontFamily('Fredoka One')
+  //     .setFontSize(25)
+  //   this.tweens.add({
+  //     targets: text,
+  //     duration: 1000,
+  //     y: '-=50',
+  //     alpha: 0,
+  //     delay: 200,
+  //     onComplete: (tweens, targets) => {
+  //       targets[0].destroy()
+  //     }
+  //   })
+  //   return increase
+  // }
+
+  increaseScore (newScore) {
+    let increase = newScore - this.score
+    this.score = newScore
     this.scoreText.setText(this.scoreString + this.score)
     let text = this.add.text(this.scoreText.width + 5 + this.scoreText.x,
       this.scoreText.y, '+' + increase)

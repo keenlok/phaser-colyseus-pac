@@ -29,6 +29,7 @@ class ClientGame extends MainGame {
       console.log("client joins room")
     })
 
+    //TODO: Allow multiple clients
     room.listen('players/:id/:attribute', ({path: {attribute, id}, operation, value}) => {
       if (operation === "replace" || operation === "remove") {
         if (attribute === 'x' || attribute === 'y') {
@@ -74,7 +75,11 @@ class ClientGame extends MainGame {
     })
 
     room.listen('world/:attribute', ({path: {attribute}, operation, value}) => {
-      console.log("What is received for world", operation, attribute, value)
+      if (attribute === 'score') {
+        this.increaseScore(value)
+      } else {
+        console.log("What is received for world", operation, attribute, value)
+      }
     })
 
     room.onMessage.add((message) => {
@@ -87,6 +92,12 @@ class ClientGame extends MainGame {
       } else if (message === 'normal') {
         console.log("Room: ", "Change game to normal")
         this.returnToNormal()
+      } else if (message.startsWith("eat_enemy")) {
+        let id = message.substr(10)
+        console.log("Enemy died", id)
+      } else if (message.startsWith("enemy_exit")) {
+        let id = message.substr(11)
+        this.enemieslist[id].egg.anims.delayedPlay(1, 'enemy_spawn')
       } else {
         console.log("Room: ", message)
       }

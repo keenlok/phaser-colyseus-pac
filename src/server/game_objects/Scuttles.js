@@ -283,16 +283,16 @@ class Scuttle extends Phaser.GameObjects.Sprite {
 
   cheaperCheckKeys (direction) {
     if (direction ===  directions.LEFT && this.currentDir !==  directions.LEFT) {
-      console.log('left')
+      // console.log('left')
       this.checkDirection( directions.LEFT)
     } else if (direction ===  directions.RIGHT && this.currentDir !==  directions.RIGHT) {
-      console.log('right')
+      // console.log('right')
       this.checkDirection( directions.RIGHT)
     } else if (direction ===  directions.DOWN && this.currentDir !==  directions.DOWN) {
-      console.log('down')
+      // console.log('down')
       this.checkDirection( directions.DOWN)
     } else if (direction ===  directions.UP && this.currentDir !==  directions.UP) {
-      console.log('up')
+      // console.log('up')
       this.checkDirection( directions.UP)
     } else {
       this.turning =  directions.NONE

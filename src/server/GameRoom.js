@@ -61,12 +61,21 @@ export class GameRoom extends Room {
     scene.events.on('restartGame', () => {
       self.broadcast('restart')
     }, self)
-    scene.events.on('changeMode', () => {
-      self.broadcast('changeMode')
+
+    // scene.events.on('changeMode', () => {
+    //   self.broadcast('changeMode')
+    // }, self)
+
+    scene.events.on('send_exit', (enemy) => {
+      self.broadcast('enemy_exit'+'_'+enemy.name+enemy.type)
     }, self)
 
-    scene.events.on('send_exit', () => {
-      self.broadcast('enemy_exit')
+    scene.events.on('eat_ player', (player) => {
+      self.broadcast('eat_ player')
+    }, self)
+
+    scene.events.on('eat_enemy', (enemy) => {
+      self.broadcast('eat_enemy'+'_'+enemy.name+enemy.type)
     }, self)
   }
 
