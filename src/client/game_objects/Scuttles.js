@@ -105,10 +105,10 @@ class Scuttle extends Phaser.GameObjects.Sprite {
   }
 
   move (direction) {
-    if (direction === directions.NONE) {
-      this.body.setVelocity(0, 0)
-      return
-    }
+    // if (direction === directions.NONE) {
+    //   this.body.setVelocity(0, 0)
+    //   return
+    // }
     let speed = this.speed
     let animType = 'move'
     if (this.isPowerUp) {
@@ -118,17 +118,17 @@ class Scuttle extends Phaser.GameObjects.Sprite {
       }
     }
 
-    if (direction ===  directions.LEFT || direction ===  directions.UP) {
-      speed = -speed
-    }
-
-    if (direction ===  directions.LEFT || direction ===  directions.RIGHT) {
-      this.body.setVelocityX(speed)
-      this.body.setVelocityY(0)
-    } else if (direction === directions.UP || direction === directions.DOWN) {
-      this.body.setVelocityY(speed)
-      this.body.setVelocityX(0)
-    }
+    // if (direction ===  directions.LEFT || direction ===  directions.UP) {
+    //   speed = -speed
+    // }
+    //
+    // if (direction ===  directions.LEFT || direction ===  directions.RIGHT) {
+    //   this.body.setVelocityX(speed)
+    //   this.body.setVelocityY(0)
+    // } else if (direction === directions.UP || direction === directions.DOWN) {
+    //   this.body.setVelocityY(speed)
+    //   this.body.setVelocityX(0)
+    // }
 
     this.setAngle(0)
 

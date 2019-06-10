@@ -33,14 +33,24 @@ class ClientGame extends MainGame {
       if (operation === "replace" || operation === "remove") {
         if (attribute === 'x' || attribute === 'y') {
           this.scuttle[attribute] = value
+        } else if (attribute === 'velocityX' ) {
+          this.scuttle.body.setVelocityX(value)
+        } else if (attribute === 'velocityY') {
+          this.scuttle.body.setVelocityY(value)
         }
         if (attribute === 'currDir') {
           console.log(`Player ${id}:`, attribute, value)
           this.scuttle.move(value)
         }
-        // if (attribute === 'isPowUp') {
-        //
-        // }
+        if (attribute === 'isPowUp') {
+          this.scuttle[attribute] = value
+        }
+        if (attribute === 'isDead' || attribute === 'alive') {
+          // ie it died
+          if (!value) {
+            this.scuttle.dies()
+          }
+        }
       }
     })
     room.listen('enemies/:id/:attribute', ({path: {attribute, id}, operation, value}) => {
@@ -64,7 +74,7 @@ class ClientGame extends MainGame {
     })
 
     room.listen('world/:attribute', ({path: {attribute}, operation, value}) => {
-
+      console.log("What is received for world", operation, attribute, value)
     })
 
     room.onMessage.add((message) => {

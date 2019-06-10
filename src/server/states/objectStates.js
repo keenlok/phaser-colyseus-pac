@@ -22,7 +22,13 @@ class PlayerState {
         alive:    false,
         isDead:   true,
         isPowUp:  false,
-        lives:    3
+        lives:    3,
+        body: {
+          velocity: {
+            x: 0,
+            y: 0
+          }
+        }
       }
     }
     this.init(player)
@@ -31,13 +37,15 @@ class PlayerState {
 
   init(player) {
     // console.log(player.x, player.y)
-    this.x =        player.x
-    this.y =        player.y
-    this.currDir =  player.currentDir
-    this.alive =    player.alive
-    this.isDead =   player.isDead
-    this.isPowUp =  player.isPowerUp
-    this.lives =    player.lives
+    this.x =          player.x
+    this.y =          player.y
+    this.currDir =    player.currentDir
+    this.alive =      player.alive
+    this.isDead =     player.isDead
+    this.isPowUp =    player.isPowerUp
+    this.lives =      player.lives
+    this.velocityX =  player.body.velocity.x
+    this.velocityY =  player.body.velocity.y
   }
 }
 
