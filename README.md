@@ -1,13 +1,13 @@
 ## TODO:   
 ### Enemy: 
-- [ ] Spawn
+- [x] Spawn
 - [ ] Delete unnecessary methods on client 
 - [x] Sync Movement
     - [x] Position
     - [x] Speed
     - [x] Direction
-- [ ] Sync Animation/Modes
-- [ ] Sync Death
+- [x] Sync Animation/Modes
+- [x] Sync Death
 
 ### Player:
 - [ ] Spawn
@@ -24,7 +24,7 @@
 ### World:
 - [ ] Points
 - [ ] Time mode for Enemy
-- [ ] World mode for Player and Enemy
+- [x] World mode for Player and Enemy
 - [ ] Game status:
      - [ ] Pause
      - [ ] Over
