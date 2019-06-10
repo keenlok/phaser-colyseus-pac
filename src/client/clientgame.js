@@ -2,7 +2,7 @@ import MainGame from "./scenes/MainGame"
 import {directions} from '../shared/config/constants'
 
 import {Client} from "colyseus.js"
-import {Math} from 'phaser'
+import Phaser from 'phaser'
 
 class ClientGame extends MainGame {
   constructor() {
@@ -25,38 +25,35 @@ class ClientGame extends MainGame {
 
     room.onJoin.add(() => {
       //TODO: Create new character
-
       console.log("client joins room")
-    })
-
-    //TODO: Allow multiple clients
-    room.listen('players/:id/:attribute', ({path: {attribute, id}, operation, value}) => {
-      if (operation === "replace" || operation === "remove") {
-        if (attribute === 'x' || attribute === 'y') {
-          this.scuttle[attribute] = value
-        } else if (attribute === 'velocityX' ) {
-          this.scuttle.body.setVelocityX(value)
-        } else if (attribute === 'velocityY') {
-          this.scuttle.body.setVelocityY(value)
-        }
-        if (attribute === 'currDir') {
-          console.log(`Player ${id}:`, attribute, value)
-          this.scuttle.move(value)
-        }
-        if (attribute === 'isPowUp') {
-          this.scuttle[attribute] = value
-        }
-        if (attribute === 'isDead' || attribute === 'alive') {
-          // ie it died
-          if (!value) {
-            this.scuttle.dies()
+      //TODO: Allow multiple clients
+      room.listen('players/:id/:attribute', ({path: {attribute, id}, operation, value}) => {
+        if (operation === "replace" || operation === "remove") {
+          if (attribute === 'x' || attribute === 'y') {
+            this.scuttle[attribute] = value
+          } else if (attribute === 'velocityX' ) {
+            this.scuttle.body.setVelocityX(value)
+          } else if (attribute === 'velocityY') {
+            this.scuttle.body.setVelocityY(value)
+          }
+          if (attribute === 'currDir') {
+            console.log(`Player ${id}:`, attribute, value)
+            this.scuttle.move(value)
+          }
+          if (attribute === 'isPowUp') {
+            this.scuttle[attribute] = value
+          }
+          if (attribute === 'isDead' || attribute === 'alive') {
+            // ie it died
+            if (!value) {
+              this.scuttle.dies()
+            }
           }
         }
-      }
-    })
-    room.listen('enemies/:id/:attribute', ({path: {attribute, id}, operation, value}) => {
-      let enemy = this.enemieslist[id]
-      // if (objToUpdate.mode !== objToUpdate.AT_HOME || objToUpdate.mode !== objToUpdate.EXIT_HOME) {
+      })
+      room.listen('enemies/:id/:attribute', ({path: {attribute, id}, operation, value}) => {
+        let enemy = this.enemieslist[id]
+        // if (objToUpdate.mode !== objToUpdate.AT_HOME || objToUpdate.mode !== objToUpdate.EXIT_HOME) {
         if (attribute === 'x' || attribute === 'y') {
           enemy[attribute] = value
         } else if (attribute === 'currDir') {
@@ -71,38 +68,40 @@ class ClientGame extends MainGame {
           console.log("What is received for enemy", operation, id, attribute, value)
           enemy[attribute] = value
         }
-      // }
+        // }
+      })
+
+      room.listen('world/:attribute', ({path: {attribute}, operation, value}) => {
+        if (attribute === 'score') {
+          this.increaseScore(value)
+        } else {
+          console.log("What is received for world", operation, attribute, value)
+        }
+      })
+
+      room.onMessage.add((message) => {
+        if (message === 'start') {
+          console.log('start!')
+          this.scene.resume()
+        } else if (message === 'hunt') {
+          console.log("Room: ", "Change game to hunt")
+          this.changeToHuntMode(this.scuttle)
+        } else if (message === 'normal') {
+          console.log("Room: ", "Change game to normal")
+          this.returnToNormal()
+        } else if (message.startsWith("eat_enemy")) {
+          let id = message.substr(10)
+          console.log("Enemy died", id)
+          this.enemieslist[id].dies()
+        } else if (message.startsWith("enemy_exit")) {
+          let id = message.substr(11)
+          this.enemieslist[id].delayedSpawn()
+        } else {
+          console.log("Room: ", message)
+        }
+      })
     })
 
-    room.listen('world/:attribute', ({path: {attribute}, operation, value}) => {
-      if (attribute === 'score') {
-        this.increaseScore(value)
-      } else {
-        console.log("What is received for world", operation, attribute, value)
-      }
-    })
-
-    room.onMessage.add((message) => {
-      if (message === 'start') {
-        console.log('start!')
-        this.scene.resume()
-      } else if (message === 'hunt') {
-        console.log("Room: ", "Change game to hunt")
-        this.changeToHuntMode(this.scuttle)
-      } else if (message === 'normal') {
-        console.log("Room: ", "Change game to normal")
-        this.returnToNormal()
-      } else if (message.startsWith("eat_enemy")) {
-        let id = message.substr(10)
-        console.log("Enemy died", id)
-        this.enemieslist[id].dies()
-      } else if (message.startsWith("enemy_exit")) {
-        let id = message.substr(11)
-        this.enemieslist[id].delayedSpawn()
-      } else {
-        console.log("Room: ", message)
-      }
-    })
   }
 
   update() {

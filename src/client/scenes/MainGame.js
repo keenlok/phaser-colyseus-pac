@@ -112,9 +112,6 @@ class MainGame extends Phaser.Scene {
 
     this.soundManager.playNormalBgm('loop', {delay: 0})
 
-    // For touch input
-    this.input.on('pointerup', this.endSwipe, this)
-
     if (constants.DEBUG) {
       // this.createDebug()
       GameObjectFactory.createMiniMap(this)
@@ -196,41 +193,6 @@ class MainGame extends Phaser.Scene {
     this.changeModeTimer = this.time.now + this.TIME_MODES[this.currentMode].time
   }
 
-  // TODO: Check if this moves player 1 if user is player 2 during multiplayer match
-  endSwipe (event) {
-    // Variables used for dragging in phaser
-    let swipeTime = event.upTime - event.downTime
-    let swipe = new Phaser.Geom.Point(event.upX - event.downX, event.upY - event.downY)
-    let swipeMagnitude = Phaser.Geom.Point.GetMagnitude(swipe)
-    let swipeNormal = new Phaser.Geom.Point(swipe.x / swipeMagnitude, swipe.y / swipeMagnitude)
-
-    if (swipeMagnitude > 20 && swipeTime < 1000 &&
-      (Math.abs(swipeNormal.x) > 0.8 || Math.abs(swipeNormal.y) > 0.8)) {
-      if (swipeNormal.x > 0.8) {
-        this.checkMoves(constants.RIGHT)
-        console.log('swiping right')
-      }
-      if (swipeNormal.x < -0.8) {
-        this.checkMoves(constants.LEFT)
-        console.log('swiping left')
-      }
-      if (swipeNormal.y > 0.8) {
-        this.checkMoves(constants.DOWN)
-        console.log('swiping down')
-      }
-      if (swipeNormal.y < -0.8) {
-        this.checkMoves(constants.UP)
-        console.log('swiping up')
-      }
-    }
-  }
-
-  checkMoves (direction) {
-    if (this.scuttle.lives >= 0) {
-      this.scuttle.gestureControl(direction)
-    }
-  }
-
   setupCollidersForPlayer (player) {
     // console.log('using new method')
     this.physicsFactory.setupPhysicsForPlayer(player, this.enemies.children, this.specialFood.children)
@@ -238,83 +200,83 @@ class MainGame extends Phaser.Scene {
 
   // ------------------------------------ Methods for Enemies -------------------------------------//
 
-  checkEnemiesBehaviour (time) {
-    if (!this.isPinkOut) {
-      // console.log('hello?')
-      // this.sendExitOrder(this.enemies.enemy)
-      // console.log(this.enemies.enemy3)
-      this.isPinkOut = true
-    }
-    // if (numFood - this.numFoodEaten < 300 && !this.isOrangeOut) {
-    if (this.numFoodEaten / levelData.numFood > 0.75 && !this.isOrangeOut) {
-      this.sendExitOrder(this.enemies.enemy2)
-      this.isOrangeOut = true
-    }
-    if (this.numFoodEaten > levelData.numFood / 3 && !this.isBlueOut) {
-      this.sendExitOrder(this.enemies.enemy1)
-      this.isBlueOut = true
-    }
-    if (!this.isRepeating || this.isHuntMode) {
-      if (this.isHuntMode && this.changeModeTimer <= time + 7000) {
-        this.enemies.transitionEnemiesToNormal(this.tileFlag)
-      }
-
-      if (this.changeModeTimer !== -1 && !this.isHuntMode && this.changeModeTimer < time) {
-        this.currentMode++
-        this.changeModeTimer = time + this.TIME_MODES[this.currentMode].time
-        if (this.TIME_MODES[this.currentMode].mode === 'chase') {
-          this.sendAttackOrder()
-        } else {
-          this.sendScatterOrder()
-        }
-        this.logCurrentMode()
-      }
-      if (this.isHuntMode && this.changeModeTimer < time) {
-        this.changeModeTimer = time + this.remainingTime
-        this.isHuntMode = false
-        this.returnToNormal()
-        if (this.TIME_MODES[this.currentMode].mode === 'chase') {
-          this.sendAttackOrder()
-        } else {
-          this.sendScatterOrder()
-        }
-        this.logCurrentMode()
-      }
-      if (this.TIME_MODES[this.currentMode].time === -1) {
-        this.isRepeating = true
-      }
-    }
-  }
+  // checkEnemiesBehaviour (time) {
+  //   if (!this.isPinkOut) {
+  //     // console.log('hello?')
+  //     // this.sendExitOrder(this.enemies.enemy)
+  //     // console.log(this.enemies.enemy3)
+  //     this.isPinkOut = true
+  //   }
+  //   // if (numFood - this.numFoodEaten < 300 && !this.isOrangeOut) {
+  //   if (this.numFoodEaten / levelData.numFood > 0.75 && !this.isOrangeOut) {
+  //     this.sendExitOrder(this.enemies.enemy2)
+  //     this.isOrangeOut = true
+  //   }
+  //   if (this.numFoodEaten > levelData.numFood / 3 && !this.isBlueOut) {
+  //     this.sendExitOrder(this.enemies.enemy1)
+  //     this.isBlueOut = true
+  //   }
+  //   if (!this.isRepeating || this.isHuntMode) {
+  //     if (this.isHuntMode && this.changeModeTimer <= time + 7000) {
+  //       this.enemies.transitionEnemiesToNormal(this.tileFlag)
+  //     }
+  //
+  //     if (this.changeModeTimer !== -1 && !this.isHuntMode && this.changeModeTimer < time) {
+  //       this.currentMode++
+  //       this.changeModeTimer = time + this.TIME_MODES[this.currentMode].time
+  //       if (this.TIME_MODES[this.currentMode].mode === 'chase') {
+  //         this.sendAttackOrder()
+  //       } else {
+  //         this.sendScatterOrder()
+  //       }
+  //       this.logCurrentMode()
+  //     }
+  //     if (this.isHuntMode && this.changeModeTimer < time) {
+  //       this.changeModeTimer = time + this.remainingTime
+  //       this.isHuntMode = false
+  //       this.returnToNormal()
+  //       if (this.TIME_MODES[this.currentMode].mode === 'chase') {
+  //         this.sendAttackOrder()
+  //       } else {
+  //         this.sendScatterOrder()
+  //       }
+  //       this.logCurrentMode()
+  //     }
+  //     if (this.TIME_MODES[this.currentMode].time === -1) {
+  //       this.isRepeating = true
+  //     }
+  //   }
+  // }
 
   logCurrentMode () {
     console.log('new mode:', this.TIME_MODES[this.currentMode].mode, this.TIME_MODES[this.currentMode].time)
     this.events.emit('changeMode')
   }
 
-  giveExitOrder (enemy) {
-    let remainingTime = this.changeModeTimer - this.time.now
-    // Delay enemy exit until the powerup mode is over
-    // console.log('did i send something', enemy)
-    this.time.delayedCall(remainingTime + (Math.random() * 3000), this.sendExitOrder, [enemy], this)
-  }
+  // giveExitOrder (enemy) {
+  //   let remainingTime = this.changeModeTimer - this.time.now
+  //   // Delay enemy exit until the powerup mode is over
+  //   // console.log('did i send something', enemy)
+  //   this.time.delayedCall(remainingTime + (Math.random() * 3000), this.sendExitOrder, [enemy], this)
+  // }
 
-  updateEnemies (time) {
-    this.enemies.update(time)
-  }
+  // updateEnemies (time) {
+  //   this.enemies.update(time)
+  // }
 
-  sendAttackOrder () {
-    this.enemies.attack()
-  }
+  // sendAttackOrder () {
+  //   this.enemies.attack()
+  // }
 
-  sendExitOrder (ghost) {
-    // console.log(enemy)
-    // enemy.mode = this.enemy.EXIT_HOME
-    ghost.egg.anims.delayedPlay(1, 'enemy_spawn')
-  }
+  // sendExitOrder (ghost) {
+  //   // console.log(enemy)
+  //   // enemy.mode = this.enemy.EXIT_HOME
+  //   ghost.egg.anims.delayedPlay(1, 'enemy_spawn')
+  // }
 
-  sendScatterOrder () {
-    this.enemies.scatter()
-  }
+  // sendScatterOrder () {
+  //   this.enemies.scatter()
+  // }
 
   isSpecialTile (tile) {
     for (let i = 0; i < this.SPECIAL_TILES.length; i++) {
