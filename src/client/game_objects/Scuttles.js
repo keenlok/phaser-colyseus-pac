@@ -7,15 +7,8 @@ const directions = constants.directions
 class Scuttles extends Phaser.GameObjects.Group {
   constructor (scene) {
     super(scene)
-    // Phaser.GameObjects.Group.call(this, scene)
     this.classType = Scuttle
     this.createScuttles()
-    // console.log(scene)
-    // console.log('player 191919919191919991919119991919991119191919')
-    // // console.log(game.scene.scenes.user.uid)
-    // console.log(scene.roomId)
-    //   // this.getIdFromFirestore()
-    // this.scuttle = this.getNumberOfScuttlesPlaying()
   }
 
   createScuttles () {
@@ -23,16 +16,6 @@ class Scuttles extends Phaser.GameObjects.Group {
     let startPoint = constants.convertToPixels(point.x, point.y)
     this.scuttle = this.create(startPoint.x, startPoint.y, 'scuttle')
   }
-
-  // getNumberOfScuttlesPlaying (playerList) {
-  //   console.log('player 191919919191919991919119991919991119191919')
-  //   for (let i = 0; i < playerList.length; i++) {
-  //     console.log('18181818181818181818818188181818 what is thy i here?')
-  //     console.log(playerList[i])
-  //     this.create((15 * constants.TileSize) + constants.CenterOffset,
-  //       (18 * constants.TileSize) + constants.CenterOffset, 'scuttle')
-  //   }
-  // }
 
   createSecondScuttle () {
     let point = levelData.PLAYER_START[1]
@@ -321,45 +304,6 @@ class Scuttle extends Phaser.GameObjects.Sprite {
     this.play('move', false)
     this.isPowerUp = false
   }
-
-  // cheaperControls (direction) {
-  //   if (!this.scene.alreadyStarted && (direction ===  directions.LEFT ||
-  //     direction ===  directions.RIGHT || direction ===  directions.UP ||
-  //     direction ===  directions.DOWN)) {
-  //     this.move( directions.LEFT)
-  //     this.scene.alreadyStarted = true
-  //   }
-  //
-  //   this.marker = constants.convertToGridUnits(this.x, this.y)
-  //
-  //   this.directions = constants.updateDirections(this.scene, this.marker.x, this.marker.y)
-  //
-  //   this.cheaperCheckKeys(direction)
-  //
-  //   if (this.turning !==  directions.NONE) {
-  //     this.turn()
-  //   }
-  //
-  //   this.checkWarp()
-  // }
-
-  // cheaperCheckKeys (direction) {
-  //   if (direction ===  directions.LEFT && this.currentDir !==  directions.LEFT) {
-  //     // console.log('left')
-  //     this.checkDirection( directions.LEFT)
-  //   } else if (direction ===  directions.RIGHT && this.currentDir !==  directions.RIGHT) {
-  //     // console.log('right')
-  //     this.checkDirection( directions.RIGHT)
-  //   } else if (direction ===  directions.DOWN && this.currentDir !==  directions.DOWN) {
-  //     // console.log('down')
-  //     this.checkDirection( directions.DOWN)
-  //   } else if (direction ===  directions.UP && this.currentDir !==  directions.UP) {
-  //     // console.log('up')
-  //     this.checkDirection( directions.UP)
-  //   } else {
-  //     this.turning =  directions.NONE
-  //   }
-  // }
 
   // the necessary adjustments when scuttle dies
   dies () {
