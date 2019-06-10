@@ -24,10 +24,10 @@
 
 
 ### World:
-- [ ] Points
-- [ ] Time mode for Enemy
+- [x] Points
+- [x] Time mode for Enemy
 - [x] World mode for Player and Enemy
 - [ ] Game status:
      - [ ] Pause
-     - [ ] Over
+     - [x] Over
      - [ ] Start

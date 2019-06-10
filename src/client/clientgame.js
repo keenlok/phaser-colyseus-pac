@@ -19,7 +19,7 @@ class ClientGame extends MainGame {
     const client = new Client('ws://127.0.0.1:8000')
 
     console.log("Joining rooms")
-    const room = client.join('room')
+    const room = client.join('practice')
     console.log("Joined room", room)
     this.room = room
 

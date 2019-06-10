@@ -1,8 +1,8 @@
 import { Room,  FossilDeltaSerializer, serialize} from 'colyseus'
-import { messageLog, DEBUG } from '../shared/config/constants'
-import { State } from "./states/objectStates"
+import { messageLog, DEBUG } from '../../shared/config/constants'
+import { State } from "../states/objectStates"
 
-export class GameRoom extends Room {
+export class PracticeRoom extends Room {
   constructor () {
     super()
     this.maxClients = 1
@@ -10,8 +10,8 @@ export class GameRoom extends Room {
   }
 
   onInit (options) {
-    GameRoom.messageLog('Create New room')
-    this.game_server = GameRoom.createNewGame(options.server)
+    PracticeRoom.messageLog('Create New room')
+    this.game_server = PracticeRoom.createNewGame(options.server)
     this.setUpdateGame()
     this.setState(new State())
     // console.log("What is this scene", this.getScene())
@@ -38,7 +38,7 @@ export class GameRoom extends Room {
       if (!self.isGameSet)  {
         self.createEventListeners(self.scene)
         // self.state.setPlayer(self.scene.scuttle)
-        GameRoom.messageLog("Game is Set")
+        PracticeRoom.messageLog("Game is Set")
         self.broadcast('start')
         self.isGameSet = !self.isGameSet
       }
@@ -62,10 +62,6 @@ export class GameRoom extends Room {
       self.broadcast('restart')
     }, self)
 
-    // scene.events.on('changeMode', () => {
-    //   self.broadcast('changeMode')
-    // }, self)
-
     scene.events.on('send_exit', (enemy) => {
       self.broadcast('enemy_exit'+'_'+enemy.name+enemy.type)
     }, self)
@@ -80,11 +76,16 @@ export class GameRoom extends Room {
   }
 
   onJoin (client, options) {
-    GameRoom.messageLog("New client join", client.id)
+    PracticeRoom.messageLog("New client join", client.id)
     // TODO: Make this less dependent
     this.clientid = client.id
     // this.game_server.getScuttle()
     this.state.setPlayer(client.id)
+    this.setPlayer(client.id)
+  }
+
+  async setPlayer(id) {
+
   }
 
   onLeave (client) {
@@ -112,4 +113,4 @@ export class GameRoom extends Room {
 
 }
 
-serialize(FossilDeltaSerializer)(GameRoom)
+serialize(FossilDeltaSerializer)(PracticeRoom)

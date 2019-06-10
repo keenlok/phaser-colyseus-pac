@@ -66,7 +66,8 @@ export class gameServer {
 
 import http from 'http'
 import { Server } from 'colyseus'
-import { GameRoom } from './GameRoom'
+import { PracticeRoom } from './Rooms/PracticeRoom'
+import { MultiplayerRoom } from './Rooms/MultiplayerRoom'
 
 const server = http.Server();
 
@@ -74,7 +75,8 @@ const colyServer = new Server({
   server: server
 })
 
-colyServer.register("room", GameRoom, { server: gameServer })
+colyServer.register("practice", PracticeRoom, { server: gameServer })
+colyServer.register("2player", MultiplayerRoom, { server: gameServer })
 
 // let game_server = new gameServer()
 // game_server.setupAuthoritativeServer()
