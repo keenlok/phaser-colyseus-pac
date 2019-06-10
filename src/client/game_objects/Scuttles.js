@@ -104,43 +104,6 @@ class Scuttle extends Phaser.GameObjects.Sprite {
     }
   }
 
-  // checkDirection (turnTo) {
-  //   if ((this.turning === turnTo && this.turning === this.currentDir) ||
-  //     (this.directions[turnTo] !== null &&
-  //       this.directions[turnTo].index !== constants.SAFE_TILE &&
-  //       this.directions[turnTo].index !== constants.DOT_TILE)) {
-  //     return
-  //   }
-  //
-  //   if (this.currentDir === this.opposites[turnTo]) {
-  //     this.move(turnTo)
-  //   } else {
-  //     this.turning = turnTo
-  //
-  //     this.turnPoint = constants.convertToPixels(this.marker.x, this.marker.y)
-  //   }
-  // }
-  //
-  // turn () {
-  //   let cx = Math.floor(this.x)
-  //   let cy = Math.floor(this.y)
-  //
-  //   if (constants.isInGrid(cx, this.turnPoint.x, cy, this.turnPoint.y, this.threshold)) {
-  //     this.x = this.turnPoint.x
-  //     this.y = this.turnPoint.y
-  //
-  //     this.body.reset(this.turnPoint.x, this.turnPoint.y)
-  //
-  //     this.move(this.turning)
-  //
-  //     this.turning =  directions.NONE
-  //
-  //     return true
-  //   }
-  //
-  //   return false
-  // }
-
   move (direction) {
     if (direction === directions.NONE) {
       this.body.setVelocity(0, 0)
@@ -179,87 +142,6 @@ class Scuttle extends Phaser.GameObjects.Sprite {
 
     this.currentDir = direction
   }
-  //
-  // gestureControl (direction) {
-  //   if (this.alive) {
-  //     if (this.count === 1 && (direction !==  directions.NONE)) {
-  //       // this.scene.ghosts.startMoving()
-  //       this.move(direction)
-  //       this.count++
-  //     }
-  //     this.nextDirection = direction
-  //     this.cheaperControls(direction)
-  //   }
-  // }
-
-  // control (cursors) {
-  //   if (this.alive) {
-  //     if (this.count === 1 && (cursors.LEFT.isDown || cursors.RIGHT.isDown ||
-  //       cursors.UP.isDown || cursors.DOWN.isDown)) {
-  //       // this.scene.ghosts.startMoving()
-  //       this.move( directions.LEFT)
-  //       this.count++
-  //     }
-  //
-  //     if (cursors.LEFT.isDown || cursors.A.isDown) {
-  //       this.nextDirection =  directions.LEFT
-  //       this.cheaperControls(this.nextDirection)
-  //     } else if (cursors.RIGHT.isDown || cursors.D.isDown) {
-  //       this.nextDirection =  directions.RIGHT
-  //       this.cheaperControls(this.nextDirection)
-  //     } else if (cursors.UP.isDown || cursors.W.isDown) {
-  //       this.nextDirection =  directions.UP
-  //       this.cheaperControls(this.nextDirection)
-  //     } else if (cursors.DOWN.isDown || cursors.S.isDown) {
-  //       this.nextDirection =  directions.DOWN
-  //       this.cheaperControls(this.nextDirection)
-  //     } else {
-  //       this.continueMoving()
-  //     }
-  //     if (cursors.SPACE.isDown) {
-  //       if (constants.DEBUG) {
-  //         if (this.testTimer < this.scene.time.now) {
-  //           console.log('do something')
-  //           this.play('happy')
-  //           this.scene.tweens.add({
-  //             targets: this,
-  //             y: '-=80',
-  //             duration: 100,
-  //             onComplete: (tween, target) => {
-  //               console.log('hello? 1')
-  //               target[0].scene.tweens.add({
-  //                 targets: target[0],
-  //                 angle: 360,
-  //                 duration: 500,
-  //                 onComplete: (tween, target) => {
-  //                   console.log('hello? 2')
-  //                   target[0].scene.tweens.add({
-  //                     targets: target[0],
-  //                     y: '+=80',
-  //                     duration: 100,
-  //                     onComplete: (tween, target) => {
-  //                       target[0].doCelebratoryAction()
-  //                     }
-  //                   })
-  //                 }
-  //               })
-  //             }
-  //           })
-  //           this.testTimer += this.test_coolDown
-  //         }
-  //       }
-  //     }
-  //   }
-  // }
-
-  // continueMoving () {
-  //   this.cheaperControls(this.nextDirection)
-  // }
-
-  // storeDirectionToMove (direction) {
-  //   this.nextDirection = direction
-  //   this.cheaperControls(this.nextDirection)
-  // }
 
   doCelebratoryAction () {
     console.log('did it even reach here?', this)
@@ -371,70 +253,6 @@ class Scuttle extends Phaser.GameObjects.Sprite {
       }
     })
   }
-
-  // scuttle moves by itself to destination point
-  /**
-   * MAY BE ABLE TO USE THE WAY GHOSTS MOVE TO AUTOMATICALLY MOVE PACMAN SO
-   * THAT WE DONT HAVE TO RELY ON BUGGY EASYSTAR
-   */
-  // transitionLevel () {
-  //   let destination = { x: 26, y: 14 }
-  //   //  console.log(destination);
-  //   if (this.currentPos.x === destination.x && this.currentPos.y === destination.y) {
-  //     this.body.setVelocity(this.SPEED, 0)
-  //     this.stopFinding = true
-  //   }
-  //   let currTile = { x: Phaser.Math.Snap.To(this.x, 16, 8), y: Phaser.Math.Snap.To(this.y, 16, 8) }
-  //   if (!this.stopFinding) {
-  //     // false if found a path (for now if not will keep printing)
-  //     // impt for now as without this will cause error as in the end blue coord is equal to end coord
-  //     // path[1] will be undefined as path will be an empty array.
-  //     this.scene.easyStar.findPath(this.currentPos.x, this.currentPos.y, destination.x, destination.y, path => {
-  //       console.log('current path: ' + path[0].x, path[0].y) // the current location
-  //       console.log('current path : my coord in pixels : ' + this.x, this.y)
-  //       //  console.log(path);
-  //       if (path.length === 0) {
-  //         //  console.log("become true");
-  //         this.stopFinding = true
-  //         return
-  //       }
-  //       let currX = path[0].x // for clarity to write like that
-  //       let currY = path[0].y
-  //       let nextX = path[1].x
-  //       let nextY = path[1].y
-  //       let diffX = nextX - currX
-  //       let diffY = nextY - currY
-  //
-  //       if (diffX === 1) {
-  //         // move to the right
-  //         this.y = currTile.y
-  //         this.setAngle(0)
-  //         this.x += this.dist // changing position of blue enemy by dist every update loop
-  //         this.currentPos.x = Math.floor((this.x - 8) / 16) // giving speed to blueEnemy essentially
-  //       } else if (diffX === -1) {
-  //         // move to the left
-  //         this.y = currTile.y
-  //         this.setAngle(180)
-  //         this.x -= this.dist
-  //         this.currentPos.x = Math.ceil((this.x - 8) / 16)
-  //       } else if (diffY === 1) { // move to the down
-  //         this.x = currTile.x
-  //         this.setAngle(90)
-  //         this.y += this.dist
-  //         this.currentPos.y = Math.floor((this.y - 8) / 16)
-  //       } else if (diffY === -1) { // move to the up
-  //         this.x = currTile.x
-  //         this.setAngle(270)
-  //         this.y -= this.dist
-  //         this.currentPos.y = Math.ceil((this.y - 8) / 16)
-  //       }
-  //       console.log('what my diff : ' + (diffY === 1 ? 'down' : 'up'))
-  //       console.log('my coord in pixels : ' + this.x, this.y)
-  //       console.log(this.currentPos)
-  //     })
-  //     this.scene.easyStar.calculate()
-  //   }
-  // }
 
   /** Trying new stuff for ghosts movement */
   getCurrentDirection () {
