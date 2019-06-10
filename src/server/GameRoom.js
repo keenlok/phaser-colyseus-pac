@@ -36,6 +36,7 @@ export class GameRoom extends Room {
       self.state.updatePlayer(self.clientid, self.scene.scuttle)
       self.state.updateWorld(self.scene)
       if (!self.isGameSet)  {
+        self.createEventListeners(self.scene)
         // self.state.setPlayer(self.scene.scuttle)
         GameRoom.messageLog("Game is Set")
         self.broadcast('start')
@@ -44,6 +45,11 @@ export class GameRoom extends Room {
     }, (err) => {
       console.log("What is the", err)
     })
+  }
+
+  createEventListeners(scene) {
+    let self = this
+    scene.on()
   }
 
   onJoin (client, options) {
@@ -59,6 +65,7 @@ export class GameRoom extends Room {
   }
 
   onMessage (client, data) {
+    //TODO: SET TO ALLOW multiple clients
     // console.log("From who", client.sessionId)
     // console.log("What is received", data)
     this.scene.scuttle.storeDirectionToMove(data.move)

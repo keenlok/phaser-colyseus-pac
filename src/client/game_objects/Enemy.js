@@ -678,8 +678,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
     this.mode = mode
     if (mode === this.AT_HOME) {
       this.setVisible(false)
-    } else if (mode === this.RANDOM) {
-    } else if (mode === this.EXIT_HOME) {
+    } else {
       this.setVisible(true)
     }
   }

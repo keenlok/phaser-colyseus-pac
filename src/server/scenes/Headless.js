@@ -701,7 +701,7 @@ class Headless extends Phaser.Scene {
       frameHeight: 160
     })
   }
-  /*  ---------  End of preload methods ---------- */
+  /**  ---------  End of preload methods ---------- */
 
   static messageLog(...messages) {
     constants.messageLog('Game', messages)
