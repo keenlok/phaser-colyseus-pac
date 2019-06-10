@@ -19,6 +19,7 @@
 - [ ] Sync Animation/Modes
 - [ ] Sync Death
 - [ ] Lives
+- [ ] Separate(?) the creation from game and link to joining of client
 
 ### World:
 - [ ] Points
