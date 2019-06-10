@@ -81,6 +81,12 @@ class ClientGame extends MainGame {
       if (message === 'start') {
         console.log('start!')
         this.scene.resume()
+      } else if (message === 'hunt') {
+        console.log("Room: ", "Change game to hunt")
+        this.changeToHuntMode(this.scuttle)
+      } else if (message === 'normal') {
+        console.log("Room: ", "Change game to normal")
+        this.returnToNormal()
       } else {
         console.log("Room: ", message)
       }

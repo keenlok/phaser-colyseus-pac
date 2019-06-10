@@ -83,7 +83,7 @@ export class GameRoom extends Room {
   }
 
   onMessage (client, data) {
-    //TODO: SET TO ALLOW multiple clients
+    //TODO: SET TO ALLOW/HANDLE multiple clients
     // console.log("From who", client.sessionId)
     // console.log("What is received", data)
     this.scene.scuttle.storeDirectionToMove(data.move)

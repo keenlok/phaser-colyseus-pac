@@ -18,9 +18,9 @@ export default class GameOver extends Phaser.Scene {
   }
 
   create () {
-    this.modal = document.getElementById('mymodal')
-    this.modal.className = this.modal.className + ' is-active'
-    this.createUI()
+    // this.modal = document.getElementById('mymodal')
+    // this.modal.className = this.modal.className + ' is-active'
+    // this.createUI()
   }
 
   scaleImage (width, height) {

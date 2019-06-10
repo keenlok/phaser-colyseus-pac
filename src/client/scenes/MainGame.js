@@ -483,14 +483,14 @@ class MainGame extends Phaser.Scene {
     if (tile.visible) {
       this.soundManager.playEatFoodEffect()
       tile.setVisible(false)
-      this.increaseScore('normalfood', player)
+      // this.increaseScore('normalfood', player)
       this.numFoodEaten++
     }
   }
 
   eatBiggerCoin (player, coin) {
     if (coin.visible) {
-      this.increaseScore('specialfood', player)
+      // this.increaseScore('specialfood', player)
       this.numFoodEaten++
       coin.setVisible(false)
       this.changeToHuntMode(player)
