@@ -25,7 +25,7 @@ class Enemies extends Phaser.GameObjects.Group {
   }
 
   update (time) {
-    this.children.iterate(child => child.update(time))
+    // this.children.iterate(child => child.update(time))
   }
 
   attack () {

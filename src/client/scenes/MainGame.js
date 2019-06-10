@@ -362,7 +362,7 @@ class MainGame extends Phaser.Scene {
     if (!this.isPaused) {
       this.checkTimer()
       if (!this.scuttle.isDead || !this.isRepeating) {
-        this.checkEnemiesBehaviour(time)
+        // this.checkEnemiesBehaviour(time)
       }
       this.updatePlayer()
       // this.updateEnemies(time)
