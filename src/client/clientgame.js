@@ -95,9 +95,10 @@ class ClientGame extends MainGame {
       } else if (message.startsWith("eat_enemy")) {
         let id = message.substr(10)
         console.log("Enemy died", id)
+        this.enemieslist[id].dies()
       } else if (message.startsWith("enemy_exit")) {
         let id = message.substr(11)
-        this.enemieslist[id].egg.anims.delayedPlay(1, 'enemy_spawn')
+        this.enemieslist[id].delayedSpawn()
       } else {
         console.log("Room: ", message)
       }

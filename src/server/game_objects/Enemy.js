@@ -749,23 +749,27 @@ class Enemy extends Phaser.GameObjects.Sprite {
       if (this.scene.isHuntMode && player.isPowerUp) {
         // TODO: Move this to a method in extended game to remove coupling
         num = this.scene.scuttle.eatAudio
-        this.scene.events.emit('eat_enemy', this)
-        // this.scene.soundManager.playEnemyDeathSFX()
-        // this.scene.soundManager.scuttleVO[1].play()
-        let score = this.scene.increaseScore('enemy_exp')
-        // this.scene.addTextScore(this.x, this.y, score)
-        this.mode = this.RETURNING_HOME
-        this.isDead = true
-        this.alreadyDead = false
-        this.safetiles.push(...levelData.GHOST_HOUSE.TILES)
-        if (this.opposites[this.currentDir] === this.scene.scuttle.currentDir) {
-          this.move(this.opposites[this.currentDir])
-        }
+        this.dies()
       } else if (!player.isDead) {
         this.scene.events.emit('eat_player', player)
         num = this.eatAudio
         this.scene.scuttleDies(num, player)
       }
+    }
+  }
+
+  dies() {
+    this.scene.events.emit('eat_enemy', this)
+    // this.scene.soundManager.playEnemyDeathSFX()
+    // this.scene.soundManager.scuttleVO[1].play()
+    let score = this.scene.increaseScore('enemy_exp')
+    // this.scene.addTextScore(this.x, this.y, score)
+    this.mode = this.RETURNING_HOME
+    this.isDead = true
+    this.alreadyDead = false
+    this.safetiles.push(...levelData.GHOST_HOUSE.TILES)
+    if (this.opposites[this.currentDir] === this.scene.scuttle.currentDir) {
+      this.move(this.opposites[this.currentDir])
     }
   }
 

@@ -751,24 +751,32 @@ class Enemy extends Phaser.GameObjects.Sprite {
     let num
     if (!this.isDead) {
       this.messageLog('Met this player', player.name)
-      if (this.scene.isHuntMode && player.isPowerUp) {
-        // TODO: Move this to a method in extended game to remove coupling
-        num = this.scene.scuttle.eatAudio
-        this.scene.soundManager.playEnemyDeathSFX()
-        this.scene.soundManager.scuttleVO[1].play()
-        let score = this.scene.increaseScore('enemy_exp')
-        this.scene.addTextScore(this.x, this.y, score)
-        this.mode = this.RETURNING_HOME
-        this.isDead = true
-        this.alreadyDead = false
-        this.safetiles.push(...levelData.GHOST_HOUSE.TILES)
-        if (this.opposites[this.currentDir] === this.scene.scuttle.currentDir) {
-          this.move(this.opposites[this.currentDir])
-        }
-      } else if (!player.isDead) {
-        num = this.eatAudio
-        this.scene.scuttleDies(num, player)
-      }
+      // if (this.scene.isHuntMode && player.isPowerUp) {
+      //   // TODO: Move this to a method in extended game to remove coupling
+      //   num = this.scene.scuttle.eatAudio
+      //   this.dies()
+      // } else if (!player.isDead) {
+      //   num = this.eatAudio
+      //   this.scene.scuttleDies(num, player)
+      // }
+    }
+  }
+
+  delayedSpawn (){
+    this.egg.anims.delayedPlay(1, 'enemy_spawn')
+  }
+
+  dies() {
+    this.scene.soundManager.playEnemyDeathSFX()
+    this.scene.soundManager.scuttleVO[1].play()
+    let score = this.scene.increaseScore('enemy_exp')
+    this.scene.addTextScore(this.x, this.y, score)
+    this.mode = this.RETURNING_HOME
+    this.isDead = true
+    this.alreadyDead = false
+    this.safetiles.push(...levelData.GHOST_HOUSE.TILES)
+    if (this.opposites[this.currentDir] === this.scene.scuttle.currentDir) {
+      this.move(this.opposites[this.currentDir])
     }
   }
 
