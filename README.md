@@ -10,16 +10,18 @@
 - [x] Sync Death
 
 ### Player:
-- [ ] Spawn
+- [x] Spawn (kinda?)
 - [x] Delete unnecessary methods on client (mostly) 
 - [x] Sync Movement
     - [x] Position
     - [x] Speed
     - [x] Direction
-- [ ] Sync Animation/Modes
-- [ ] Sync Death
-- [ ] Lives
+- [x] Sync Animation/Modes
+- [x] Sync Death
+- [x] Lives
 - [ ] Separate(?) the creation from game and link to joining of client
+- [ ] Add a second player
+
 
 ### World:
 - [ ] Points
