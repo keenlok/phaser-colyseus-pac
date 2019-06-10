@@ -1,6 +1,6 @@
 import Enemies from "./game_objects/Enemies"
 import SpecialDots from './game_objects/SpecialDots'
-import Scuttles from './game_objects/Scuttles'
+import Players from './game_objects/Players'
 import GameObjFactory from '../shared/factory/GameObjFactory'
 
 function createEnemies(scene) {
@@ -21,7 +21,7 @@ function createEnemies(scene) {
 function createPlayer1(scene) {
   GameObjFactory.messageLog('Creating player 1')
 
-  scene.group = new Scuttles(scene)
+  scene.group = new Players(scene)
   scene.scuttle = scene.group.scuttle
   scene.scuttle.name = 'player1'
 }

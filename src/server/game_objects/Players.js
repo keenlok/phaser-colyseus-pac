@@ -5,7 +5,7 @@ import * as levelData from '../../shared/leveldata/NewLevelData'
 
 const directions = constants.directions
 
-class Scuttles extends Phaser.GameObjects.Group {
+class Players extends Phaser.GameObjects.Group {
   constructor (scene) {
     super(scene)
     // Phaser.GameObjects.Group.call(this, scene)
@@ -388,4 +388,4 @@ class Scuttle extends Phaser.GameObjects.Sprite {
   }
 }
 
-export default Scuttles
+export default Players
