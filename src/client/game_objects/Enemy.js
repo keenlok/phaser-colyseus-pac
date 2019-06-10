@@ -11,6 +11,16 @@ class Enemy extends Phaser.GameObjects.Sprite {
     scene.physics.world.enable(this)
     scene.children.add(this)
     // ------- Trying stuff -------- //
+    this.initializeVariables(x, y, texture, type)
+
+    if (this.type !== 'type_shark') {
+      // this.messageLog(this)
+      this.createEgg()
+    }
+    this.createAnimListener()
+  }
+
+  initializeVariables(x, y, texture, type) {
     this.initX = x
     this.initY = y
 
@@ -65,12 +75,6 @@ class Enemy extends Phaser.GameObjects.Sprite {
     this.previousDir = this.currentDir
     this.isFrightened = false
     this.body.setSize(constants.TileSize, constants.TileSize)
-
-    if (this.type !== 'type_shark') {
-      // this.messageLog(this)
-      this.createEgg()
-    }
-    this.createAnimListener()
   }
 
   setBehaviourType (type) {
@@ -106,7 +110,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
     }
 
     if (type === 'type_shark') {
-      this.currentDir = constants.LEFT
+      this.currentDir = directions.LEFT
     }
   }
 
@@ -178,7 +182,6 @@ class Enemy extends Phaser.GameObjects.Sprite {
       default:
         break
     }
-    this.setVisible(false)
   }
 
   resetEgg () {
@@ -212,8 +215,8 @@ class Enemy extends Phaser.GameObjects.Sprite {
     } else if (this.mode === this.RETURNING_HOME && this.isDead) {
       this.respawn()
     }
-    if (this.name === 'jelly' && (this.currentDir === constants.UP ||
-      this.currentDir === constants.DOWN)) {
+    if (this.name === 'jelly' && (this.currentDir ===  directions.UP ||
+      this.currentDir ===  directions.DOWN)) {
       this.setAngle(90)
     }
     if (this.mode === this.RANDOM) {
@@ -234,6 +237,10 @@ class Enemy extends Phaser.GameObjects.Sprite {
 
   /** This movement function is quite similar to scuttle */
   move (direction) {
+    if (direction === directions.NONE) {
+      this.body.setVelocity(0, 0)
+      return
+    }
     this.previousDir = this.currentDir
     this.currentDir = direction
     let editedName = this.name + '_'
@@ -357,10 +364,10 @@ class Enemy extends Phaser.GameObjects.Sprite {
         let direction = targetInformation.direction
         let offsetX = 0
         let offsetY = 0
-        if (direction === constants.LEFT || direction === constants.RIGHT) {
-          offsetX = (direction === constants.RIGHT) ? -4 : 4
+        if (direction ===  directions.LEFT || direction ===  directions.RIGHT) {
+          offsetX = (direction ===  directions.RIGHT) ? -4 : 4
         }
-        if (direction === constants.UP || direction === constants.DOWN) {
+        if (direction ===  directions.UP || direction ===  directions.DOWN) {
           offsetY = (direction === constants.LEFT) ? -4 : 4
         }
         offsetX *= constants.TileSize
@@ -434,59 +441,59 @@ class Enemy extends Phaser.GameObjects.Sprite {
     }
   }
 
-  checkWarp () {
-    this.x = Phaser.Math.Wrap(this.x, 0, levelData.WIDTH)
-    this.y = Phaser.Math.Wrap(this.y, 0, levelData.HEIGHT)
-  }
+  // checkWarp () {
+  //   this.x = Phaser.Math.Wrap(this.x, 0, levelData.WIDTH)
+  //   this.y = Phaser.Math.Wrap(this.y, 0, levelData.HEIGHT)
+  // }
+  //
+  // updateEnemyMode () {
+  //   if (this.isAttacking && (this.mode === this.SCATTER || this.mode === this.CHASE)) {
+  //     this.ghostDestination = this.getDestination()
+  //     this.mode = this.CHASE
+  //   }
+  //
+  //   if (this.scene.isPaused) {
+  //     this.mode = this.STOP // TODO: If multiplayer ignore this
+  //     this.setVisible(false)
+  //   }
+  // }
 
-  updateEnemyMode () {
-    if (this.isAttacking && (this.mode === this.SCATTER || this.mode === this.CHASE)) {
-      this.ghostDestination = this.getDestination()
-      this.mode = this.CHASE
-    }
-
-    if (this.scene.isPaused) {
-      this.mode = this.STOP // TODO: If multiplayer ignore this
-      this.setVisible(false)
-    }
-  }
-
-  moveAccordingToMode (point, x, y, time) {
-    let possibleExits = []
-    let canContinue = this.havePossibleExits(possibleExits)
-
-    switch (this.mode) {
-      case this.RANDOM:
-        if (this.turnTimer < time) {
-          this.moveRandomly(possibleExits, x, y)
-          this.turnTimer = time + this.RANDOM_COOLDOWN
-        }
-        break
-      case this.RETURNING_HOME:
-        this.returnHome(time, possibleExits, x, y)
-        break
-      case this.CHASE:
-        this.moveToDestination(time, possibleExits, x, y)
-        break
-      case this.AT_HOME:
-        this.atHome(canContinue, x, y)
-        break
-      case this.EXIT_HOME:
-        this.exitHome(canContinue, x, y)
-        // this.messageLog('time to get yr ass out ol here')
-        break
-      case this.SCATTER:
-        this.ghostDestination = new Phaser.Geom.Point(this.scatterDestination.x,
-          this.scatterDestination.y)
-        this.mode = this.CHASE
-        // this.messageLog('scatter')
-        break
-      case this.STOP:
-        this.move(constants.NONE)
-        // this.messageLog('stop')
-        break
-    }
-  }
+  // moveAccordingToMode (point, x, y, time) {
+  //   let possibleExits = []
+  //   let canContinue = this.havePossibleExits(possibleExits)
+  //
+  //   switch (this.mode) {
+  //     case this.RANDOM:
+  //       if (this.turnTimer < time) {
+  //         this.moveRandomly(possibleExits, x, y)
+  //         this.turnTimer = time + this.RANDOM_COOLDOWN
+  //       }
+  //       break
+  //     case this.RETURNING_HOME:
+  //       this.returnHome(time, possibleExits, x, y)
+  //       break
+  //     case this.CHASE:
+  //       this.moveToDestination(time, possibleExits, x, y)
+  //       break
+  //     case this.AT_HOME:
+  //       this.atHome(canContinue, x, y)
+  //       break
+  //     case this.EXIT_HOME:
+  //       this.exitHome(canContinue, x, y)
+  //       // this.messageLog('time to get yr ass out ol here')
+  //       break
+  //     case this.SCATTER:
+  //       this.ghostDestination = new Phaser.Geom.Point(this.scatterDestination.x,
+  //         this.scatterDestination.y)
+  //       this.mode = this.CHASE
+  //       // this.messageLog('scatter')
+  //       break
+  //     case this.STOP:
+  //       this.move(constants.NONE)
+  //       // this.messageLog('stop')
+  //       break
+  //   }
+  // }
 
   havePossibleExits (possibleExits) {
     let canContinue
@@ -644,19 +651,19 @@ class Enemy extends Phaser.GameObjects.Sprite {
   }
 
   update (time) {
-    let point = constants.convertToGridUnits(this.x, this.y)
-
-    // if (this.x < 0) {
-    //   this.x = levelData.WIDTH - 2
-    // }
-    // if (this.x >= levelData.WIDTH - 1) {
-    //   this.x = 1
-    // }
-
-    this.checkWarp()
-    this.updateEnemyMode()
-    // this is to check if it can turn
-    let convertedPoint = constants.convertToPixels(point.x, point.y)
+    // let point = constants.convertToGridUnits(this.x, this.y)
+    //
+    // // if (this.x < 0) {
+    // //   this.x = levelData.WIDTH - 2
+    // // }
+    // // if (this.x >= levelData.WIDTH - 1) {
+    // //   this.x = 1
+    // // }
+    //
+    // this.checkWarp()
+    // this.updateEnemyMode()
+    // // this is to check if it can turn
+    // let convertedPoint = constants.convertToPixels(point.x, point.y)
     // Do  not turn if object is not in grid
     // if (constants.isInGrid(convertedPoint.x, this.x, convertedPoint.y, this.y, constants.THRESHOLD)) {
       // this.directions = constants.updateDirections(this.scene, point.x, point.y)

@@ -432,9 +432,9 @@ class MainGame extends Phaser.Scene {
       player.respawn()
       this.isPaused = false
       // This makes sure that the enemies doesn't always respawn when scuttle dies
-      if (player.lives === 3) {
-        this.resetEnemies()
-      }
+      // if (player.lives === 3) {
+      //   this.resetEnemies()
+      // }
       this.isRepeating = false
       this.changeModeTimer = this.time.now + this.TIME_MODES[this.currentMode].time
       this.count = 0

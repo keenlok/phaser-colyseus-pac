@@ -11,11 +11,12 @@ class Enemy extends Phaser.GameObjects.Sprite {
     scene.physics.world.enable(this)
     scene.children.add(this)
     // ------- Trying stuff -------- //
-    this.initializeVar(x, y, texture, type)
+    this.initializeVariables(x, y, texture, type)
 
     if (this.type !== 'type_shark') {
       // this.messageLog(this)
       this.createEgg()
+      this.setVisible(false)
     }
     this.createAnimListener()
   }
@@ -36,7 +37,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
     // this.checkAnimFrame()
   }
 
-  initializeVar(x, y, texture, type) {
+  initializeVariables(x, y, texture, type) {
     this.initX = x
     this.initY = y
 
@@ -197,7 +198,6 @@ class Enemy extends Phaser.GameObjects.Sprite {
       default:
         break
     }
-    this.setVisible(false)
   }
 
   resetEgg () {

@@ -107,6 +107,7 @@ class Scuttle extends Phaser.GameObjects.Sprite {
   move (direction) {
     if (direction === directions.NONE) {
       this.body.setVelocity(0, 0)
+      return
     }
     let speed = this.speed
     let animType = 'move'
