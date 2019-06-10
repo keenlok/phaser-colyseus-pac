@@ -57,11 +57,7 @@ export class gameServer {
       let self = this
       let game = self.getGame()
       game.then((game) => {
-
       })
-
-
-
     })
   }
 

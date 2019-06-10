@@ -673,6 +673,17 @@ class Enemy extends Phaser.GameObjects.Sprite {
     // this.checkAnimFrame()
   }
 
+  behaveAccordingly (mode) {
+    console.log("What mode?", mode)
+    this.mode = mode
+    if (mode === this.AT_HOME) {
+      this.setVisible(false)
+    } else if (mode === this.RANDOM) {
+    } else if (mode === this.EXIT_HOME) {
+      this.setVisible(true)
+    }
+  }
+
   // checkSafetile (tile) {
   //   if (tile !== null && typeof tile !== 'undefined') {
   //     for (let i = 0; i < this.safetiles.length; i++) {

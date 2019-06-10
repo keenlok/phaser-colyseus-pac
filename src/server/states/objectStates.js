@@ -5,7 +5,6 @@ class EnemyState {
     this.mode =         enemy.mode
     this.isFrightened = enemy.isFrightened
     this.isDead =       enemy.isDead
-    this.destination =  enemy.ghostDestination
     this.currDir =      enemy.currentDir
     this.velocityX =    enemy.body.velocity.x
     this.velocityY =    enemy.body.velocity.y
@@ -43,14 +42,20 @@ class PlayerState {
 }
 
 class World {
-  constructor() {
-    this.score = 0
-    this.player = null
-    this.enemies = null
-    this.currentTimeMode = 0
-    this.isPaused = false
+  constructor(sceneData) {
+    if (typeof sceneData === 'undefined') {
+      this.score = 0
+      // this.player = null
+      // this.enemies = null
+      this.currentTimeMode = 0
+      this.isPaused = false
+    } else {
+      this.score =            sceneData.score
+      this.currentTimeMode =  sceneData.currentMode
+      this.isPaused =         sceneData.isPaused
+      this.isHuntMode =       sceneData.isHuntMode
+    }
   }
-
 }
 
 export class State {
@@ -58,6 +63,7 @@ export class State {
     // this.scene = scene
     this.players = {}
     this.enemies = {}
+    this.world = new World()
   }
 
   updateEnemies(enemies) {
@@ -81,6 +87,9 @@ export class State {
   updatePlayer(id, player) {
     // console.log("Update player")
     this.players[id] = new PlayerState(player)
+  }
 
+  updateWorld(scene) {
+    this.world = new World(scene)
   }
 }

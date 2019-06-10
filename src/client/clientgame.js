@@ -47,19 +47,24 @@ class ClientGame extends MainGame {
       let enemy = this.enemieslist[id]
       // if (objToUpdate.mode !== objToUpdate.AT_HOME || objToUpdate.mode !== objToUpdate.EXIT_HOME) {
         if (attribute === 'x' || attribute === 'y') {
-          // console.log("What is received for enemy", operation, id, attribute, value)
           enemy[attribute] = value
         } else if (attribute === 'currDir') {
-          // console.log("What is received for enemy", operation, id, attribute, value)
           enemy.move(value)
         } else if (attribute === 'velocityX' ) {
-          // console.log('Changing velocity X', value)
           enemy.body.setVelocityX(value)
         } else if (attribute === 'velocityY') {
-          // console.log('Changing velocity Y', value)
           enemy.body.setVelocityY(value)
+        } else if (attribute === 'mode') {
+          enemy.behaveAccordingly(value)
+        } else if (attribute === 'isFrightened' || attribute === 'isDead') {
+          console.log("What is received for enemy", operation, id, attribute, value)
+          enemy[attribute] = value
         }
       // }
+    })
+
+    room.listen('world/:attribute', ({path: {attribute}, operation, value}) => {
+
     })
 
     room.onMessage.add((message) => {

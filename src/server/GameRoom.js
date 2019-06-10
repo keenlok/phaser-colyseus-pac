@@ -34,6 +34,7 @@ export class GameRoom extends Room {
       self.scene = game.scene.scenes[0]
       self.state.updateEnemies(self.scene.enemies.getChildren())
       self.state.updatePlayer(self.clientid, self.scene.scuttle)
+      self.state.updateWorld(self.scene)
       if (!self.isGameSet)  {
         // self.state.setPlayer(self.scene.scuttle)
         GameRoom.messageLog("Game is Set")
