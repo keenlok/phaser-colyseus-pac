@@ -209,40 +209,42 @@ class Scuttle extends Phaser.GameObjects.Sprite {
     }
   }
 
-  control (cursors) {
-    if (this.alive) {
-      if (this.count === 1 && (cursors.LEFT.isDown || cursors.RIGHT.isDown ||
-        cursors.UP.isDown || cursors.DOWN.isDown)) {
-        // this.scene.ghosts.startMoving()
-        this.move( directions.LEFT)
-        this.count++
-      }
-
-      if (cursors.LEFT.isDown || cursors.A.isDown) {
-        this.nextDirection =  directions.LEFT
-        this.cheaperControls(this.nextDirection)
-      } else if (cursors.RIGHT.isDown || cursors.D.isDown) {
-        this.nextDirection =  directions.RIGHT
-        this.cheaperControls(this.nextDirection)
-      } else if (cursors.UP.isDown || cursors.W.isDown) {
-        this.nextDirection =  directions.UP
-        this.cheaperControls(this.nextDirection)
-      } else if (cursors.DOWN.isDown || cursors.S.isDown) {
-        this.nextDirection =  directions.DOWN
-        this.cheaperControls(this.nextDirection)
-      } else {
-        this.continueMoving()
-      }
-    }
-  }
+  // control (cursors) {
+  //   if (this.alive) {
+  //     if (this.count === 1 && (cursors.LEFT.isDown || cursors.RIGHT.isDown ||
+  //       cursors.UP.isDown || cursors.DOWN.isDown)) {
+  //       // this.scene.ghosts.startMoving()
+  //       this.move( directions.LEFT)
+  //       this.count++
+  //     }
+  //
+  //     if (cursors.LEFT.isDown || cursors.A.isDown) {
+  //       this.nextDirection =  directions.LEFT
+  //       this.cheaperControls(this.nextDirection)
+  //     } else if (cursors.RIGHT.isDown || cursors.D.isDown) {
+  //       this.nextDirection =  directions.RIGHT
+  //       this.cheaperControls(this.nextDirection)
+  //     } else if (cursors.UP.isDown || cursors.W.isDown) {
+  //       this.nextDirection =  directions.UP
+  //       this.cheaperControls(this.nextDirection)
+  //     } else if (cursors.DOWN.isDown || cursors.S.isDown) {
+  //       this.nextDirection =  directions.DOWN
+  //       this.cheaperControls(this.nextDirection)
+  //     } else {
+  //       this.continueMoving()
+  //     }
+  //   }
+  // }
 
   continueMoving () {
     this.cheaperControls(this.nextDirection)
   }
 
   storeDirectionToMove (direction) {
-    this.nextDirection = direction
-    this.cheaperControls(this.nextDirection)
+    if (!this.isDead && this.alive) {
+      this.nextDirection = direction
+      this.cheaperControls(this.nextDirection)
+    }
   }
 
   powerUp () {
@@ -261,12 +263,12 @@ class Scuttle extends Phaser.GameObjects.Sprite {
   }
 
   cheaperControls (direction) {
-    if (!this.scene.alreadyStarted && (direction ===  directions.LEFT ||
-      direction ===  directions.RIGHT || direction ===  directions.UP ||
-      direction ===  directions.DOWN)) {
-      this.move( directions.LEFT)
-      this.scene.alreadyStarted = true
-    }
+    // if (!this.scene.alreadyStarted && (direction ===  directions.LEFT ||
+    //   direction ===  directions.RIGHT || direction ===  directions.UP ||
+    //   direction ===  directions.DOWN)) {
+    //   this.move( directions.LEFT)
+    //   this.scene.alreadyStarted = true
+    // }
 
     this.marker = constants.convertToGridUnits(this.x, this.y)
 

@@ -631,15 +631,16 @@ class MainGame extends Phaser.Scene {
       console.log('did it come here', this)
       this.soundManager.playGameOverSequence()
     }
-    this.scene.launch('gameover', {
-      lives: this.scuttle.lives,
-      score: this.score,
-      prevScene: this,
-      button: this.soundManager.buttonSfx,
-      type: type,
-      bgm: this.soundManager.normalBGM,
-      isAlpha: isAlpha
-    })
+    console.log("Game over "+ this.scuttle.lives)
+    // this.scene.launch('gameover', { TODO: Renable when modal is available in HTML/pug
+    //   lives: this.scuttle.lives,
+    //   score: this.score,
+    //   prevScene: this,
+    //   button: this.soundManager.buttonSfx,
+    //   type: type,
+    //   bgm: this.soundManager.normalBGM,
+    //   isAlpha: isAlpha
+    // })
     this.scene.pause()
   }
 

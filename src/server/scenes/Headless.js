@@ -243,9 +243,7 @@ class Headless extends Phaser.Scene {
 
   // ------------------------------------ Methods for Players -------------------------------------//
   updatePlayer () {
-    this.scuttle.control(this.cursors)
-    if (this.scuttle.body.speed > 0) {
-    }
+    this.scuttle.continueMoving()
   }
 
   setupCollidersForPlayer (player) {
@@ -504,6 +502,7 @@ class Headless extends Phaser.Scene {
     //   type: type,
     //   isAlpha: isAlpha
     // })
+    Headless.messageLog("Game over "+ this.scuttle.lives)
     this.scene.pause()
   }
 
