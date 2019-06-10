@@ -3,15 +3,15 @@
 - [x] Sync Position
 - [x] Sync Movement
 - [ ] Sync Animation/Modes
-- [ ] Sync Speed
+- [x] Sync Speed
 - [ ] Sync Death
 
 ### Player:
 - [ ] Delete unnecessary methods on client 
 - [x] Sync position
-- [ ] Sync movement
+- [x] Sync movement
 - [ ] Sync Animation/Modes
-- [ ] Sync Speed
+- [x] Sync Speed
 - [ ] Sync Death
 - [ ] Lives
 
