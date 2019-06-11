@@ -7,6 +7,7 @@ export class MultiplayerRoom extends Room {
     super()
     this.maxClients = 2
     this.isGameSet = false
+    this.clientId = {}
   }
 
   onInit (options) {
@@ -37,10 +38,13 @@ export class MultiplayerRoom extends Room {
       self.state.updateWorld(self.scene)
       if (!self.isGameSet)  {
         self.createEventListeners(self.scene)
-        // self.state.setPlayer(self.scene.scuttle)
-        MultiplayerRoom.messageLog("Game is Set")
-        self.broadcast('start')
-        self.isGameSet = !self.isGameSet
+        if (Object.keys(this.clientId).length === 2) {
+          // self.state.setPlayer(self.scene.scuttle)
+          MultiplayerRoom.messageLog("Game is Set")
+          self.broadcast('start')
+          self.isGameSet = !self.isGameSet
+          self.scene.scene.resume()
+        }
       }
     }, (err) => {
       console.log("What is the", err)
@@ -76,11 +80,14 @@ export class MultiplayerRoom extends Room {
   }
 
   onJoin (client, options) {
-    MultiplayerRoom.messageLog("New client join", client.id)
+    MultiplayerRoom.messageLog("New client join", client.id, client.sessionId)
     // TODO: Make this less dependent
-    this.clientid = client.id
+    this.clientId[client.id] = client.id
+    console.log("Who are here", this.clientId, Object.keys(this.clientId).length)
+
     // this.game_server.getScuttle()
     this.state.setPlayer(client.id)
+    this.setUpdateGame()
   }
 
   onLeave (client) {
@@ -89,8 +96,8 @@ export class MultiplayerRoom extends Room {
 
   onMessage (client, data) {
     //TODO: SET TO ALLOW/HANDLE multiple clients
-    // console.log("From who", client.sessionId)
-    // console.log("What is received", data)
+    console.log("From who", client.sessionId)
+    console.log("What is received", data)
     this.scene.scuttle.storeDirectionToMove(data.move)
   }
 

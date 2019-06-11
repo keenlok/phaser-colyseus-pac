@@ -19,13 +19,20 @@ class ClientGame extends MainGame {
     const client = new Client('ws://127.0.0.1:8000')
 
     console.log("Joining rooms")
-    const room = client.join('practice')
+    const room = client.join('2player')
     console.log("Joined room", room)
     this.room = room
 
     room.onJoin.add(() => {
       //TODO: Create new character
       console.log("client joins room")
+      room.listen('players/:id', ({path: {id}, operation, value}) => {
+        if (operation === 'add') {
+          console.log("This ids are available", id)
+        } else if (operation === 'remove') {
+          console.log("This player quit", id)
+        }
+      })
       //TODO: Allow multiple clients
       room.listen('players/:id/:attribute', ({path: {attribute, id}, operation, value}) => {
         if (operation === "replace" || operation === "remove") {
