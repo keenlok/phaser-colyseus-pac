@@ -92,9 +92,10 @@ export class State {
     this.players[id] = new PlayerState(player)
   }
 
-  updatePlayer(id, player) {
-    // console.log("Update player")
-    this.players[id] = new PlayerState(player)
+  updatePlayers(players) {
+    for (let id in players) {
+      this.players[id] = new PlayerState(players[id])
+    }
   }
 
   updateWorld(scene) {

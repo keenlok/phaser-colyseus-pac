@@ -33,8 +33,9 @@ function createPlayers(scene) {
   // scene.scuttle.name = 'player1'
 }
 
-function createPlayer(scene, id) {
+export function createPlayer(scene, id) {
   scene.players[id] = scene.group.createNewPlayer(id)
+  return scene.players[id]
 }
 
 

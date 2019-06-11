@@ -109,7 +109,7 @@ class Headless extends Phaser.Scene {
     Headless.messageLog("Initialise: Create")
 
     Headless.messageLog("Create: Listeners")
-    this.createListeners()
+    // this.createListeners()
 
     Headless.messageLog("Create: Anims")
     AnimationFactory.createAllAnimations(this.anims)
@@ -130,13 +130,11 @@ class Headless extends Phaser.Scene {
     // this.enemyTarget = this.scuttle
   }
 
-  createListeners() {
-    this.events.on('player_created', (player) => {
-      console.log("Player is created", player.id)
-      this.setTarget()
-      this.restartGame(player)
-    }, this)
-  }
+  // createListeners() {
+  //   this.events.on('player_created', (player) => {
+  //
+  //   }, this)
+  // }
 
   update (time) {
     if (!this.isPaused) {
@@ -354,7 +352,7 @@ class Headless extends Phaser.Scene {
   }
 
   restartGame (player) {
-    this.events.emit('restartGame')
+    this.events.emit('restartGame', player)
     // let player
     // this.messageLog(args)
     if (typeof player === 'undefined') {

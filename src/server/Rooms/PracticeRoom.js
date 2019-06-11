@@ -53,6 +53,7 @@ export class PracticeRoom extends Room {
       self.game = game
       self.scene = game.scene.scenes[0]
       self.state.updateEnemies(self.scene.enemies.getChildren())
+      self.state.updatePlayers(self.scene.players)
       // self.state.updatePlayer(self.clientid, self.scene.scuttle)
       self.state.updateWorld(self.scene)
       if (!self.isGameSet)  {
@@ -72,6 +73,13 @@ export class PracticeRoom extends Room {
   createEventListeners(scene) {
     let self = this
 
+    scene.events.on('player_created', (player) => {
+      self.state.setPlayer(player.id, player)
+      console.log("Player is created", player.id)
+      scene.setTarget()
+      // scene.restartGame(player)
+    }, self)
+
     scene.events.on('change_to_hunt', () => {
       self.broadcast('hunt')
     }, self)
@@ -80,8 +88,8 @@ export class PracticeRoom extends Room {
       self.broadcast('normal')
     }, self)
 
-    scene.events.on('restartGame', () => {
-      self.broadcast('restart')
+    scene.events.on('restartGame', (player) => {
+      self.broadcast('restart_'+player.id)
     }, self)
 
     scene.events.on('send_exit', (enemy) => {
@@ -117,9 +125,15 @@ export class PracticeRoom extends Room {
 
   onMessage (client, data) {
     //TODO: SET TO ALLOW/HANDLE multiple clients
-    // console.log("From who", client.sessionId)
-    // console.log("What is received", data)
-    this.scene.scuttle.storeDirectionToMove(data.move)
+    console.log("From who", client.id)
+    console.log("What is received", data)
+    if (data === 'client_player_created') {
+      this.scene.restartGame(this.scene.players[client.id])
+    }
+    // this.scene.scuttle.storeDirectionToMove(data.move)
+
+
+
   }
 
   update () {

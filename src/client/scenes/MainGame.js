@@ -221,12 +221,20 @@ class MainGame extends Phaser.Scene {
   }
 
   // ------------------------------------ Methods for Players -------------------------------------//
+  createNewPlayer(id) {
+    // this.messageLog('Creating new player with id', id)
+    let player = GameObjectFactory.createPlayer(this, id)
+    this.setupCollidersForPlayer(player)
+    // this.messageLog('New player with id created', id)
+    this.events.emit('player_created', player)
+  }
+
   updatePlayer () {
     // this.scuttle.control(this.cursors)
     // this.followScuttle(this.scuttle)
-    if (this.scuttle.body.speed > 0) {
-      this.soundManager.playScuttleSFX(this.time.now)
-    }
+    // if (this.scuttle.body.speed > 0) {
+    //   this.soundManager.playScuttleSFX(this.time.now)
+    // }
   }
 
   // --------------------------------------- For The Game -----------------------------------------//
@@ -300,13 +308,11 @@ class MainGame extends Phaser.Scene {
     }
   }
 
-  restartGame (args) {
-    let player
-    console.log(args === this.scuttle)
-    if (typeof args === 'undefined') {
+  restartGame (player) {
+    if (typeof player === 'undefined') {
       player = this.scuttle
     } else {
-      player = args
+      console.log("player id", player.id)
     }
     console.log('Restarting Game', player)
     this.liveText.setText(this.liveString + player.lives)
