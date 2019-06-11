@@ -125,7 +125,7 @@ export default {
     scene.miniMap = scene.cameras.add(0, y - height, width, height, false, 'minimap')
       .setZoom(zoomFactor)
       .setBounds(0, 0, levelData.WIDTH, levelData.HEIGHT, true)
-      .startFollow(scene.scuttle)
+      // .startFollow(scene.scuttle)
       // .ignore([scene.scoreText, scene.liveText, scene.pauseButton])
     scene.miniMap.setAlpha(0.95)
   },
@@ -136,7 +136,7 @@ export default {
       .setScrollFactor(0)
       .setFontFamily('Fredoka One')
       .setFontSize(25)
-    scene.liveText = scene.add.text(370, 0, scene.liveString + scene.scuttle.lives)
+    scene.liveText = scene.add.text(370, 0, scene.liveString + 0)
       .setScrollFactor(0)
       .setFontFamily('Fredoka One')
   },
