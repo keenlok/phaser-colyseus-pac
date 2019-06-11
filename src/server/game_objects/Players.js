@@ -10,11 +10,6 @@ class Players extends Phaser.GameObjects.Group {
     // Phaser.GameObjects.Group.call(this, scene)
     this.classType = Scuttle
     this.createScuttles()
-    //  this.messageLog(scene)
-    // //  this.messageLog(game.scene.scenes.user.uid)
-    //  this.messageLog(scene.roomId)
-    //   // this.getIdFromFirestore()
-    // this.scuttle = this.getNumberOfScuttlesPlaying()
   }
 
   createScuttles () {
@@ -22,14 +17,6 @@ class Players extends Phaser.GameObjects.Group {
     let startPoint = constants.convertToPixels(point.x, point.y)
     this.scuttle = this.create(startPoint.x, startPoint.y, 'scuttle')
   }
-
-  // getNumberOfScuttlesPlaying (playerList) {
-  //   for (let i = 0; i < playerList.length; i++) {
-  //      this.messageLog(playerList[i])
-  //     this.create((15 * constants.TileSize) + constants.CenterOffset,
-  //       (18 * constants.TileSize) + constants.CenterOffset, 'scuttle')
-  //   }
-  // }
 
   createSecondScuttle () {
     let point = levelData.PLAYER_START[1]

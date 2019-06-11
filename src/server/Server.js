@@ -8,7 +8,6 @@ export class gameServer {
   constructor() {
     this.game = undefined
     this.scene = undefined
-    // this.jsdom1
   }
 
   setupAuthoritativeServer() {
@@ -37,29 +36,17 @@ export class gameServer {
   getGame() {
     return new Promise((resolve, reject) => {
       let self = this
-      let interval = setInterval(()=> {
         if (typeof self.game !== 'undefined') {
           let scene = self.game.scene.scenes[0]
           self.scene = scene
           if (scene.group !== null) {
             if (scene.enemies !== {}) {
-              clearInterval(interval)
               resolve(self.game)
             }
           }
         }
-      }, 1)
     })
   }
-
-  // async getPlayer ( ) {
-  //   return new Promise((resolve, reject) => {
-  //     let self = this
-  //     let game = self.getGame()
-  //     game.then((game) => {
-  //     })
-  //   })
-  // }
 
 }
 

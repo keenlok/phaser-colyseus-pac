@@ -116,12 +116,9 @@ export class MultiplayerRoom extends Room {
     if (typeof this.scene === "undefined") {
       return new Promise((resolve, reject) => {
         let self = this
-        let interval = setInterval(()=> {
           if (typeof self.scene !== 'undefined') {
-            clearInterval(interval)
             resolve(self.scene)
           }
-        }, 1)
       })
     } else {
       return this.scene

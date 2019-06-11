@@ -141,7 +141,7 @@ class Headless extends Phaser.Scene {
   /**  ----- End of Main methods -----   */
 
 
-  // ------------------------------------ Methods for Enemies -------------------------------------//
+  /** ------------------------------------ Methods for Enemies -------------------------------------*/
   checkEnemiesBehaviour (time) {
     if (!this.isPinkOut) {
       // this.messageLog('hello?')
@@ -245,7 +245,7 @@ class Headless extends Phaser.Scene {
   // ---------------------------------End of Methods for Enemies -----------------------------------//
 
 
-  // ------------------------------------ Methods for Players -------------------------------------//
+  /** ------------------------------------ Methods for Players -------------------------------------*/
   updatePlayer () {
     this.scuttle.continueMoving()
   }
@@ -253,18 +253,18 @@ class Headless extends Phaser.Scene {
   initialiseSecond(id) {
     Headless.messageLog('what is this id', id)
     let player = GameObjectFactory.createPlayer2(this)
-    // this.setupCollidersForPlayer(player)
     player.id = id
+    this.setupCollidersForPlayer(player)
   }
 
   setupCollidersForPlayer (player) {
     // this.messageLog('using new method')
-    this.physicsFactory.setupPhysicsForPlayer(player, this.enemies.children, this.specialFood.children)
+    this.physicsFactory.setupPhysicsForPlayer(player, this.enemies.getChildren(), this.specialFood.children)
   }
   // ---------------------------------End of Methods for Players -----------------------------------//
 
 
-  // --------------------------------------- For The Game -----------------------------------------//
+  /** --------------------------------------- For The Game -----------------------------------------*/
   resetTimer () {
     Headless.messageLog(this.time.now, this.SFXTimer, this.changeModeTimer)
     this.scuttle.testTimer = this.time.now

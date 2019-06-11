@@ -7,7 +7,6 @@ const directions = constants.directions
 class Enemy extends Phaser.GameObjects.Sprite {
   constructor (scene, x, y, texture, type) {
     super(scene, x, y, texture)
-    // Phaser.GameObjects.Sprite.call(this, scene, x, y, type)
     scene.physics.world.enable(this)
     scene.children.add(this)
     // ------- Trying stuff -------- //
