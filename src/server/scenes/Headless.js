@@ -130,7 +130,7 @@ class Headless extends Phaser.Scene {
   update (time) {
     if (!this.isPaused) {
       this.checkTimer()
-      if (!this.scuttle.isDead || !this.isRepeating) {
+      if (!this.isRepeating) {
         this.checkEnemiesBehaviour(time)
       }
       this.updatePlayer()
