@@ -80,8 +80,8 @@ export class PracticeRoom extends Room {
       // scene.restartGame(player)
     }, self)
 
-    scene.events.on('change_to_hunt', () => {
-      self.broadcast('hunt')
+    scene.events.on('change_to_hunt', (player) => {
+      self.broadcast('hunt_'+player.id)
     }, self)
 
     scene.events.on('return_normal', () => {
@@ -97,11 +97,11 @@ export class PracticeRoom extends Room {
     }, self)
 
     scene.events.on('eat_player', (player, num) => {
-      self.broadcast('eat_player'+'_'+num+'_')
+      self.broadcast('eat_player'+'_'+num+'_'+player.id)
     }, self)
 
-    scene.events.on('eat_enemy', (enemy) => {
-      self.broadcast('eat_enemy'+'_'+enemy.name+enemy.type)
+    scene.events.on('eat_enemy', (enemy, player) => {
+      self.broadcast('eat_enemy_'+enemy.name+enemy.type+'_'+player.id)
     }, self)
 
     PracticeRoom.messageLog("Event listeners created!")
@@ -124,11 +124,14 @@ export class PracticeRoom extends Room {
   }
 
   onMessage (client, data) {
+    let id = client.id
     //TODO: SET TO ALLOW/HANDLE multiple clients
-    console.log("From who", client.id)
+    console.log("From who", id)
     console.log("What is received", data)
     if (data === 'client_player_created') {
-      this.scene.restartGame(this.scene.players[client.id])
+      this.scene.restartGame(this.scene.players[id])
+    } else {
+      this.scene.players[id].storeDirectionToMove(data.move)
     }
     // this.scene.scuttle.storeDirectionToMove(data.move)
 

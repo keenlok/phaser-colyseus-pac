@@ -56,7 +56,7 @@ class ClientGame extends MainGame {
             this.players[id].move(value)
           }
           if (attribute === 'isPowUp') {
-            this.scuttle[attribute] = value
+            this.players[id][attribute] = value
           }
           if (attribute === 'isDead' || attribute === 'alive') {
             this.players[id][attribute] = value
@@ -99,9 +99,11 @@ class ClientGame extends MainGame {
         if (message === 'start') {
           console.log('start!')
           this.scene.resume()
-        } else if (message === 'hunt') {
-          console.log("Room: ", "Change game to hunt")
-          this.changeToHuntMode(this.scuttle)
+        } else if (message.startsWith('hunt')) {
+          let args = message.split('_')
+          let id = args[1]
+          console.log("Room: ", "Change game to hunt", id)
+          this.changeToHuntMode(this.players[id])
         } else if (message === 'normal') {
           console.log("Room: ", "Change game to normal")
           this.returnToNormal()
@@ -110,9 +112,12 @@ class ClientGame extends MainGame {
           console.log("this id received", id)
           this.restartGame(this.players[id])
         } else if (message.startsWith("eat_enemy")) {
-          let id = message.substr(10)
-          console.log("Enemy died", id)
-          this.enemieslist[id].dies()
+          let substr =  message.substr(10)
+          let args = substr.split('_')
+          let enemy_id = args[0]
+          let player_id = args[1]
+          console.log(`Enemy ${enemy_id} died by ${player_id}'s hands`)
+          this.enemieslist[enemy_id].dies(this.players[player_id])
         } else if (message.startsWith("enemy_exit")) {
           let id = message.substr(11)
           console.log("Enemy exit! received")
@@ -122,8 +127,10 @@ class ClientGame extends MainGame {
           let numplayer = message.substr(11)
           let args = numplayer.split('_')
           let num = args[0]
+          let id = args[1]
           console.log("This audio num is to be played", num)
-          this.scuttleDies(num, this.scuttle)
+          console.log("This player is eated", id)
+          this.scuttleDies(num, this.players[id])
         } else {
           console.log("Room: Received:", message)
         }

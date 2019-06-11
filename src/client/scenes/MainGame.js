@@ -288,7 +288,7 @@ class MainGame extends Phaser.Scene {
   returnToNormal () {
     this.soundManager.doTransitionToNormalFromHunt()
     this.enemies.returnToNormal()
-    this.scuttle.returnToNormal()
+    this.group.returnToNormal()
     this.count = 0
   }
 
@@ -352,6 +352,7 @@ class MainGame extends Phaser.Scene {
       let num = Math.round(Math.random() * 2) + 1
       obj1.eatAudio = num
       obj2.eatAudio = num
+      // console.log("what is eat Audio?", num, obj1.eatAudio, obj2.eatAudio)
       return true
     }
     return false

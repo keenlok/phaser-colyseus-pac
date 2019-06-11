@@ -747,8 +747,8 @@ class Enemy extends Phaser.GameObjects.Sprite {
       this.messageLog('Met this player', player.name)
       if (this.scene.isHuntMode && player.isPowerUp) {
         // TODO: Move this to a method in extended game to remove coupling
-        num = this.scene.scuttle.eatAudio
-        this.dies()
+        num = player.eatAudio
+        this.dies(player)
       } else if (!player.isDead) {
         num = this.eatAudio
         this.scene.events.emit('eat_player', player, num)
@@ -757,8 +757,8 @@ class Enemy extends Phaser.GameObjects.Sprite {
     }
   }
 
-  dies() {
-    this.scene.events.emit('eat_enemy', this)
+  dies(player) {
+    this.scene.events.emit('eat_enemy', this, player)
     // this.scene.soundManager.playEnemyDeathSFX()
     // this.scene.soundManager.scuttleVO[1].play()
     let score = this.scene.increaseScore('enemy_exp')
@@ -767,7 +767,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
     this.isDead = true
     this.alreadyDead = false
     this.safetiles.push(...levelData.GHOST_HOUSE.TILES)
-    if (this.opposites[this.currentDir] === this.scene.scuttle.currentDir) {
+    if (this.opposites[this.currentDir] === player.currentDir) {
       this.move(this.opposites[this.currentDir])
     }
   }

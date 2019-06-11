@@ -331,12 +331,12 @@ class Headless extends Phaser.Scene {
   returnToNormal () {
     this.events.emit('return_normal')
     this.enemies.returnToNormal()
-    this.scuttle.returnToNormal()
+    this.group.returnToNormal()
     this.count = 0
   }
 
   changeToHuntMode (player) {
-    this.events.emit('change_to_hunt')
+    this.events.emit('change_to_hunt', player)
     // This should prevent the game from triggering hunt mode when the game is won
     if (!this.checkScoreToEndGame()) {
       this.enemies.becomeScared()
@@ -398,6 +398,7 @@ class Headless extends Phaser.Scene {
       let num = Math.round(Math.random() * 2) + 1
       obj1.eatAudio = num
       obj2.eatAudio = num
+      // console.log("what is eat Audio?", num, obj1.eatAudio, obj2.eatAudio)
       return true
     }
     return false
