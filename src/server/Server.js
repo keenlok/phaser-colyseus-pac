@@ -48,6 +48,32 @@ export class gameServer {
     })
   }
 
+  getScene() {
+    if (typeof this.scene === "undefined") {
+      return new Promise((resolve, reject) => {
+        let self = this
+        if (typeof self.scene !== 'undefined') {
+          resolve(self.scene)
+        }
+      })
+    } else {
+      return this.scene
+    }
+  }
+
+  async getPlayer1() {
+    let self = this
+    if (typeof this.scene === "undefined" || this.scene === undefined) {
+      let scene = await this.getScene()
+    } else {
+      let scene = this.scene
+    }
+    let promise = new Promise((resolve, reject) => {
+      if (self.group)
+    })
+
+  }
+
 }
 
 

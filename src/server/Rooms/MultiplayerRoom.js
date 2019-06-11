@@ -89,14 +89,14 @@ export class MultiplayerRoom extends Room {
     if (Object.keys(this.clientId).length >= 2) {
       this.createNewPlayer(client.id)
     }  else {
-      // this.game_server.getScuttle()
+      this.game_server.getPlayer1()
       this.state.setPlayer(client.id)
     }
   }
 
   createNewPlayer(id) {
     console.log("create new player", id)
-    let pScene = this.getScene()
+    let pScene = this.game_server.getScene()
     // console.log(pScene.then)
     if (typeof pScene.then === 'function') {
       console.log('scene is a promise!')
@@ -109,19 +109,6 @@ export class MultiplayerRoom extends Room {
     } else {
       console.log('a scene is a scene!')
       pScene.initialiseSecond(id)
-    }
-  }
-
-  getScene() {
-    if (typeof this.scene === "undefined") {
-      return new Promise((resolve, reject) => {
-        let self = this
-          if (typeof self.scene !== 'undefined') {
-            resolve(self.scene)
-          }
-      })
-    } else {
-      return this.scene
     }
   }
 
