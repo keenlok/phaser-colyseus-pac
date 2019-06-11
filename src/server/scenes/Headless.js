@@ -108,6 +108,9 @@ class Headless extends Phaser.Scene {
   create () {
     Headless.messageLog("Initialise: Create")
 
+    Headless.messageLog("Create: Listeners")
+    this.createListeners()
+
     Headless.messageLog("Create: Anims")
     AnimationFactory.createAllAnimations(this.anims)
 
@@ -125,6 +128,14 @@ class Headless extends Phaser.Scene {
     console.log("Paused! Waiting to Resume")
     // this.restartGame()
     // this.enemyTarget = this.scuttle
+  }
+
+  createListeners() {
+    this.events.on('player_created', (player) => {
+      console.log("Player is created", player.id)
+      this.setTarget()
+      this.restartGame(player)
+    }, this)
   }
 
   update (time) {
@@ -241,6 +252,23 @@ class Headless extends Phaser.Scene {
     this.isPinkOut = false
     this.isBlueOut = false
     this.isOrangeOut = false
+  }
+
+  getTargetInformationForEnemy () {
+    // if (this.currentMode)
+    let targetPosition = this.enemyTarget.getCurrentPosition()
+    let targetDirection = this.enemyTarget.getCurrentDirection()
+    return {position: targetPosition, direction: targetDirection}
+  }
+
+  setTarget() {
+    let keys = Object.keys(this.players)
+    if (keys.length === 1) {
+      let key = keys[0]
+      Headless.messageLog(key)
+      console.log(keys)
+      this.enemyTarget = this.players[key]
+    }
   }
   // ---------------------------------End of Methods for Enemies -----------------------------------//
 
@@ -528,14 +556,8 @@ class Headless extends Phaser.Scene {
     this.scene.pause()
   }
 
-  getTargetInformationForEnemy () {
-    // if (this.currentMode)
-    let targetPosition = this.enemyTarget.getCurrentPosition()
-    let targetDirection = this.enemyTarget.getCurrentDirection()
-    return {position: targetPosition, direction: targetDirection}
-  }
-
   scuttleDies (num, player) {
+    Headless.messageLog("comes here")
     player.dies()
     // if ((typeof NODE_ENV === 'undefined' && NODE_ENV !== 'production') || this.isTwoPlayer) {
     if ((true) || this.isTwoPlayer) {

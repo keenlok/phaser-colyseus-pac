@@ -13,6 +13,7 @@ export class PracticeRoom extends Room {
   onInit (options) {
     PracticeRoom.messageLog('Create New room')
     this.game_server = PracticeRoom.createNewGame(options.server)
+    this.setListeners()
     this.setUpdateGame()
     this.setState(new State())
     // console.log("What is this scene", this.getScene())
@@ -26,6 +27,24 @@ export class PracticeRoom extends Room {
     return game_server
   }
 
+  setListeners() {
+    let self = this
+    let server = this.game_server
+    let promise = server.getScene()
+    if (typeof promise.then === 'function') {
+      console.log('scene is a promise!')
+      promise.then((scene) => {
+        console.log('scene is a scene now!')
+        self.createEventListeners(scene)
+      }).catch((err) => {
+        console.warn("ERROR?", err)
+      })
+    } else {
+      console.log('a scene is a scene!')
+      self.createEventListeners(promise)
+    }
+  }
+
   setUpdateGame () {
     let server = this.game_server
     let gamePromise = server.getGame()
@@ -37,13 +56,13 @@ export class PracticeRoom extends Room {
       // self.state.updatePlayer(self.clientid, self.scene.scuttle)
       self.state.updateWorld(self.scene)
       if (!self.isGameSet)  {
-        self.createEventListeners(self.scene)
+        // self.createEventListeners(self.scene)
         // self.state.setPlayer(self.scene.scuttle)
         PracticeRoom.messageLog("Game is Set")
         self.broadcast('start')
         console.log("Resume!")
         self.isGameSet = !self.isGameSet
-        self.scene.scene.resume()
+        // self.scene.scene.resume()
       }
     }, (err) => {
       console.log("What is the", err)
@@ -77,9 +96,8 @@ export class PracticeRoom extends Room {
       self.broadcast('eat_enemy'+'_'+enemy.name+enemy.type)
     }, self)
 
-    scene.events.on('player_created', (player) => {
-      scene.restartGame(player)
-    })
+    PracticeRoom.messageLog("Event listeners created!")
+
   }
 
   onJoin (client, options) {
