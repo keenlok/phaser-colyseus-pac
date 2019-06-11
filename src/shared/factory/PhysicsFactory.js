@@ -32,12 +32,18 @@ class PhysicsFactory {
       this.physics.add.overlap(player, child, scene.eatBiggerCoin, scene.isOverlapping, scene)
     })
 
-    enemies.then((children) => {
-      // For eating / getting eaten by enemies
-      children.iterate(child => {
+    if (typeof enemies.then === 'function') {
+      enemies.then((children) => {
+        // For eating / getting eaten by enemies
+        children.iterate(child => {
+          self.physics.add.overlap(player, child, child.crabEatCrab, scene.isOverlapping, child)
+        })
+      })
+    } else {
+      enemies.iterate(child => {
         self.physics.add.overlap(player, child, child.crabEatCrab, scene.isOverlapping, child)
       })
-    })
+    }
 
     // console.log(this.physics.colliders)
   }

@@ -28,6 +28,12 @@ function createPlayer1(scene) {
   scene.scuttle.name = 'player1'
 }
 
+export function createPlayer2(scene) {
+  GameObjFactory.messageLog('Creating player 2')
+
+  return scene.group.createSecondScuttle()
+}
+
 function createSpecialFood(scene) {
   GameObjFactory.messageLog('Creating special food')
 

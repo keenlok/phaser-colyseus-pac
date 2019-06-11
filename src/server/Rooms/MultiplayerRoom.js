@@ -1,4 +1,5 @@
 import { Room,  FossilDeltaSerializer, serialize} from 'colyseus'
+
 import { messageLog, DEBUG } from '../../shared/config/constants'
 import { State } from "../states/objectStates"
 
@@ -85,9 +86,46 @@ export class MultiplayerRoom extends Room {
     this.clientId[client.id] = client.id
     console.log("Who are here", this.clientId, Object.keys(this.clientId).length)
 
-    // this.game_server.getScuttle()
-    this.state.setPlayer(client.id)
-    this.setUpdateGame()
+    if (Object.keys(this.clientId).length >= 2) {
+      this.createNewPlayer(client.id)
+    }  else {
+      // this.game_server.getScuttle()
+      this.state.setPlayer(client.id)
+    }
+  }
+
+  createNewPlayer(id) {
+    console.log("create new player", id)
+    let pScene = this.getScene()
+    // console.log(pScene.then)
+    if (typeof pScene.then === 'function') {
+      console.log('scene is a promise!')
+        pScene.then((scene) => {
+          console.log('scene is a scene now!', scene.initialiseSecond)
+          scene.initialiseSecond(id)
+        }).catch((err) => {
+        console.warn("ERROR?", err)
+      })
+    } else {
+      console.log('a scene is a scene!')
+      pScene.initialiseSecond(id)
+    }
+  }
+
+  getScene() {
+    if (typeof this.scene === "undefined") {
+      return new Promise((resolve, reject) => {
+        let self = this
+        let interval = setInterval(()=> {
+          if (typeof self.scene !== 'undefined') {
+            clearInterval(interval)
+            resolve(self.scene)
+          }
+        }, 1)
+      })
+    } else {
+      return this.scene
+    }
   }
 
   onLeave (client) {
@@ -102,9 +140,9 @@ export class MultiplayerRoom extends Room {
   }
 
   update () {
-    if (this.isGameSet) {
+    // if (this.isGameSet) {
       this.setUpdateGame()
-    }
+    // }
     // this.setEnemyStates(this.scene.enemies)
   }
 

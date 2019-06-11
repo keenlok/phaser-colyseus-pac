@@ -1,4 +1,3 @@
-
 // import Phaser from 'phaser'
 import * as constants from '../../shared/config/constants'
 import * as levelData from '../../shared/leveldata/NewLevelData'
@@ -11,9 +10,9 @@ class Players extends Phaser.GameObjects.Group {
     // Phaser.GameObjects.Group.call(this, scene)
     this.classType = Scuttle
     this.createScuttles()
-    // console.log(scene)
-    // // console.log(game.scene.scenes.user.uid)
-    // console.log(scene.roomId)
+    //  this.messageLog(scene)
+    // //  this.messageLog(game.scene.scenes.user.uid)
+    //  this.messageLog(scene.roomId)
     //   // this.getIdFromFirestore()
     // this.scuttle = this.getNumberOfScuttlesPlaying()
   }
@@ -26,7 +25,7 @@ class Players extends Phaser.GameObjects.Group {
 
   // getNumberOfScuttlesPlaying (playerList) {
   //   for (let i = 0; i < playerList.length; i++) {
-  //     console.log(playerList[i])
+  //      this.messageLog(playerList[i])
   //     this.create((15 * constants.TileSize) + constants.CenterOffset,
   //       (18 * constants.TileSize) + constants.CenterOffset, 'scuttle')
   //   }
@@ -47,11 +46,11 @@ class Scuttle extends Phaser.GameObjects.Sprite {
     scene.children.add(this)
     this.initializeVar(x, y)
 
-    console.log(`this is its initial x and y ${this.x} ${this.y}`)
+     this.messageLog(`this is its initial x and y ${this.x} ${this.y}`)
 
     this.body.setSize(constants.TileSize, constants.TileSize)
     // constants.CenterOffset, constants.CenterOffset)
-    // console.log("scuttle's body ", this.body)
+    //  this.messageLog("scuttle's body ", this.body)
     // this.move( directions.LEFT)
 
     this.createEgg(x, y)
@@ -100,7 +99,7 @@ class Scuttle extends Phaser.GameObjects.Sprite {
 
     this.egg.on('animationcomplete', () => {
       if (this.egg.anims.currentAnim.key === 'spawn') {
-        console.log('spawn')
+         this.messageLog('spawn')
         this.egg.setVisible(false)
         this.egg.setPosition(this.egg.initX, this.egg.initY)
         this.scene.time.delayedCall(1000, this.resetEgg, [], this)
@@ -285,16 +284,16 @@ class Scuttle extends Phaser.GameObjects.Sprite {
 
   cheaperCheckKeys (direction) {
     if (direction ===  directions.LEFT && this.currentDir !==  directions.LEFT) {
-      // console.log('left')
+      //  this.messageLog('left')
       this.checkDirection( directions.LEFT)
     } else if (direction ===  directions.RIGHT && this.currentDir !==  directions.RIGHT) {
-      // console.log('right')
+      //  this.messageLog('right')
       this.checkDirection( directions.RIGHT)
     } else if (direction ===  directions.DOWN && this.currentDir !==  directions.DOWN) {
-      // console.log('down')
+      //  this.messageLog('down')
       this.checkDirection( directions.DOWN)
     } else if (direction ===  directions.UP && this.currentDir !==  directions.UP) {
-      // console.log('up')
+      //  this.messageLog('up')
       this.checkDirection( directions.UP)
     } else {
       this.turning =  directions.NONE
@@ -312,7 +311,7 @@ class Scuttle extends Phaser.GameObjects.Sprite {
       this.alive = false
       this.isDead = true
       this.anims.delayedPlay(500, 'dying')
-      // console.log('dying', this.anims.isPaused, this.anims.isPlaying, this.anims)
+      //  this.messageLog('dying', this.anims.isPaused, this.anims.isPlaying, this.anims)
     }
   }
 
@@ -373,7 +372,7 @@ class Scuttle extends Phaser.GameObjects.Sprite {
   }
 
   getCurrentPosition () {
-    // console.log("am i called?")
+    //  this.messageLog("am i called?")
     return new Phaser.Geom.Point(this.x, this.y)
   }
 
@@ -387,6 +386,10 @@ class Scuttle extends Phaser.GameObjects.Sprite {
     this.speed = 250
     this.threshold = this.speed / 60
     this.body.speed = (this.speed)
+  }
+
+  messageLog(...message) {
+    constants.messageLog('scuttle'+ this.id, message)
   }
 }
 

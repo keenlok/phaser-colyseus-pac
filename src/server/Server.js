@@ -52,14 +52,14 @@ export class gameServer {
     })
   }
 
-  async getPlayer ( ) {
-    return new Promise((resolve, reject) => {
-      let self = this
-      let game = self.getGame()
-      game.then((game) => {
-      })
-    })
-  }
+  // async getPlayer ( ) {
+  //   return new Promise((resolve, reject) => {
+  //     let self = this
+  //     let game = self.getGame()
+  //     game.then((game) => {
+  //     })
+  //   })
+  // }
 
 }
 

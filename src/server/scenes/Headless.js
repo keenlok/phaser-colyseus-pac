@@ -250,6 +250,13 @@ class Headless extends Phaser.Scene {
     this.scuttle.continueMoving()
   }
 
+  initialiseSecond(id) {
+    Headless.messageLog('what is this id', id)
+    let player = GameObjectFactory.createPlayer2(this)
+    // this.setupCollidersForPlayer(player)
+    player.id = id
+  }
+
   setupCollidersForPlayer (player) {
     // this.messageLog('using new method')
     this.physicsFactory.setupPhysicsForPlayer(player, this.enemies.children, this.specialFood.children)
