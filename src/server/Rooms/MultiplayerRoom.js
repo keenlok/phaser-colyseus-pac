@@ -35,7 +35,7 @@ export class MultiplayerRoom extends Room {
       self.game = game
       self.scene = game.scene.scenes[0]
       self.state.updateEnemies(self.scene.enemies.getChildren())
-      self.state.updatePlayer(self.clientid, self.scene.scuttle)
+      // self.state.updatePlayer(self.clientid, self.scene.scuttle)
       self.state.updateWorld(self.scene)
       if (!self.isGameSet)  {
         self.createEventListeners(self.scene)
@@ -47,7 +47,7 @@ export class MultiplayerRoom extends Room {
           self.scene.scene.resume()
         }
       }
-    }, (err) => {
+    }).catch((err) => {
       console.log("What is the", err)
     })
   }
@@ -86,12 +86,12 @@ export class MultiplayerRoom extends Room {
     this.clientId[client.id] = client.id
     console.log("Who are here", this.clientId, Object.keys(this.clientId).length)
 
-    if (Object.keys(this.clientId).length >= 2) {
-      this.createNewPlayer(client.id)
-    }  else {
-      this.game_server.getPlayer1()
-      this.state.setPlayer(client.id)
-    }
+    // if (Object.keys(this.clientId).length >= 2) {
+    //   this.createNewPlayer(client.id)
+    // }  else {
+    //   // this.game_server.getPlayer1()
+    //   this.state.setPlayer(client.id)
+    // }
   }
 
   createNewPlayer(id) {
@@ -113,7 +113,7 @@ export class MultiplayerRoom extends Room {
   }
 
   onLeave (client) {
-    console.log("client left")
+    console.log("client left", client.sessionId)
   }
 
   onMessage (client, data) {

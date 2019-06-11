@@ -39,11 +39,11 @@ export class gameServer {
         if (typeof self.game !== 'undefined') {
           let scene = self.game.scene.scenes[0]
           self.scene = scene
-          if (scene.group !== null) {
-            if (scene.enemies !== {}) {
+          // if (scene.group !== null) {
+            if (typeof scene.enemies !== "undefined") {
               resolve(self.game)
             }
-          }
+          // }
         }
     })
   }
@@ -61,18 +61,18 @@ export class gameServer {
     }
   }
 
-  async getPlayer1() {
-    let self = this
-    if (typeof this.scene === "undefined" || this.scene === undefined) {
-      let scene = await this.getScene()
-    } else {
-      let scene = this.scene
-    }
-    let promise = new Promise((resolve, reject) => {
-      if (self.group)
-    })
-
-  }
+  // async getPlayer1() {
+  //   let self = this
+  //   if (typeof this.scene === "undefined" || this.scene === undefined) {
+  //     let scene = await this.getScene()
+  //   } else {
+  //     let scene = this.scene
+  //   }
+  //   let promise = new Promise((resolve, reject) => {
+  //     if (self.group)
+  //   })
+  //
+  // }
 
 }
 

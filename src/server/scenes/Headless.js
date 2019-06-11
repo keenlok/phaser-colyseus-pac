@@ -116,15 +116,15 @@ class Headless extends Phaser.Scene {
 
     Headless.messageLog("Create: Setup Physics")
     this.physicsFactory = new PhysicsFactory(this, this.physics)
-    this.physicsFactory.setupPhysicsForRelevantObjects(this.scuttle, this.enemies.getChildren(), this.specialFood.children)
+    this.physicsFactory.setupPhysicsForRelevantObjects(this.enemies.getChildren())
 
     Headless.messageLog("Create: Setup Score Manager")
     this.scoreManager = new ScoreManager(this)
 
-    this.scene.pause()
+    // this.scene.pause()
     console.log("Paused! Waiting to Resume")
-    this.restartGame()
-    this.enemyTarget = this.scuttle
+    // this.restartGame()
+    // this.enemyTarget = this.scuttle
   }
 
   update (time) {

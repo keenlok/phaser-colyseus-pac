@@ -106,7 +106,7 @@ class MainGame extends Phaser.Scene {
     GameObjectFactory.createAllGameObjects(this)
 
     this.physicsFactory = new PhysicsFactory(this, this.physics)
-    this.physicsFactory.setupPhysicsForRelevantObjects(this.scuttle, this.enemies.getChildren(), this.specialFood.children)
+    this.physicsFactory.setupPhysicsForRelevantObjects(this.enemies.getChildren())
 
     this.scoreManager = new ScoreManager(this)
 
@@ -119,10 +119,10 @@ class MainGame extends Phaser.Scene {
       // this.createCheats()
     }
 
-    this.scene.pause()
+    // this.scene.pause()
 
-    this.restartGame()
-    this.enemyTarget = this.scuttle
+    // this.restartGame()
+    // this.enemyTarget = this.scuttle
   }
 
   // Help with debug

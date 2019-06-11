@@ -6,10 +6,10 @@ class PhysicsFactory {
     this.physics = physics
   }
 
-  setupPhysicsForRelevantObjects (player, enemies, specialFood) {
+  setupPhysicsForRelevantObjects (enemies) {
     let scene = this.scene
     this.setupCollisionForMaps(scene.tileLayer, scene.coralLayer)
-    this.setupPhysicsForPlayer(player, enemies, specialFood)
+    // this.setupPhysicsForPlayer(player, enemies, specialFood)
     this.setupPhysicsForEnemies(enemies)
   }
 
@@ -50,6 +50,7 @@ class PhysicsFactory {
 
   setupPhysicsForEnemies (enemies) {
     let self = this
+
 
     enemies.then((children) => {
       children.iterate(child => {

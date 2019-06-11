@@ -7,9 +7,8 @@ const directions = constants.directions
 class Players extends Phaser.GameObjects.Group {
   constructor (scene) {
     super(scene)
-    // Phaser.GameObjects.Group.call(this, scene)
     this.classType = Scuttle
-    this.createScuttles()
+    // this.createScuttles()
   }
 
   createScuttles () {
@@ -36,9 +35,6 @@ class Scuttle extends Phaser.GameObjects.Sprite {
      this.messageLog(`this is its initial x and y ${this.x} ${this.y}`)
 
     this.body.setSize(constants.TileSize, constants.TileSize)
-    // constants.CenterOffset, constants.CenterOffset)
-    //  this.messageLog("scuttle's body ", this.body)
-    // this.move( directions.LEFT)
 
     this.createEgg(x, y)
     this.createAnimCompleteListeners()
@@ -194,33 +190,6 @@ class Scuttle extends Phaser.GameObjects.Sprite {
       this.cheaperControls(direction)
     }
   }
-
-  // control (cursors) {
-  //   if (this.alive) {
-  //     if (this.count === 1 && (cursors.LEFT.isDown || cursors.RIGHT.isDown ||
-  //       cursors.UP.isDown || cursors.DOWN.isDown)) {
-  //       // this.scene.ghosts.startMoving()
-  //       this.move( directions.LEFT)
-  //       this.count++
-  //     }
-  //
-  //     if (cursors.LEFT.isDown || cursors.A.isDown) {
-  //       this.nextDirection =  directions.LEFT
-  //       this.cheaperControls(this.nextDirection)
-  //     } else if (cursors.RIGHT.isDown || cursors.D.isDown) {
-  //       this.nextDirection =  directions.RIGHT
-  //       this.cheaperControls(this.nextDirection)
-  //     } else if (cursors.UP.isDown || cursors.W.isDown) {
-  //       this.nextDirection =  directions.UP
-  //       this.cheaperControls(this.nextDirection)
-  //     } else if (cursors.DOWN.isDown || cursors.S.isDown) {
-  //       this.nextDirection =  directions.DOWN
-  //       this.cheaperControls(this.nextDirection)
-  //     } else {
-  //       this.continueMoving()
-  //     }
-  //   }
-  // }
 
   continueMoving () {
     this.cheaperControls(this.nextDirection)

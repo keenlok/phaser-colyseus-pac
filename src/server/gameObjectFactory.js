@@ -20,12 +20,12 @@ function createEnemies(scene) {
   })
 }
 
-function createPlayer1(scene) {
+function createPlayers(scene) {
   GameObjFactory.messageLog('Creating player 1')
 
   scene.group = new Players(scene)
-  scene.scuttle = scene.group.scuttle
-  scene.scuttle.name = 'player1'
+  // scene.scuttle = scene.group.scuttle
+  // scene.scuttle.name = 'player1'
 }
 
 export function createPlayer2(scene) {
@@ -42,7 +42,7 @@ function createSpecialFood(scene) {
 export function createObjectsForHeadless(scene) {
   GameObjFactory.createMap(scene)
   createEnemies(scene)
-  createPlayer1(scene)
+  createPlayers(scene)
   createSpecialFood(scene)
   GameObjFactory.createAndConfigureCameras(scene)
   GameObjFactory.createCursors(scene)

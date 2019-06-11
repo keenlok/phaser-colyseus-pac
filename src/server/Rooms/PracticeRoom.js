@@ -7,6 +7,7 @@ export class PracticeRoom extends Room {
     super()
     this.maxClients = 1
     this.isGameSet = false
+    this.clientId = {}
   }
 
   onInit (options) {
@@ -33,7 +34,7 @@ export class PracticeRoom extends Room {
       self.game = game
       self.scene = game.scene.scenes[0]
       self.state.updateEnemies(self.scene.enemies.getChildren())
-      self.state.updatePlayer(self.clientid, self.scene.scuttle)
+      // self.state.updatePlayer(self.clientid, self.scene.scuttle)
       self.state.updateWorld(self.scene)
       if (!self.isGameSet)  {
         self.createEventListeners(self.scene)
@@ -80,23 +81,16 @@ export class PracticeRoom extends Room {
   onJoin (client, options) {
     PracticeRoom.messageLog("New client join", client.id)
     // TODO: Make this less dependent
-    this.clientid = client.id
+    this.clientId[client.id] = client.id
+    console.log("Who are here", this.clientId, Object.keys(this.clientId).length)
     // this.game_server.getScuttle()
-    this.state.setPlayer(client.id)
-    this.setPlayer(client.id)
+    // this.state.setPlayer(client.id)
+    // this.setPlayer(client.id)
   }
 
-  async setPlayer(id) {
-
-
-  }
-
-  async getGame() {
-
-  }
 
   onLeave (client) {
-    console.log("client left")
+    console.log("client left", client.sessionId)
   }
 
   onMessage (client, data) {
