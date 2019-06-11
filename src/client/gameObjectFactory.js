@@ -18,18 +18,23 @@ function createEnemies(scene) {
   })
 }
 
-function createPlayers(scene) {
-  GameObjFactory.messageLog('Creating player 1')
-
-  scene.group = new Players(scene)
-  // scene.scuttle = scene.group.scuttle
-  // scene.scuttle.name = 'player1'
-}
-
 function createSpecialFood(scene) {
   GameObjFactory.messageLog('Creating special food')
 
   scene.specialFood = new SpecialDots(scene)
+}
+
+function createPlayers(scene) {
+  GameObjFactory.messageLog('Creating player 1')
+
+  scene.group = new Players(scene)
+  scene.players = {}
+  // scene.scuttle = scene.group.scuttle
+  // scene.scuttle.name = 'player1'
+}
+
+function createPlayer(scene, id) {
+  scene.players[id] = scene.group.createNewPlayer(id)
 }
 
 
