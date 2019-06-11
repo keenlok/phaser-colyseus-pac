@@ -27,7 +27,7 @@ function createSpecialFood(scene) {
 }
 
 function createPlayers(scene) {
-  GameObjFactory.messageLog('Creating player 1')
+  GameObjFactory.messageLog('Creating players group')
 
   scene.group = new Players(scene)
   scene.players = {}
@@ -35,8 +35,22 @@ function createPlayers(scene) {
   // scene.scuttle.name = 'player1'
 }
 
-function createPlayer(scene, id) {
-  scene.players[id] = scene.group.createNewPlayer(id)
+export function createPlayer(scene, id) {
+  GameObjFactory.messageLog('Creating new player')
+  let group = scene.group
+  // if (group === null) {
+  //   let promise = new Promise((resolve, reject) => {
+  //     let interval = setInterval(() => {
+  //       if (scene.group !== null) {
+  //         clearInterval(interval)
+  //         resolve(scene.group)
+  //       }
+  //     }, 1)
+  //   })
+  //   group = await promise
+  // }
+  scene.players[id] = group.createNewPlayer(id)
+  return scene.players[id]
 }
 
 export function createPlayer2(scene) {

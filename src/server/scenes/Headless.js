@@ -246,8 +246,18 @@ class Headless extends Phaser.Scene {
 
 
   /** ------------------------------------ Methods for Players -------------------------------------*/
+  createNewPlayer(id) {
+    Headless.messageLog('Creating new player with id', id)
+    let player = GameObjectFactory.createPlayer(this, id)
+    this.setupCollidersForPlayer(player)
+    Headless.messageLog('New player with id created', id)
+    this.events.emit('player_created', player)
+  }
+
   updatePlayer () {
-    this.scuttle.continueMoving()
+    for (let id in this.players) {
+      this.players[id].continueMoving()
+    }
   }
 
   initialiseSecond(id) {
@@ -258,7 +268,7 @@ class Headless extends Phaser.Scene {
   }
 
   setupCollidersForPlayer (player) {
-    // this.messageLog('using new method')
+    Headless.messageLog('Setting up physics for player', player.id)
     this.physicsFactory.setupPhysicsForPlayer(player, this.enemies.getChildren(), this.specialFood.children)
   }
   // ---------------------------------End of Methods for Players -----------------------------------//
@@ -315,16 +325,17 @@ class Headless extends Phaser.Scene {
     }
   }
 
-  restartGame (args) {
+  restartGame (player) {
     this.events.emit('restartGame')
-    let player
-    // this.messageLog(args === this.scuttle)
-    if (typeof args === 'undefined') {
+    // let player
+    // this.messageLog(args)
+    if (typeof player === 'undefined') {
       player = this.scuttle
     } else {
-      player = args
+      // player = pl
+      console.log(player.id)
     }
-    Headless.messageLog('Player has died, Restarting Game')
+    Headless.messageLog('Restarting Game')
     this.currentMode = 0
     this.isHuntMode = false
     player.returnToNormal()

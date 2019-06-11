@@ -36,15 +36,17 @@ export class gameServer {
   getGame() {
     return new Promise((resolve, reject) => {
       let self = this
+      let interval = setInterval(() => {
         if (typeof self.game !== 'undefined') {
           let scene = self.game.scene.scenes[0]
           self.scene = scene
           // if (scene.group !== null) {
             if (typeof scene.enemies !== "undefined") {
+              clearInterval(interval)
               resolve(self.game)
             }
-          // }
-        }
+          }
+        }, 1)
     })
   }
 
@@ -52,28 +54,33 @@ export class gameServer {
     if (typeof this.scene === "undefined") {
       return new Promise((resolve, reject) => {
         let self = this
-        if (typeof self.scene !== 'undefined') {
-          resolve(self.scene)
-        }
+        let interval = setInterval(() => {
+          if (typeof self.scene !== 'undefined') {
+            clearInterval(interval)
+            resolve(self.scene)
+          }
+        }, 1)
       })
     } else {
       return this.scene
     }
   }
 
-  // async getPlayer1() {
-  //   let self = this
-  //   if (typeof this.scene === "undefined" || this.scene === undefined) {
-  //     let scene = await this.getScene()
-  //   } else {
-  //     let scene = this.scene
-  //   }
-  //   let promise = new Promise((resolve, reject) => {
-  //     if (self.group)
-  //   })
-  //
-  // }
-
+  async createNewPlayers(id) {
+    // console.log('Server:  does it come here')
+    let self = this
+    let game, scene
+    if (typeof self.scene === "undefined" || self.scene === undefined) {
+      // console.log('Server:  does it come here await')
+      game = await self.getGame()
+      scene = this.scene
+      // console.log('Server:  does it go past await')
+    } else {
+      // console.log('Server:  does it come here instead to undefined')
+      scene = this.scene
+    }
+    scene.createNewPlayer(id)
+  }
 }
 
 

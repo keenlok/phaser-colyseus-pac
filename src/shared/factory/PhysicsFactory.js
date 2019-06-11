@@ -20,8 +20,10 @@ class PhysicsFactory {
     // console.log('what is this', this.physics.add.collider)
     // console.log(scene.tileLayer, scene.coralLayer)
     // For collision with tiles and coral tree
+    console.log("PHYSICS:     Here!")
     this.physics.add.collider(player, scene.tileLayer)
     this.physics.add.collider(player, scene.coralLayer)
+    console.log("PHYSICS:     Here AFTER Colliders!")
 
     // For eating food
 

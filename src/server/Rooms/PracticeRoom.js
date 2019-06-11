@@ -76,6 +76,10 @@ export class PracticeRoom extends Room {
     scene.events.on('eat_enemy', (enemy) => {
       self.broadcast('eat_enemy'+'_'+enemy.name+enemy.type)
     }, self)
+
+    scene.events.on('player_created', (player) => {
+      scene.restartGame(player)
+    })
   }
 
   onJoin (client, options) {
@@ -83,7 +87,7 @@ export class PracticeRoom extends Room {
     // TODO: Make this less dependent
     this.clientId[client.id] = client.id
     console.log("Who are here", this.clientId, Object.keys(this.clientId).length)
-    // this.game_server.getScuttle()
+    this.game_server.createNewPlayers(client.id)
     // this.state.setPlayer(client.id)
     // this.setPlayer(client.id)
   }
