@@ -6,6 +6,7 @@ module.exports = {
   entry: {
     client: './src/client/client.js',
   },
+  devtool: 'source-map',
   output: {
     path: path.resolve(__dirname, 'dist/client'),
     filename: '[name].js',
