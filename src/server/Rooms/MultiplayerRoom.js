@@ -1,5 +1,4 @@
 import { Room,  FossilDeltaSerializer, serialize} from 'colyseus'
-
 import { messageLog, DEBUG } from '../../shared/config/constants'
 import { State } from "../states/objectStates"
 
@@ -14,9 +13,9 @@ export class MultiplayerRoom extends Room {
   onInit (options) {
     MultiplayerRoom.messageLog('Create New room')
     this.game_server = MultiplayerRoom.createNewGame(options.server)
+    this.setListeners()
     this.setUpdateGame()
     this.setState(new State())
-    // console.log("What is this scene", this.getScene())
     this.setSimulationInterval((deltaTime) => this.update(deltaTime));
 
   }
@@ -27,6 +26,25 @@ export class MultiplayerRoom extends Room {
     return game_server
   }
 
+  setListeners() {
+    let self = this
+    let server = this.game_server
+    let promise = server.getScene()
+    if (typeof promise.then === 'function') {
+      console.log('scene is a promise!')
+      promise.then((scene) => {
+        console.log('scene is a scene now!')
+        self.createEventListeners(scene)
+      }).catch((err) => {
+        console.warn("ERROR?", err)
+      })
+    } else {
+      console.log('a scene is a scene!')
+      self.createEventListeners(promise)
+    }
+  }
+
+
   setUpdateGame () {
     let server = this.game_server
     let gamePromise = server.getGame()
@@ -35,15 +53,17 @@ export class MultiplayerRoom extends Room {
       self.game = game
       self.scene = game.scene.scenes[0]
       self.state.updateEnemies(self.scene.enemies.getChildren())
+      self.state.updatePlayers(self.scene.players)
       // self.state.updatePlayer(self.clientid, self.scene.scuttle)
       self.state.updateWorld(self.scene)
       if (!self.isGameSet)  {
-        self.createEventListeners(self.scene)
+        // self.createEventListeners(self.scene)
         if (Object.keys(this.clientId).length === 2) {
           // self.state.setPlayer(self.scene.scuttle)
           MultiplayerRoom.messageLog("Game is Set")
           self.broadcast('start')
           self.isGameSet = !self.isGameSet
+          console.log("Resume!")
           self.scene.scene.resume()
         }
       }
@@ -55,16 +75,23 @@ export class MultiplayerRoom extends Room {
   createEventListeners(scene) {
     let self = this
 
-    scene.events.on('change_to_hunt', () => {
-      self.broadcast('hunt')
+    scene.events.on('player_created', (player) => {
+      self.state.setPlayer(player.id, player)
+      console.log("Player is created", player.id)
+      scene.setTarget()
+      // scene.restartGame(player)
+    }, self)
+
+    scene.events.on('change_to_hunt', (player) => {
+      self.broadcast('hunt_'+player.id)
     }, self)
 
     scene.events.on('return_normal', () => {
       self.broadcast('normal')
     }, self)
 
-    scene.events.on('restartGame', () => {
-      self.broadcast('restart')
+    scene.events.on('restartGame', (player) => {
+      self.broadcast('restart_'+player.id)
     }, self)
 
     scene.events.on('send_exit', (enemy) => {
@@ -72,44 +99,23 @@ export class MultiplayerRoom extends Room {
     }, self)
 
     scene.events.on('eat_player', (player, num) => {
-      self.broadcast('eat_player'+'_'+num+'_')
+      self.broadcast('eat_player'+'_'+num+'_'+player.id)
     }, self)
 
-    scene.events.on('eat_enemy', (enemy) => {
-      self.broadcast('eat_enemy'+'_'+enemy.name+enemy.type)
+    scene.events.on('eat_enemy', (enemy, player) => {
+      self.broadcast('eat_enemy_'+enemy.name+enemy.type+'_'+player.id)
     }, self)
+
+    MultiplayerRoom.messageLog("Event listeners created!")
   }
 
+
   onJoin (client, options) {
-    MultiplayerRoom.messageLog("New client join", client.id, client.sessionId)
+    MultiplayerRoom.messageLog("New client join", client.id)
     // TODO: Make this less dependent
     this.clientId[client.id] = client.id
     console.log("Who are here", this.clientId, Object.keys(this.clientId).length)
-
-    // if (Object.keys(this.clientId).length >= 2) {
-    //   this.createNewPlayer(client.id)
-    // }  else {
-    //   // this.game_server.getPlayer1()
-    //   this.state.setPlayer(client.id)
-    // }
-  }
-
-  createNewPlayer(id) {
-    console.log("create new player", id)
-    let pScene = this.game_server.getScene()
-    // console.log(pScene.then)
-    if (typeof pScene.then === 'function') {
-      console.log('scene is a promise!')
-        pScene.then((scene) => {
-          console.log('scene is a scene now!', scene.initialiseSecond)
-          scene.initialiseSecond(id)
-        }).catch((err) => {
-        console.warn("ERROR?", err)
-      })
-    } else {
-      console.log('a scene is a scene!')
-      pScene.initialiseSecond(id)
-    }
+    this.game_server.createNewPlayers(client.id)
   }
 
   onLeave (client) {
@@ -117,16 +123,24 @@ export class MultiplayerRoom extends Room {
   }
 
   onMessage (client, data) {
-    //TODO: SET TO ALLOW/HANDLE multiple clients
-    console.log("From who", client.sessionId)
+    let id = client.id
+    console.log("From who", id)
     console.log("What is received", data)
-    this.scene.scuttle.storeDirectionToMove(data.move)
+    if (data === 'client_player_created') {
+      console.log("How many players are there?", Object.keys(this.scene.players).length)
+      if (Object.keys(this.scene.players).length === 2) {
+        this.scene.restartGame(this.scene.players[id])
+      }
+    } else {
+      this.scene.players[id].storeDirectionToMove(data.move)
+    }
+
   }
 
   update () {
-    // if (this.isGameSet) {
+    if (this.isGameSet) {
       this.setUpdateGame()
-    // }
+    }
     // this.setEnemyStates(this.scene.enemies)
   }
 

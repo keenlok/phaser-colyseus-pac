@@ -66,20 +66,25 @@ export class gameServer {
     }
   }
 
-  async createNewPlayers(id) {
+  createNewPlayers(id) {
     // console.log('Server:  does it come here')
     let self = this
     let game, scene
-    if (typeof self.scene === "undefined" || self.scene === undefined) {
-      // console.log('Server:  does it come here await')
-      game = await self.getGame()
+    // if (typeof self.scene === "undefined" || self.scene === undefined) {
+    console.log('Server:  does it come here await')
+    let promise = self.getGame()
+    promise.then((game) => {
       scene = this.scene
-      // console.log('Server:  does it go past await')
-    } else {
-      // console.log('Server:  does it come here instead to undefined')
-      scene = this.scene
-    }
-    scene.createNewPlayer(id)
+      console.log('Server:  does it go past await')
+      scene.createNewPlayer(id)
+    }).catch((err)=> {
+      console.log("Error in creating new players!", err)
+    })
+    // } else {
+    //   console.log('Server:  does it come here instead to undefined', self.scene.createNewPlayer)
+    //   scene = self.scene
+    //   scene.createNewPlayer(id)
+    // }
   }
 }
 

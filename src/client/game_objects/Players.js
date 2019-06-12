@@ -18,6 +18,7 @@ class Players extends Phaser.GameObjects.Group {
     }
     let startPoint = constants.convertToPixels(point.x, point.y)
     let player = this.create(startPoint.x, startPoint.y, 'scuttle')
+    point.isTaken = true
     player.id = id
     return player
   }

@@ -18,15 +18,18 @@ class ClientGame extends MainGame {
 
   createListeners() {
     this.events.on('player_created', (player) => {
+      console.log('Player created, sending confirmation to server')
       this.room.send('client_player_created')
     })
   }
 
   createRoom() {
     const client = new Client('ws://127.0.0.1:8000')
+    console.log("What is my id?", client.id)
+    this.clientId = client.id
 
     console.log("Joining rooms")
-    const room = client.join('practice')
+    const room = client.join('2player')
     console.log("Joined room", room)
     this.room = room
 

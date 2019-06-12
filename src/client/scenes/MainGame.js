@@ -196,6 +196,7 @@ class MainGame extends Phaser.Scene {
   setupCollidersForPlayer (player) {
     // console.log('using new method')
     this.physicsFactory.setupPhysicsForPlayer(player, this.enemies.children, this.specialFood.children)
+    return 0
   }
 
   // ------------------------------------ Methods for Enemies -------------------------------------//
@@ -224,9 +225,12 @@ class MainGame extends Phaser.Scene {
   createNewPlayer(id) {
     // this.messageLog('Creating new player with id', id)
     let player = GameObjectFactory.createPlayer(this, id)
-    this.setupCollidersForPlayer(player)
+    let val = this.setupCollidersForPlayer(player)
     // this.messageLog('New player with id created', id)
-    this.events.emit('player_created', player)
+    if (val === 0) {
+      console.log('emitting event!')
+      this.events.emit('player_created', player)
+    }
   }
 
   updatePlayer () {
@@ -315,7 +319,9 @@ class MainGame extends Phaser.Scene {
       console.log("player id", player.id)
     }
     console.log('Restarting Game', player)
-    this.liveText.setText(this.liveString + player.lives)
+    if (this.clientId === player.id) {
+      this.liveText.setText(this.liveString + player.lives)
+    }
     this.currentMode = 0
     this.isHuntMode = false
     player.returnToNormal()

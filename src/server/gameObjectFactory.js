@@ -50,6 +50,7 @@ export function createPlayer(scene, id) {
   //   group = await promise
   // }
   scene.players[id] = group.createNewPlayer(id)
+  console.log("How many players after creation?", scene.players)
   return scene.players[id]
 }
 

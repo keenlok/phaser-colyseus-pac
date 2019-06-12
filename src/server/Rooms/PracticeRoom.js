@@ -16,7 +16,6 @@ export class PracticeRoom extends Room {
     this.setListeners()
     this.setUpdateGame()
     this.setState(new State())
-    // console.log("What is this scene", this.getScene())
     this.setSimulationInterval((deltaTime) => this.update(deltaTime));
 
   }
@@ -105,12 +104,10 @@ export class PracticeRoom extends Room {
     }, self)
 
     PracticeRoom.messageLog("Event listeners created!")
-
   }
 
   onJoin (client, options) {
     PracticeRoom.messageLog("New client join", client.id)
-    // TODO: Make this less dependent
     this.clientId[client.id] = client.id
     console.log("Who are here", this.clientId, Object.keys(this.clientId).length)
     this.game_server.createNewPlayers(client.id)
@@ -125,7 +122,6 @@ export class PracticeRoom extends Room {
 
   onMessage (client, data) {
     let id = client.id
-    //TODO: SET TO ALLOW/HANDLE multiple clients
     console.log("From who", id)
     console.log("What is received", data)
     if (data === 'client_player_created') {
@@ -133,10 +129,6 @@ export class PracticeRoom extends Room {
     } else {
       this.scene.players[id].storeDirectionToMove(data.move)
     }
-    // this.scene.scuttle.storeDirectionToMove(data.move)
-
-
-
   }
 
   update () {
