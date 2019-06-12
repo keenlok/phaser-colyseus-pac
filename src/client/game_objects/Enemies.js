@@ -24,17 +24,17 @@ class Enemies extends Phaser.GameObjects.Group {
     // this.enemytest = this.create(1000, 120, 'hermit_left', 'type1')
   }
 
-  update (time) {
-    // this.children.iterate(child => child.update(time))
-  }
-
-  attack () {
-  //   this.children.iterate(child => child.attack())
-  }
+  // update (time) {
+  //   // this.children.iterate(child => child.update(time))
+  // }
   //
-  scatter () {
-  //   this.children.iterate(child => child.scatter())
-  }
+  // attack () {
+  // //   this.children.iterate(child => child.attack())
+  // }
+  // //
+  // scatter () {
+  // //   this.children.iterate(child => child.scatter())
+  // }
 
   becomeScared () {
     this.children.iterate(child => child.enterFrightenedMode())
@@ -85,11 +85,11 @@ class Enemies extends Phaser.GameObjects.Group {
     this.children.iterate(child => child.baseSpeed())
   }
 
-  setRandomNumberGenerator (seed) {
-    this.children.iterate(child => {
-      child.rng = seedrandom(seed)
-    })
-  }
+  // setRandomNumberGenerator (seed) {
+  //   this.children.iterate(child => {
+  //     child.rng = seedrandom(seed)
+  //   })
+  // }
 
   getChildren () {
     return new Promise((resolve, reject) => {

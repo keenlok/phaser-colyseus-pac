@@ -7,7 +7,7 @@ const directions = constants.directions
 class Players extends Phaser.GameObjects.Group {
   constructor (scene) {
     super(scene)
-    this.classType = Scuttle
+    this.classType = Player
     // this.createScuttles()
   }
 
@@ -30,23 +30,36 @@ class Players extends Phaser.GameObjects.Group {
   }
 }
 
-class Scuttle extends Phaser.GameObjects.Sprite {
+class Player extends Phaser.GameObjects.Sprite {
   constructor (scene, x, y, type, frame) {
     super(scene, x, y, 'scuttle')
     scene.physics.world.enable(this)
     scene.children.add(this)
-    this.spawnPosition = { x: x, y: y }
+    this.initVar(x, y)
+
+    this.body.setSize(constants.TileSize, constants.TileSize)
+    // constants.CenterOffset, constants.CenterOffset)
+    console.log("scuttle's body ", this.body)
+    // this.move( directions.LEFT)
+
+    this.createEgg(x, y)
+    this.createAnimCompleteListeners()
+    this.egg.anims.delayedPlay(Math.random() * 1000, 'egg')
+  }
+
+  initVar(x, y) {
+    this.spawnPosition = {x: x, y: y}
     this.directions = [null, null, null, null, null]
     this.opposites = [
-       directions.NONE,  directions.RIGHT,  directions.LEFT,
-       directions.DOWN,  directions.UP
+      directions.NONE, directions.RIGHT, directions.LEFT,
+      directions.DOWN, directions.UP
     ]
 
     this.baseSpeed() // Threshold is basically the speed / game frame rate
     this.marker = new Phaser.Geom.Point()
     this.turnPoint = new Phaser.Geom.Point()
-    this.currentDir =  directions.NONE
-    this.turning =  directions.NONE
+    this.currentDir = directions.NONE
+    this.turning = directions.NONE
     this.lives = 3
     this.count = 1
     this.isDead = false
@@ -57,15 +70,6 @@ class Scuttle extends Phaser.GameObjects.Sprite {
     // this.test_coolDown = 2000
 
     console.log(`this is its initial x and y ${this.x} ${this.y}`)
-
-    this.body.setSize(constants.TileSize, constants.TileSize)
-    // constants.CenterOffset, constants.CenterOffset)
-    console.log("scuttle's body ", this.body)
-    // this.move( directions.LEFT)
-
-    this.createEgg(x, y)
-    this.createAnimCompleteListeners()
-    this.egg.anims.delayedPlay(Math.random() * 1000, 'egg')
   }
 
   createEgg (x, y) {
