@@ -117,7 +117,7 @@ export class PracticeRoom extends Room {
 
 
   onLeave (client) {
-    console.log("client left", client.sessionId)
+    console.log("client left", client.id)
   }
 
   onMessage (client, data) {

@@ -24,7 +24,7 @@
 
 
 ### World:
-- [ ] Points (Not synced again)
+- [x] Points (Not synced again)
 - [x] Time mode for Enemy
 - [x] World mode for Player and Enemy
 - [ ] Game status:

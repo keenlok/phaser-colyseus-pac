@@ -768,7 +768,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
     this.scene.events.emit('eat_enemy', this, player)
     // this.scene.soundManager.playEnemyDeathSFX()
     // this.scene.soundManager.scuttleVO[1].play()
-    let score = this.scene.increaseScore('enemy_exp')
+    let score = this.scene.increaseScore('enemy_exp', player)
     // this.scene.addTextScore(this.x, this.y, score)
     this.mode = this.RETURNING_HOME
     this.isDead = true
