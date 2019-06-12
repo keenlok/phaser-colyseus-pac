@@ -9,7 +9,7 @@ class Enemies extends Phaser.GameObjects.Group {
     super(scene)
     // Phaser.GameObjects.Group.call(this, scene)
     this.classType = Enemy
-    // TODO: Put the starting positions of the enemies to constants because the enemies'
+    // Put the starting positions of the enemies to constants because the enemies'
     // spawn location is dependent on the map and it will become troublesome to keep changing
     // the numbers here
     this.enemy = this.create((START_COORD.A.x * constants.TileSize) + constants.CenterOffset,

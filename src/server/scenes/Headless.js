@@ -298,6 +298,22 @@ class Headless extends Preload {
       }
     }
   }
+
+  eats (player, enemy) {
+    // console.log("What is received?", enemy.name);
+    let num
+    if (!enemy.isDead) {
+      Headless.messageLog(`${enemy.name+enemy.type} met this player ${player.name}`)
+      if (this.isHuntMode && player.isPowerUp) {
+        num = player.eatAudio
+        enemy.dies(player)
+      } else if (!player.isDead) {
+        num = enemy.eatAudio
+        this.events.emit('eat_player', player, num)
+        this.playerDies(num, player)
+      }
+    }
+  }
   // ---------------------------------End of Methods for Enemies -----------------------------------//
 
 

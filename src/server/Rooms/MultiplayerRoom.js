@@ -112,7 +112,6 @@ export class MultiplayerRoom extends Room {
 
   onJoin (client, options) {
     MultiplayerRoom.messageLog("New client join", client.id)
-    // TODO: Make this less dependent
     this.clientId[client.id] = client.id
     console.log("Who are here", this.clientId, Object.keys(this.clientId).length)
     this.game_server.createNewPlayers(client.id)

@@ -38,12 +38,12 @@ class PhysicsFactory {
       enemies.then((children) => {
         // For eating / getting eaten by enemies
         children.iterate(child => {
-          self.physics.add.overlap(player, child, child.crabEatCrab, scene.isOverlapping, child)
+          self.physics.add.overlap(player, child, scene.eats, scene.isOverlapping, scene)
         })
       })
     } else {
       enemies.iterate(child => {
-        self.physics.add.overlap(player, child, child.crabEatCrab, scene.isOverlapping, child)
+        self.physics.add.overlap(player, child, scene.eats, scene.isOverlapping, scene)
       })
     }
 
@@ -65,6 +65,7 @@ class PhysicsFactory {
     tileLayer.setCollisionBetween(1, 140, true)
     coralLayer.setCollisionBetween(levelData.startGid, levelData.endGid, true)
   }
+
 }
 
 export default PhysicsFactory

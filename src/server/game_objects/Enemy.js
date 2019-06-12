@@ -483,7 +483,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
     }
 
     if (this.scene.isPaused) {
-      this.mode = this.STOP // TODO: If multiplayer ignore this
+      this.mode = this.STOP
       this.setVisible(false)
     }
   }
@@ -632,7 +632,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
     //   // if (this.name === 'shark') {
     //   //   this.messageLog(x, y)
     //   //   this.messageLog(this.scene.isSpecialTile({x: x, y: y}))
-    //   // } //TODO: For Debug remove if needed
+    //   // } //For Debug remove if needed
     //   if (this.scene.isSpecialTile({x: x, y: y}) && bestDecision === directions.UP) {
     //     bestDecision = this.currentDir
     //     let canContinue = this.checkSafetile(this.directions[this.currentDir])
@@ -745,22 +745,6 @@ class Enemy extends Phaser.GameObjects.Sprite {
       this.play(this.name + '_hunt_left')
     } else {
       this.play(this.name + '_hunt_right')
-    }
-  }
-
-  crabEatCrab (player) {
-    let num
-    if (!this.isDead) {
-      this.messageLog('Met this player', player.name)
-      if (this.scene.isHuntMode && player.isPowerUp) {
-        // TODO: Move this to a method in extended game to remove coupling
-        num = player.eatAudio
-        this.dies(player)
-      } else if (!player.isDead) {
-        num = this.eatAudio
-        this.scene.events.emit('eat_player', player, num)
-        this.scene.playerDies(num, player)
-      }
     }
   }
 

@@ -221,6 +221,22 @@ class MainGame extends Phaser.Scene {
     // this.isOrangeOut = false
   }
 
+  eats (player, enemy) {
+    // console.log("What is received?", enemy.name);
+    let num
+    if (!enemy.isDead) {
+      console.log(`${enemy.name+enemy.type} met this player ${player.name}`)
+      // if (this.isHuntMode && player.isPowerUp) {
+      //   num = player.eatAudio
+      //   enemy.dies(player)
+      // } else if (!player.isDead) {
+      //   num = this.eatAudio
+      //   this.events.emit('eat_player', player, num)
+      //   this.playerDies(num, player)
+      // }
+    }
+  }
+
   // ------------------------------------ Methods for Players -------------------------------------//
   createNewPlayer(id) {
     // this.messageLog('Creating new player with id', id)

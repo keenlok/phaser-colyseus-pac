@@ -52,7 +52,6 @@ class ClientGame extends MainGame {
     this.room = room
 
     room.onJoin.add(() => {
-      //TODO: Create new character
       console.log("client joins room")
       room.listen('players/:id', ({path: {id}, operation, value}) => {
         if (operation === 'add') {
@@ -62,7 +61,6 @@ class ClientGame extends MainGame {
           console.log("This player quit", id)
         }
       })
-      //TODO: Allow multiple clients
       room.listen('players/:id/:attribute', ({path: {attribute, id}, operation, value}) => {
         if (operation === "replace" || operation === "remove") {
           if (attribute === 'x' || attribute === 'y') {
@@ -157,6 +155,7 @@ class ClientGame extends MainGame {
             this.enemieslist[id].delayedSpawn()
           } else if (message.startsWith("eat_player")) {
             let numplayer = message.substr(11)
+            console.log("What is received???", message)
             let args = numplayer.split('_')
             let num = args[0]
             let id = args[1]
