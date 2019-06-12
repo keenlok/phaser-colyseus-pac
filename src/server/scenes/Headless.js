@@ -375,6 +375,7 @@ class Headless extends Preload {
         // this.soundManager.doTransitionToHuntFromNormal()
       }
       this.changeModeTimer = this.time.now + this.FRIGHTENED_MODE_TIME
+      this.changeModeTimer = this.time.now + this.FRIGHTENED_MODE_TIME
       this.isHuntMode = true
       player.powerUp()
       Headless.messageLog('Hunt Mode remaining time:', this.remainingTime)
@@ -498,7 +499,7 @@ class Headless extends Preload {
     // }
     // if (player !== )
     let increase = this.scoreManager.increaseScore(key)
-    this.score += increase
+    player.score += increase
     // this.scoreText.setText(this.scoreString + this.score)
     // let text = this.add.text(this.scoreText.width + 5 + this.scoreText.x,
     //   this.scoreText.y, '+' + increase)
@@ -582,7 +583,7 @@ class Headless extends Preload {
     this.scene.pause()
   }
 
-  scuttleDies (num, player) {
+  playerDies (num, player) {
     Headless.messageLog("comes here")
     player.dies()
     // if ((typeof NODE_ENV === 'undefined' && NODE_ENV !== 'production') || this.isTwoPlayer) {

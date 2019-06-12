@@ -23,19 +23,6 @@ class Players extends Phaser.GameObjects.Group {
     return player
   }
 
-  // createScuttles () {
-  //   let point = levelData.PLAYER_START[0]
-  //   let startPoint = constants.convertToPixels(point.x, point.y)
-  //   this.scuttle = this.create(startPoint.x, startPoint.y, 'scuttle')
-  // }
-  //
-  // createSecondScuttle () {
-  //   let point = levelData.PLAYER_START[1]
-  //   let startPoint = constants.convertToPixels(point.x, point.y)
-  //   this.scuttle2 = this.create(startPoint.x, startPoint.y, 'scuttle')
-  //   return this.scuttle2
-  // }
-
   returnToNormal() {
     this.children.iterate(child => {
       child.returnToNormal()
@@ -78,7 +65,8 @@ class Scuttle extends Phaser.GameObjects.Sprite {
     this.isPowerUp = false
 
     this.alive = false
-    this.test_coolDown = 2000
+    // this.test_coolDown = 2000
+    this.score = 0
     this.name = ''
   }
 

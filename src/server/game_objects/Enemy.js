@@ -759,7 +759,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
       } else if (!player.isDead) {
         num = this.eatAudio
         this.scene.events.emit('eat_player', player, num)
-        this.scene.scuttleDies(num, player)
+        this.scene.playerDies(num, player)
       }
     }
   }

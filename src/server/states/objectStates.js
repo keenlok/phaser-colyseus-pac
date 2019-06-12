@@ -14,7 +14,7 @@ class EnemyState {
 class PlayerState {
   constructor(player) {
     if (typeof player === 'undefined') {
-      console.log("Did it come here")
+      console.log("Did it come here undefined? Player")
       player = {
         x:        0,
         y:        0,
@@ -46,6 +46,7 @@ class PlayerState {
     this.lives =      player.lives
     this.velocityX =  player.body.velocity.x
     this.velocityY =  player.body.velocity.y
+    this.score =      player.score
   }
 }
 
