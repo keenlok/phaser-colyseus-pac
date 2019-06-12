@@ -91,14 +91,20 @@ export class gameServer {
 
 import http from 'http'
 import { Server } from 'colyseus'
+import { monitor } from '@colyseus/monitor'
+import * as cors from 'cors'
+import * as express from 'express'
 import { PracticeRoom } from './Rooms/PracticeRoom'
 import { MultiplayerRoom } from './Rooms/MultiplayerRoom'
 
-const server = http.Server();
+const app = express();
+const server = http.Server(app);
 
 const colyServer = new Server({
   server: server
 })
+
+const PORT = 8000
 
 colyServer.register("practice", PracticeRoom, { server: gameServer })
 colyServer.register("2player", MultiplayerRoom, { server: gameServer })
@@ -106,8 +112,11 @@ colyServer.register("2player", MultiplayerRoom, { server: gameServer })
 // let game_server = new gameServer()
 // game_server.setupAuthoritativeServer()
 
-colyServer.listen(8000, undefined, undefined, function () {
-  console.log(`Listening on ${server.address().port}`);
+app.use(cors())
+app.use("/colyseus", monitor(colyServer))
+
+colyServer.listen(PORT, undefined, undefined, function () {
+  console.log(`Listening on ws://${server.address().port}`);
 });
 
 console.log("Hello")
