@@ -50,7 +50,7 @@ const convertToGridUnits = (x, y) => {
   return new Phaser.Geom.Point(cx, cy)
 }
 
-let DEBUG = false
+let DEBUG = true
 console.log("what is this", process.env.NODE_ENV)
 if (process.env.NODE_ENV === 'development') {
   DEBUG = true

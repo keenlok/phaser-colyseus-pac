@@ -41,7 +41,6 @@ export default {
     // This enables camera to zoom in on scuttle and follow him
     // scene.checkGameSize() // can handle sizes larger than the game map
     scene.cameras.main.setBounds(0, 0, levelData.WIDTH, levelData.HEIGHT)
-    //TODO: COME BACK TO RENABLE THIS
     // scene.cameras.main.startFollow(scene.scuttle, true, 0.1, 0.1)
     scene.cameras.main.roundPixels = true
     let stuff = scene.cameras.main
