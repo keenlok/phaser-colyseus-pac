@@ -8,7 +8,6 @@ class Players extends Phaser.GameObjects.Group {
   constructor (scene) {
     super(scene)
     this.classType = Player
-    // this.createScuttles()
   }
 
   createNewPlayer(id) {

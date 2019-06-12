@@ -7,8 +7,7 @@ const directions = constants.directions
 class Players extends Phaser.GameObjects.Group {
   constructor (scene) {
     super(scene)
-    this.classType = Scuttle
-    // this.createScuttles()
+    this.classType = Player
   }
 
   createNewPlayer(id) {
@@ -30,7 +29,7 @@ class Players extends Phaser.GameObjects.Group {
   }
 }
 
-class Scuttle extends Phaser.GameObjects.Sprite {
+class Player extends Phaser.GameObjects.Sprite {
   constructor (scene, x, y, type, frame) {
     super(scene, x, y, 'scuttle')
     scene.physics.world.enable(this)
