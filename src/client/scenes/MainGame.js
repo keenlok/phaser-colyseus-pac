@@ -230,6 +230,9 @@ class MainGame extends Phaser.Scene {
     if (val === 0) {
       console.log('emitting event!')
       this.events.emit('player_created', player)
+      if (this.clientId === id) {
+        this.cameras.main.startFollow(player, true, 0.1, 0.1)
+      }
     }
   }
 
@@ -624,7 +627,7 @@ class MainGame extends Phaser.Scene {
     // if ((typeof NODE_ENV === 'undefined' && NODE_ENV !== 'production')|| this.isTwoPlayer) {
     if ((true)|| this.isTwoPlayer) {
       this.currentMode = 0
-      this.enemies.scatter()
+      // this.enemies.scatter()
     } else {
       this.isPaused = true // previous logic where enemies will disappear when scuttle dies
       this.enemies.disappears()

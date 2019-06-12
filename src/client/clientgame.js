@@ -1,5 +1,6 @@
 import MainGame from "./scenes/MainGame"
 import {directions} from '../shared/config/constants'
+import {wsUrl} from '../shared/config/config'
 
 import {Client} from "colyseus.js"
 import Phaser from 'phaser'
@@ -38,7 +39,8 @@ class ClientGame extends MainGame {
     } else {
       roomName = options.room
     }
-    const client = new Client('ws://127.0.0.1:8000')
+
+    const client = new Client(wsUrl)
     console.log("What is my id?", client.id)
     this.clientId = client.id
 
