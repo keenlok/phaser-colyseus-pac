@@ -49,6 +49,7 @@ export class PracticeRoom extends Room {
     let gamePromise = server.getGame()
     let self = this
     gamePromise.then((game) => {
+      // console.log("Updating game!!!")
       self.game = game
       self.scene = game.scene.scenes[0]
       self.state.updateEnemies(self.scene.enemies.getChildren())
@@ -124,13 +125,18 @@ export class PracticeRoom extends Room {
     let id = client.id
     // console.log("From who", id)
     // console.log("What is received", data)
-    if (this.isGameSet) {
-      if (typeof data === 'string' && data === 'client_player_created') {
-        this.scene.restartGame(this.scene.players[id])
-      } else {
+    if (typeof data === 'string' && data === 'client_player_created') {
+      this.scene.restartGame(this.scene.players[id])
+    } else {
+      if (this.isGameSet) {
         this.scene.players[id].storeDirectionToMove(data.move)
       }
     }
+  }
+
+  onDispose () {
+    console.log("Clean up time")
+    this.game_server.dispose()
   }
 
 

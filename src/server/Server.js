@@ -7,6 +7,7 @@ const datauri = new Datauri()
 export class gameServer {
   constructor() {
     this.game = undefined
+    this.window = undefined
     this.scene = undefined
   }
 
@@ -18,6 +19,7 @@ export class gameServer {
       pretendToBeVisual: true
     }).then((dom) => {
       dom.window.gameLoaded = () => {
+        self.window = dom.window
         self.game = dom.window.game
         console.log("is this a game", typeof self.game !== 'undefined')
       }
@@ -65,6 +67,16 @@ export class gameServer {
       return this.scene
     }
   }
+
+  dispose () {
+    console.log("Destroying game!")
+    // this.game.destroy(true)
+    this.window.close() // Fastest way to destroy the game is to close the dom.
+    // this.window.game = null
+    // this.game = null
+    // this.scene = null
+  }
+
 
   createNewPlayers(id) {
     // console.log('Server:  does it come here')

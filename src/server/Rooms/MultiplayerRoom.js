@@ -62,7 +62,7 @@ export class MultiplayerRoom extends Room {
           // self.state.setPlayer(self.scene.scuttle)
           MultiplayerRoom.messageLog("Game is Set")
           self.broadcast('start')
-          self.isGameSet = !self.isGameSet
+          self.isGameSet = true
           console.log("Resume!")
           self.scene.scene.resume()
         }
@@ -119,22 +119,30 @@ export class MultiplayerRoom extends Room {
 
   onLeave (client) {
     console.log("client left", client.id)
+    // this.game.destroy()
   }
 
   onMessage (client, data) {
     let id = client.id
     // console.log("From who", id)
     // console.log("What is received", data)
-    if (this.isGameSet) {
       if (typeof data === 'string' && data === 'client_player_created') {
         console.log("How many players are there?", Object.keys(this.scene.players).length)
         if (Object.keys(this.scene.players).length === 2) {
           this.scene.restartGame(this.scene.players[id])
+          this.isGameSet = true
         }
       } else {
-        this.scene.players[id].storeDirectionToMove(data.move)
+        if (this.isGameSet) {
+          this.scene.players[id].storeDirectionToMove(data.move)
+        }
       }
-    }
+
+  }
+
+  onDispose() {
+    console.log("Clean up time")
+    this.game_server.dispose()
   }
 
   update () {
