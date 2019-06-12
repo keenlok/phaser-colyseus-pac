@@ -20,23 +20,50 @@ function createEnemies(scene) {
   })
 }
 
-function createPlayer1(scene) {
-  GameObjFactory.messageLog('Creating player 1')
-
-  scene.group = new Players(scene)
-  scene.scuttle = scene.group.scuttle
-  scene.scuttle.name = 'player1'
-}
-
 function createSpecialFood(scene) {
   GameObjFactory.messageLog('Creating special food')
 
   scene.specialFood = new SpecialDots(scene)
 }
+
+function createPlayers(scene) {
+  GameObjFactory.messageLog('Creating players group')
+
+  scene.group = new Players(scene)
+  scene.players = {}
+  // scene.scuttle = scene.group.scuttle
+  // scene.scuttle.name = 'player1'
+}
+
+export function createPlayer(scene, id) {
+  GameObjFactory.messageLog('Creating new player')
+  let group = scene.group
+  // if (group === null) {
+  //   let promise = new Promise((resolve, reject) => {
+  //     let interval = setInterval(() => {
+  //       if (scene.group !== null) {
+  //         clearInterval(interval)
+  //         resolve(scene.group)
+  //       }
+  //     }, 1)
+  //   })
+  //   group = await promise
+  // }
+  scene.players[id] = group.createNewPlayer(id)
+  console.log("How many players after creation?", scene.players)
+  return scene.players[id]
+}
+
+export function createPlayer2(scene) {
+  GameObjFactory.messageLog('Creating player 2')
+
+  return scene.group.createSecondScuttle()
+}
+
 export function createObjectsForHeadless(scene) {
   GameObjFactory.createMap(scene)
   createEnemies(scene)
-  createPlayer1(scene)
+  createPlayers(scene)
   createSpecialFood(scene)
   GameObjFactory.createAndConfigureCameras(scene)
   GameObjFactory.createCursors(scene)

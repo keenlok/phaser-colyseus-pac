@@ -6,22 +6,37 @@ export default class Menu extends Phaser.Scene {
   }
 
   preload () {
-    this.load.image('button', '/static/assets/tileV1.png')
+    this.load.image('button', '/static/assets/loading-pop.gif')
   }
 
   create () {
-    this.createBox(this.sys.game.config.width / 4, this.sys.game.config.height / 4)
+    this.createBox(this.sys.game.config.width, this.sys.game.config.height)
   }
 
-  createBox (x, y) {
+  createBox (sysX, sysY) {
     // let width = 200
     // let height = 100
 
     // let button =
-    this.add.image(x, y, 'button').setInteractive()
+    console.log("Here!")
+    let cX = sysX / 2
+    let y = sysY / 4
+    let logo = this.add.image(cX - 40, y, 'button')
     // let test =
-    this.add.text(x + 40, y, 'Start').setInteractive()
-    this.input.on('gameobjectup', this.handleClick, this)
+    // let x = sysX / 2
+    let cY = sysY / 2
+    let practice = this.add.text(cX - 40, cY, 'Practice').setInteractive()
+
+    practice.on('pointerup', () => {
+      this.scene.start('maingame', {room: 'practice'})
+    })
+
+    let multiplayer = this.add.text(cX - 40, cY + 40, '2 Player').setInteractive()
+
+    multiplayer.on('pointerup', () => {
+      this.scene.start('maingame', {room: '2player'})
+    })
+    // this.input.on('gameobjectup', this.handleClick, this)
   }
 
   handleClick () {

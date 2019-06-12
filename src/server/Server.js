@@ -8,7 +8,6 @@ export class gameServer {
   constructor() {
     this.game = undefined
     this.scene = undefined
-    // this.jsdom1
   }
 
   setupAuthoritativeServer() {
@@ -37,30 +36,56 @@ export class gameServer {
   getGame() {
     return new Promise((resolve, reject) => {
       let self = this
-      let interval = setInterval(()=> {
+      let interval = setInterval(() => {
         if (typeof self.game !== 'undefined') {
           let scene = self.game.scene.scenes[0]
           self.scene = scene
-          if (scene.group !== null) {
-            if (scene.enemies !== {}) {
+          // if (scene.group !== null) {
+            if (typeof scene.enemies !== "undefined") {
               clearInterval(interval)
               resolve(self.game)
             }
           }
-        }
-      }, 1)
+        }, 1)
     })
   }
 
-  async getPlayer ( ) {
-    return new Promise((resolve, reject) => {
-      let self = this
-      let game = self.getGame()
-      game.then((game) => {
+  getScene() {
+    if (typeof this.scene === "undefined") {
+      return new Promise((resolve, reject) => {
+        let self = this
+        let interval = setInterval(() => {
+          if (typeof self.scene !== 'undefined') {
+            clearInterval(interval)
+            resolve(self.scene)
+          }
+        }, 1)
       })
-    })
+    } else {
+      return this.scene
+    }
   }
 
+  createNewPlayers(id) {
+    // console.log('Server:  does it come here')
+    let self = this
+    let game, scene
+    // if (typeof self.scene === "undefined" || self.scene === undefined) {
+    console.log('Server:  does it come here await')
+    let promise = self.getGame()
+    promise.then((game) => {
+      scene = this.scene
+      console.log('Server:  does it go past await')
+      scene.createNewPlayer(id)
+    }).catch((err)=> {
+      console.log("Error in creating new players!", err)
+    })
+    // } else {
+    //   console.log('Server:  does it come here instead to undefined', self.scene.createNewPlayer)
+    //   scene = self.scene
+    //   scene.createNewPlayer(id)
+    // }
+  }
 }
 
 

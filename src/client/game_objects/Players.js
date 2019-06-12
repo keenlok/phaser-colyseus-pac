@@ -8,20 +8,38 @@ class Players extends Phaser.GameObjects.Group {
   constructor (scene) {
     super(scene)
     this.classType = Scuttle
-    this.createScuttles()
+    // this.createScuttles()
   }
 
-  createScuttles () {
+  createNewPlayer(id) {
     let point = levelData.PLAYER_START[0]
+    if (point.isTaken) {
+      point = levelData.PLAYER_START[1]
+    }
     let startPoint = constants.convertToPixels(point.x, point.y)
-    this.scuttle = this.create(startPoint.x, startPoint.y, 'scuttle')
+    let player = this.create(startPoint.x, startPoint.y, 'scuttle')
+    point.isTaken = true
+    player.id = id
+    return player
   }
 
-  createSecondScuttle () {
-    let point = levelData.PLAYER_START[1]
-    let startPoint = constants.convertToPixels(point.x, point.y)
-    this.scuttle2 = this.create(startPoint.x, startPoint.y, 'scuttle')
-    return this.scuttle2
+  // createScuttles () {
+  //   let point = levelData.PLAYER_START[0]
+  //   let startPoint = constants.convertToPixels(point.x, point.y)
+  //   this.scuttle = this.create(startPoint.x, startPoint.y, 'scuttle')
+  // }
+  //
+  // createSecondScuttle () {
+  //   let point = levelData.PLAYER_START[1]
+  //   let startPoint = constants.convertToPixels(point.x, point.y)
+  //   this.scuttle2 = this.create(startPoint.x, startPoint.y, 'scuttle')
+  //   return this.scuttle2
+  // }
+
+  returnToNormal() {
+    this.children.iterate(child => {
+      child.returnToNormal()
+    })
   }
 }
 

@@ -90,12 +90,12 @@ class MainGame extends Phaser.Scene {
     this.isFirstPlayer = true
   }
 
-  init (data) {
-    if (typeof data.menu !== 'undefined') {
-      console.log(data)
-      this.scene.stop(data.menu.key)
-    }
-  }
+  // init (data) {
+  //   if (typeof data.menu !== 'undefined') {
+  //     console.log(data)
+  //     this.scene.stop(data.menu.key)
+  //   }
+  // }
 
   create () {
     AnimationFactory.createAllAnimations(this.anims)
@@ -106,7 +106,7 @@ class MainGame extends Phaser.Scene {
     GameObjectFactory.createAllGameObjects(this)
 
     this.physicsFactory = new PhysicsFactory(this, this.physics)
-    this.physicsFactory.setupPhysicsForRelevantObjects(this.scuttle, this.enemies.getChildren(), this.specialFood.children)
+    this.physicsFactory.setupPhysicsForRelevantObjects(this.enemies.getChildren())
 
     this.scoreManager = new ScoreManager(this)
 
@@ -119,10 +119,10 @@ class MainGame extends Phaser.Scene {
       // this.createCheats()
     }
 
-    this.scene.pause()
+    // this.scene.pause()
 
-    this.restartGame()
-    this.enemyTarget = this.scuttle
+    // this.restartGame()
+    // this.enemyTarget = this.scuttle
   }
 
   // Help with debug
@@ -196,87 +196,11 @@ class MainGame extends Phaser.Scene {
   setupCollidersForPlayer (player) {
     // console.log('using new method')
     this.physicsFactory.setupPhysicsForPlayer(player, this.enemies.children, this.specialFood.children)
+    return 0
   }
 
   // ------------------------------------ Methods for Enemies -------------------------------------//
 
-  // checkEnemiesBehaviour (time) {
-  //   if (!this.isPinkOut) {
-  //     // console.log('hello?')
-  //     // this.sendExitOrder(this.enemies.enemy)
-  //     // console.log(this.enemies.enemy3)
-  //     this.isPinkOut = true
-  //   }
-  //   // if (numFood - this.numFoodEaten < 300 && !this.isOrangeOut) {
-  //   if (this.numFoodEaten / levelData.numFood > 0.75 && !this.isOrangeOut) {
-  //     this.sendExitOrder(this.enemies.enemy2)
-  //     this.isOrangeOut = true
-  //   }
-  //   if (this.numFoodEaten > levelData.numFood / 3 && !this.isBlueOut) {
-  //     this.sendExitOrder(this.enemies.enemy1)
-  //     this.isBlueOut = true
-  //   }
-  //   if (!this.isRepeating || this.isHuntMode) {
-  //     if (this.isHuntMode && this.changeModeTimer <= time + 7000) {
-  //       this.enemies.transitionEnemiesToNormal(this.tileFlag)
-  //     }
-  //
-  //     if (this.changeModeTimer !== -1 && !this.isHuntMode && this.changeModeTimer < time) {
-  //       this.currentMode++
-  //       this.changeModeTimer = time + this.TIME_MODES[this.currentMode].time
-  //       if (this.TIME_MODES[this.currentMode].mode === 'chase') {
-  //         this.sendAttackOrder()
-  //       } else {
-  //         this.sendScatterOrder()
-  //       }
-  //       this.logCurrentMode()
-  //     }
-  //     if (this.isHuntMode && this.changeModeTimer < time) {
-  //       this.changeModeTimer = time + this.remainingTime
-  //       this.isHuntMode = false
-  //       this.returnToNormal()
-  //       if (this.TIME_MODES[this.currentMode].mode === 'chase') {
-  //         this.sendAttackOrder()
-  //       } else {
-  //         this.sendScatterOrder()
-  //       }
-  //       this.logCurrentMode()
-  //     }
-  //     if (this.TIME_MODES[this.currentMode].time === -1) {
-  //       this.isRepeating = true
-  //     }
-  //   }
-  // }
-
-  logCurrentMode () {
-    console.log('new mode:', this.TIME_MODES[this.currentMode].mode, this.TIME_MODES[this.currentMode].time)
-    this.events.emit('changeMode')
-  }
-
-  // giveExitOrder (enemy) {
-  //   let remainingTime = this.changeModeTimer - this.time.now
-  //   // Delay enemy exit until the powerup mode is over
-  //   // console.log('did i send something', enemy)
-  //   this.time.delayedCall(remainingTime + (Math.random() * 3000), this.sendExitOrder, [enemy], this)
-  // }
-
-  // updateEnemies (time) {
-  //   this.enemies.update(time)
-  // }
-
-  // sendAttackOrder () {
-  //   this.enemies.attack()
-  // }
-
-  // sendExitOrder (ghost) {
-  //   // console.log(enemy)
-  //   // enemy.mode = this.enemy.EXIT_HOME
-  //   ghost.egg.anims.delayedPlay(1, 'enemy_spawn')
-  // }
-
-  // sendScatterOrder () {
-  //   this.enemies.scatter()
-  // }
 
   isSpecialTile (tile) {
     for (let i = 0; i < this.SPECIAL_TILES.length; i++) {
@@ -287,23 +211,34 @@ class MainGame extends Phaser.Scene {
     return false
   }
 
-  // resetEnemies () {
-  //   this.enemies.resetEnemies()
-  //   this.sendExitOrder(this.enemies.enemy3)
-  //   this.sendExitOrder(this.enemies.enemy)
-  //   this.currentMode = 0
-  //   this.isPinkOut = false
-  //   this.isBlueOut = false
-  //   this.isOrangeOut = false
-  // }
+  resetEnemies () {
+    // this.enemies.resetEnemies()
+    this.enemies.enemy3.delayedSpawn()
+    this.enemies.enemy.delayedSpawn()
+    // this.currentMode = 0
+    // this.isPinkOut = false
+    // this.isBlueOut = false
+    // this.isOrangeOut = false
+  }
 
   // ------------------------------------ Methods for Players -------------------------------------//
+  createNewPlayer(id) {
+    // this.messageLog('Creating new player with id', id)
+    let player = GameObjectFactory.createPlayer(this, id)
+    let val = this.setupCollidersForPlayer(player)
+    // this.messageLog('New player with id created', id)
+    if (val === 0) {
+      console.log('emitting event!')
+      this.events.emit('player_created', player)
+    }
+  }
+
   updatePlayer () {
     // this.scuttle.control(this.cursors)
     // this.followScuttle(this.scuttle)
-    if (this.scuttle.body.speed > 0) {
-      this.soundManager.playScuttleSFX(this.time.now)
-    }
+    // if (this.scuttle.body.speed > 0) {
+    //   this.soundManager.playScuttleSFX(this.time.now)
+    // }
   }
 
   // --------------------------------------- For The Game -----------------------------------------//
@@ -357,7 +292,7 @@ class MainGame extends Phaser.Scene {
   returnToNormal () {
     this.soundManager.doTransitionToNormalFromHunt()
     this.enemies.returnToNormal()
-    this.scuttle.returnToNormal()
+    this.group.returnToNormal()
     this.count = 0
   }
 
@@ -377,16 +312,16 @@ class MainGame extends Phaser.Scene {
     }
   }
 
-  restartGame (args) {
-    let player
-    console.log(args === this.scuttle)
-    if (typeof args === 'undefined') {
+  restartGame (player) {
+    if (typeof player === 'undefined') {
       player = this.scuttle
     } else {
-      player = args
+      console.log("player id", player.id)
     }
     console.log('Restarting Game', player)
-    this.liveText.setText(this.liveString + player.lives)
+    if (this.clientId === player.id) {
+      this.liveText.setText(this.liveString + player.lives)
+    }
     this.currentMode = 0
     this.isHuntMode = false
     player.returnToNormal()
@@ -394,9 +329,9 @@ class MainGame extends Phaser.Scene {
       player.respawn()
       this.isPaused = false
       // This makes sure that the enemies doesn't always respawn when scuttle dies
-      // if (player.lives === 3) {
-      //   this.resetEnemies()
-      // }
+      if (player.lives === 3) {
+        this.resetEnemies()
+      }
       this.isRepeating = false
       this.changeModeTimer = this.time.now + this.TIME_MODES[this.currentMode].time
       this.count = 0
@@ -423,6 +358,7 @@ class MainGame extends Phaser.Scene {
       let num = Math.round(Math.random() * 2) + 1
       obj1.eatAudio = num
       obj2.eatAudio = num
+      // console.log("what is eat Audio?", num, obj1.eatAudio, obj2.eatAudio)
       return true
     }
     return false

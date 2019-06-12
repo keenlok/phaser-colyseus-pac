@@ -266,7 +266,7 @@ export default class Preload extends Phaser.Scene {
     this.load.on('progress', updateProgressbar)
     this.load.once('complete', function () {
       this.load.off('progress', updateProgressbar)
-      this.scene.start('maingame')
+      this.scene.start('preload_screen')
     }, this)
   }
 }

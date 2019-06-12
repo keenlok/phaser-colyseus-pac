@@ -10,41 +10,73 @@ class ClientGame extends MainGame {
     console.log("Main game")
   }
 
+  init (data) {
+    this.options = data
+    console.log(data)
+
+  }
   create() {
     super.create()
-    this.createRoom()
+    this.createRoom(this.options)
+    this.createListeners()
   }
 
-  createRoom() {
+  createListeners() {
+    this.events.on('player_created', (player) => {
+      console.log('Player created, sending confirmation to server')
+      this.room.send('client_player_created')
+    })
+  }
+
+  createRoom(options) {
+    console.log(options)
+    let roomName
+    if (typeof options === "undefined") {
+      roomName = 'practice'
+    } else {
+      roomName = options.room
+    }
     const client = new Client('ws://127.0.0.1:8000')
+    console.log("What is my id?", client.id)
+    this.clientId = client.id
 
     console.log("Joining rooms")
-    const room = client.join('practice')
+    // const room = client.join('2player')
+    const room = client.join(roomName)
+    // const room = client.join('practice')
     console.log("Joined room", room)
     this.room = room
 
     room.onJoin.add(() => {
       //TODO: Create new character
       console.log("client joins room")
+      room.listen('players/:id', ({path: {id}, operation, value}) => {
+        if (operation === 'add') {
+          console.log("Creating new player!", id)
+          this.createNewPlayer(id)
+        } else if (operation === 'remove') {
+          console.log("This player quit", id)
+        }
+      })
       //TODO: Allow multiple clients
       room.listen('players/:id/:attribute', ({path: {attribute, id}, operation, value}) => {
         if (operation === "replace" || operation === "remove") {
           if (attribute === 'x' || attribute === 'y') {
-            this.scuttle[attribute] = value
+            this.players[id][attribute] = value
           } else if (attribute === 'velocityX' ) {
-            this.scuttle.body.setVelocityX(value)
+            this.players[id].body.setVelocityX(value)
           } else if (attribute === 'velocityY') {
-            this.scuttle.body.setVelocityY(value)
+            this.players[id].body.setVelocityY(value)
           }
           if (attribute === 'currDir') {
             console.log(`Player ${id}:`, attribute, value)
-            this.scuttle.move(value)
+            this.players[id].move(value)
           }
           if (attribute === 'isPowUp') {
-            this.scuttle[attribute] = value
+            this.players[id][attribute] = value
           }
           if (attribute === 'isDead' || attribute === 'alive') {
-            this.scuttle[attribute] = value
+            this.players[id][attribute] = value
             // ie it died
             // if (!value) {
             //   this.scuttle.dies()
@@ -81,29 +113,41 @@ class ClientGame extends MainGame {
       })
 
       room.onMessage.add((message) => {
+        console.log("Room:    What is received from server?", message)
         if (message === 'start') {
           console.log('start!')
           this.scene.resume()
-        } else if (message === 'hunt') {
-          console.log("Room: ", "Change game to hunt")
-          this.changeToHuntMode(this.scuttle)
+        } else if (message.startsWith('hunt')) {
+          let args = message.split('_')
+          let id = args[1]
+          console.log("Room: ", "Change game to hunt", id)
+          this.changeToHuntMode(this.players[id])
         } else if (message === 'normal') {
           console.log("Room: ", "Change game to normal")
           this.returnToNormal()
+        } else if (message.startsWith('restart')) {
+          let id = message.substr(8)
+          console.log("this id received to restart", id)
+          this.restartGame(this.players[id])
         } else if (message.startsWith("eat_enemy")) {
-          let id = message.substr(10)
-          console.log("Enemy died", id)
-          this.enemieslist[id].dies()
+          let substr =  message.substr(10)
+          let args = substr.split('_')
+          let enemy_id = args[0]
+          let player_id = args[1]
+          console.log(`Enemy ${enemy_id} died by ${player_id}'s hands`)
+          this.enemieslist[enemy_id].dies(this.players[player_id])
         } else if (message.startsWith("enemy_exit")) {
           let id = message.substr(11)
+          console.log("Enemy exit! received")
           this.enemieslist[id].delayedSpawn()
         } else if (message.startsWith("eat_player")) {
-          //TODO: CHANGE WHEN MULTIPLAYER ALLOWED.
           let numplayer = message.substr(11)
           let args = numplayer.split('_')
           let num = args[0]
+          let id = args[1]
           console.log("This audio num is to be played", num)
-          this.scuttleDies(num, this.scuttle)
+          console.log("This player is eated", id)
+          this.scuttleDies(num, this.players[id])
         } else {
           console.log("Room: Received:", message)
         }

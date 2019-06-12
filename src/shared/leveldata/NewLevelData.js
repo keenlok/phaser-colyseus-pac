@@ -13,7 +13,9 @@ const mapHeight = 29
 const WIDTH = TileSize * mapWidth
 const HEIGHT = TileSize * mapHeight
 
-const PLAYER_START = [{x: 23, y: 24}, {x: 4, y: 5}]
+const PLAYER_START = [
+  {x: 23, y: 24, isTaken: false},
+  {x: 4 , y: 5 , isTaken: false}]
 
 let houseTiles = []
 let startGid = 141

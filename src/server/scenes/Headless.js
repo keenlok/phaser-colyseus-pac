@@ -82,10 +82,13 @@ class Headless extends Phaser.Scene {
     ]
     this.changeModeTimer = 0
     this.remainingTime = 0
+    this.targetTimer = 0
+    this.alternateTime = 29000
     this.currentMode = 0
     this.FRIGHTENED_MODE_TIME = 24000
     this.isHuntMode = false
     this.enemy = null
+    this.enemyTarget = null
     this.isRepeating = false
 
     this.isPinkOut = false
@@ -108,6 +111,9 @@ class Headless extends Phaser.Scene {
   create () {
     Headless.messageLog("Initialise: Create")
 
+    Headless.messageLog("Create: Listeners")
+    // this.createListeners()
+
     Headless.messageLog("Create: Anims")
     AnimationFactory.createAllAnimations(this.anims)
 
@@ -116,19 +122,28 @@ class Headless extends Phaser.Scene {
 
     Headless.messageLog("Create: Setup Physics")
     this.physicsFactory = new PhysicsFactory(this, this.physics)
-    this.physicsFactory.setupPhysicsForRelevantObjects(this.scuttle, this.enemies.getChildren(), this.specialFood.children)
+    this.physicsFactory.setupPhysicsForRelevantObjects(this.enemies.getChildren())
 
     Headless.messageLog("Create: Setup Score Manager")
     this.scoreManager = new ScoreManager(this)
 
-    this.restartGame()
-    this.enemyTarget = this.scuttle
+    // this.scene.pause()
+    console.log("Paused! Waiting to Resume")
+    // this.restartGame()
+    // this.enemyTarget = this.scuttle
   }
+
+  // createListeners() {
+  //   this.events.on('player_created', (player) => {
+  //
+  //   }, this)
+  // }
 
   update (time) {
     if (!this.isPaused) {
       this.checkTimer()
-      if (!this.scuttle.isDead || !this.isRepeating) {
+      this.alternateTargets(time)
+      if (!this.isRepeating) {
         this.checkEnemiesBehaviour(time)
       }
       this.updatePlayer()
@@ -139,7 +154,7 @@ class Headless extends Phaser.Scene {
   /**  ----- End of Main methods -----   */
 
 
-  // ------------------------------------ Methods for Enemies -------------------------------------//
+  /** ------------------------------------ Methods for Enemies -------------------------------------*/
   checkEnemiesBehaviour (time) {
     if (!this.isPinkOut) {
       // this.messageLog('hello?')
@@ -210,7 +225,9 @@ class Headless extends Phaser.Scene {
   }
 
   sendExitOrder (enemy) {
+    console.log("Waking enemy", enemy.name, enemy.type)
     this.events.emit('send_exit', enemy)
+
     // this.messageLog(enemy)
     // enemy.mode = this.enemy.EXIT_HOME
     enemy.egg.anims.delayedPlay(1, 'enemy_spawn')
@@ -238,22 +255,83 @@ class Headless extends Phaser.Scene {
     this.isBlueOut = false
     this.isOrangeOut = false
   }
+
+  getTargetInformationForEnemy () {
+    // if (this.currentMode)
+    let targetPosition = this.enemyTarget.getCurrentPosition()
+    let targetDirection = this.enemyTarget.getCurrentDirection()
+    return {position: targetPosition, direction: targetDirection}
+  }
+
+  alternateTargets(time) {
+    if (this.targetTimer <= time) {
+      console.log("Alternating targets", this.targetTimer, time)
+      this.targetTimer = time + this.alternateTime
+      this.setTarget()
+    }
+  }
+
+  setTarget() {
+    let keys = Object.keys(this.players)
+    let alternated = false
+    let count = 0
+    console.log(keys)
+    if (keys.length === 1) {
+      let key = keys[0]
+      this.enemyTarget = this.players[key]
+      Headless.messageLog("Target set!", this.enemyTarget.id)
+    } else {
+      // while (!alternated && count++ < 5) {
+      //   let key = Phaser.Math.RND.between(0, keys.length - 1)
+      //   console.log("what key is generated?", key)
+      //   if (typeof this.enemyTarget === "undefined" || this.enemyTarget !== this.players[key]) {
+      //     this.enemyTarget = this.players[key]
+      //     alternated = true
+      //     console.log("Target alternated!")
+      //   }
+      // }
+      if (this.enemyTarget === this.players[keys[0]]) {
+        this.enemyTarget = this.players[keys[1]]
+        // console.log("Current Enemy", this.players[keys[1]].id)
+      } else {
+        this.enemyTarget = this.players[keys[0]]
+        // console.log("Current Enemy", this.players[keys[0]].id)
+      }
+    }
+  }
   // ---------------------------------End of Methods for Enemies -----------------------------------//
 
 
-  // ------------------------------------ Methods for Players -------------------------------------//
+  /** ------------------------------------ Methods for Players -------------------------------------*/
+  createNewPlayer(id) {
+    Headless.messageLog('Creating new player with id', id)
+    let player = GameObjectFactory.createPlayer(this, id)
+    this.setupCollidersForPlayer(player)
+    Headless.messageLog('New player with id created', id)
+    this.events.emit('player_created', player)
+  }
+
   updatePlayer () {
-    this.scuttle.continueMoving()
+    for (let id in this.players) {
+      this.players[id].continueMoving()
+    }
+  }
+
+  initialiseSecond(id) {
+    Headless.messageLog('what is this id', id)
+    let player = GameObjectFactory.createPlayer2(this)
+    player.id = id
+    this.setupCollidersForPlayer(player)
   }
 
   setupCollidersForPlayer (player) {
-    // this.messageLog('using new method')
-    this.physicsFactory.setupPhysicsForPlayer(player, this.enemies.children, this.specialFood.children)
+    Headless.messageLog('Setting up physics for player', player.id)
+    this.physicsFactory.setupPhysicsForPlayer(player, this.enemies.getChildren(), this.specialFood.children)
   }
   // ---------------------------------End of Methods for Players -----------------------------------//
 
 
-  // --------------------------------------- For The Game -----------------------------------------//
+  /** --------------------------------------- For The Game -----------------------------------------*/
   resetTimer () {
     Headless.messageLog(this.time.now, this.SFXTimer, this.changeModeTimer)
     this.scuttle.testTimer = this.time.now
@@ -284,12 +362,12 @@ class Headless extends Phaser.Scene {
   returnToNormal () {
     this.events.emit('return_normal')
     this.enemies.returnToNormal()
-    this.scuttle.returnToNormal()
+    this.group.returnToNormal()
     this.count = 0
   }
 
   changeToHuntMode (player) {
-    this.events.emit('change_to_hunt')
+    this.events.emit('change_to_hunt', player)
     // This should prevent the game from triggering hunt mode when the game is won
     if (!this.checkScoreToEndGame()) {
       this.enemies.becomeScared()
@@ -304,16 +382,17 @@ class Headless extends Phaser.Scene {
     }
   }
 
-  restartGame (args) {
-    this.events.emit('restartGame')
-    let player
-    // this.messageLog(args === this.scuttle)
-    if (typeof args === 'undefined') {
+  restartGame (player) {
+    this.events.emit('restartGame', player)
+    // let player
+    // this.messageLog(args)
+    if (typeof player === 'undefined') {
       player = this.scuttle
     } else {
-      player = args
+      // player = pl
+      console.log(player.id)
     }
-    Headless.messageLog('Player has died, Restarting Game')
+    Headless.messageLog('Restarting Game')
     this.currentMode = 0
     this.isHuntMode = false
     player.returnToNormal()
@@ -321,9 +400,9 @@ class Headless extends Phaser.Scene {
       player.respawn()
       this.isPaused = false
       // This makes sure that the enemies doesn't always respawn when scuttle dies
-      // if (player.lives === 3) {
-      //   this.resetEnemies()
-      // }
+      if (player.lives === 3) {
+        this.resetEnemies()
+      }
       this.isRepeating = false
       this.changeModeTimer = this.time.now + this.TIME_MODES[this.currentMode].time
       this.count = 0
@@ -350,6 +429,7 @@ class Headless extends Phaser.Scene {
       let num = Math.round(Math.random() * 2) + 1
       obj1.eatAudio = num
       obj2.eatAudio = num
+      // console.log("what is eat Audio?", num, obj1.eatAudio, obj2.eatAudio)
       return true
     }
     return false
@@ -506,14 +586,8 @@ class Headless extends Phaser.Scene {
     this.scene.pause()
   }
 
-  getTargetInformationForEnemy () {
-    // if (this.currentMode)
-    let targetPosition = this.enemyTarget.getCurrentPosition()
-    let targetDirection = this.enemyTarget.getCurrentDirection()
-    return {position: targetPosition, direction: targetDirection}
-  }
-
   scuttleDies (num, player) {
+    Headless.messageLog("comes here")
     player.dies()
     // if ((typeof NODE_ENV === 'undefined' && NODE_ENV !== 'production') || this.isTwoPlayer) {
     if ((true) || this.isTwoPlayer) {

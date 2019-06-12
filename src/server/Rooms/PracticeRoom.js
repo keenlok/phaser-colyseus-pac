@@ -7,14 +7,15 @@ export class PracticeRoom extends Room {
     super()
     this.maxClients = 1
     this.isGameSet = false
+    this.clientId = {}
   }
 
   onInit (options) {
     PracticeRoom.messageLog('Create New room')
     this.game_server = PracticeRoom.createNewGame(options.server)
+    this.setListeners()
     this.setUpdateGame()
     this.setState(new State())
-    // console.log("What is this scene", this.getScene())
     this.setSimulationInterval((deltaTime) => this.update(deltaTime));
 
   }
@@ -25,6 +26,24 @@ export class PracticeRoom extends Room {
     return game_server
   }
 
+  setListeners() {
+    let self = this
+    let server = this.game_server
+    let promise = server.getScene()
+    if (typeof promise.then === 'function') {
+      console.log('scene is a promise!')
+      promise.then((scene) => {
+        console.log('scene is a scene now!')
+        self.createEventListeners(scene)
+      }).catch((err) => {
+        console.warn("ERROR?", err)
+      })
+    } else {
+      console.log('a scene is a scene!')
+      self.createEventListeners(promise)
+    }
+  }
+
   setUpdateGame () {
     let server = this.game_server
     let gamePromise = server.getGame()
@@ -33,14 +52,17 @@ export class PracticeRoom extends Room {
       self.game = game
       self.scene = game.scene.scenes[0]
       self.state.updateEnemies(self.scene.enemies.getChildren())
-      self.state.updatePlayer(self.clientid, self.scene.scuttle)
+      self.state.updatePlayers(self.scene.players)
+      // self.state.updatePlayer(self.clientid, self.scene.scuttle)
       self.state.updateWorld(self.scene)
       if (!self.isGameSet)  {
-        self.createEventListeners(self.scene)
+        // self.createEventListeners(self.scene)
         // self.state.setPlayer(self.scene.scuttle)
         PracticeRoom.messageLog("Game is Set")
         self.broadcast('start')
+        console.log("Resume!")
         self.isGameSet = !self.isGameSet
+        // self.scene.scene.resume()
       }
     }, (err) => {
       console.log("What is the", err)
@@ -50,16 +72,23 @@ export class PracticeRoom extends Room {
   createEventListeners(scene) {
     let self = this
 
-    scene.events.on('change_to_hunt', () => {
-      self.broadcast('hunt')
+    scene.events.on('player_created', (player) => {
+      self.state.setPlayer(player.id, player)
+      console.log("Player is created", player.id)
+      scene.setTarget()
+      // scene.restartGame(player)
+    }, self)
+
+    scene.events.on('change_to_hunt', (player) => {
+      self.broadcast('hunt_'+player.id)
     }, self)
 
     scene.events.on('return_normal', () => {
       self.broadcast('normal')
     }, self)
 
-    scene.events.on('restartGame', () => {
-      self.broadcast('restart')
+    scene.events.on('restartGame', (player) => {
+      self.broadcast('restart_'+player.id)
     }, self)
 
     scene.events.on('send_exit', (enemy) => {
@@ -67,36 +96,39 @@ export class PracticeRoom extends Room {
     }, self)
 
     scene.events.on('eat_player', (player, num) => {
-      self.broadcast('eat_player'+'_'+num+'_')
+      self.broadcast('eat_player'+'_'+num+'_'+player.id)
     }, self)
 
-    scene.events.on('eat_enemy', (enemy) => {
-      self.broadcast('eat_enemy'+'_'+enemy.name+enemy.type)
+    scene.events.on('eat_enemy', (enemy, player) => {
+      self.broadcast('eat_enemy_'+enemy.name+enemy.type+'_'+player.id)
     }, self)
+
+    PracticeRoom.messageLog("Event listeners created!")
   }
 
   onJoin (client, options) {
     PracticeRoom.messageLog("New client join", client.id)
-    // TODO: Make this less dependent
-    this.clientid = client.id
-    // this.game_server.getScuttle()
-    this.state.setPlayer(client.id)
-    this.setPlayer(client.id)
+    this.clientId[client.id] = client.id
+    console.log("Who are here", this.clientId, Object.keys(this.clientId).length)
+    this.game_server.createNewPlayers(client.id)
+    // this.state.setPlayer(client.id)
+    // this.setPlayer(client.id)
   }
 
-  async setPlayer(id) {
-
-  }
 
   onLeave (client) {
-    console.log("client left")
+    console.log("client left", client.sessionId)
   }
 
   onMessage (client, data) {
-    //TODO: SET TO ALLOW/HANDLE multiple clients
-    // console.log("From who", client.sessionId)
-    // console.log("What is received", data)
-    this.scene.scuttle.storeDirectionToMove(data.move)
+    let id = client.id
+    console.log("From who", id)
+    console.log("What is received", data)
+    if (data === 'client_player_created') {
+      this.scene.restartGame(this.scene.players[id])
+    } else {
+      this.scene.players[id].storeDirectionToMove(data.move)
+    }
   }
 
   update () {

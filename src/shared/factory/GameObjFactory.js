@@ -41,7 +41,8 @@ export default {
     // This enables camera to zoom in on scuttle and follow him
     // scene.checkGameSize() // can handle sizes larger than the game map
     scene.cameras.main.setBounds(0, 0, levelData.WIDTH, levelData.HEIGHT)
-    scene.cameras.main.startFollow(scene.scuttle, true, 0.1, 0.1)
+    //TODO: COME BACK TO RENABLE THIS
+    // scene.cameras.main.startFollow(scene.scuttle, true, 0.1, 0.1)
     scene.cameras.main.roundPixels = true
     let stuff = scene.cameras.main
     messageLog("Initialise World View:", stuff.worldView, stuff.width, stuff.height,
@@ -124,7 +125,7 @@ export default {
     scene.miniMap = scene.cameras.add(0, y - height, width, height, false, 'minimap')
       .setZoom(zoomFactor)
       .setBounds(0, 0, levelData.WIDTH, levelData.HEIGHT, true)
-      .startFollow(scene.scuttle)
+      // .startFollow(scene.scuttle)
       // .ignore([scene.scoreText, scene.liveText, scene.pauseButton])
     scene.miniMap.setAlpha(0.95)
   },
@@ -135,7 +136,7 @@ export default {
       .setScrollFactor(0)
       .setFontFamily('Fredoka One')
       .setFontSize(25)
-    scene.liveText = scene.add.text(370, 0, scene.liveString + scene.scuttle.lives)
+    scene.liveText = scene.add.text(370, 0, scene.liveString + 0)
       .setScrollFactor(0)
       .setFontFamily('Fredoka One')
   },

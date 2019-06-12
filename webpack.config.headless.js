@@ -8,6 +8,7 @@ module.exports = {
   entry: {
     game: './src/server/index.js',
   },
+  // devtool: 'source-map',
   output: {
     path: path.resolve(__dirname, 'dist/server'),
     filename: '[name].bundle.js',

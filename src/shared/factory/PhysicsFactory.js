@@ -6,10 +6,10 @@ class PhysicsFactory {
     this.physics = physics
   }
 
-  setupPhysicsForRelevantObjects (player, enemies, specialFood) {
+  setupPhysicsForRelevantObjects (enemies) {
     let scene = this.scene
     this.setupCollisionForMaps(scene.tileLayer, scene.coralLayer)
-    this.setupPhysicsForPlayer(player, enemies, specialFood)
+    // this.setupPhysicsForPlayer(player, enemies, specialFood)
     this.setupPhysicsForEnemies(enemies)
   }
 
@@ -20,8 +20,10 @@ class PhysicsFactory {
     // console.log('what is this', this.physics.add.collider)
     // console.log(scene.tileLayer, scene.coralLayer)
     // For collision with tiles and coral tree
+    // console.log("PHYSICS:     Here!")
     this.physics.add.collider(player, scene.tileLayer)
     this.physics.add.collider(player, scene.coralLayer)
+    // console.log("PHYSICS:     Here AFTER Colliders!")
 
     // For eating food
 
@@ -32,18 +34,25 @@ class PhysicsFactory {
       this.physics.add.overlap(player, child, scene.eatBiggerCoin, scene.isOverlapping, scene)
     })
 
-    enemies.then((children) => {
-      // For eating / getting eaten by enemies
-      children.iterate(child => {
+    if (typeof enemies.then === 'function') {
+      enemies.then((children) => {
+        // For eating / getting eaten by enemies
+        children.iterate(child => {
+          self.physics.add.overlap(player, child, child.crabEatCrab, scene.isOverlapping, child)
+        })
+      })
+    } else {
+      enemies.iterate(child => {
         self.physics.add.overlap(player, child, child.crabEatCrab, scene.isOverlapping, child)
       })
-    })
+    }
 
     // console.log(this.physics.colliders)
   }
 
   setupPhysicsForEnemies (enemies) {
     let self = this
+
 
     enemies.then((children) => {
       children.iterate(child => {

@@ -1,4 +1,3 @@
-
 // import Phaser from 'phaser'
 import * as constants from '../../shared/config/constants'
 import * as levelData from '../../shared/leveldata/NewLevelData'
@@ -8,35 +7,39 @@ const directions = constants.directions
 class Players extends Phaser.GameObjects.Group {
   constructor (scene) {
     super(scene)
-    // Phaser.GameObjects.Group.call(this, scene)
     this.classType = Scuttle
-    this.createScuttles()
-    // console.log(scene)
-    // // console.log(game.scene.scenes.user.uid)
-    // console.log(scene.roomId)
-    //   // this.getIdFromFirestore()
-    // this.scuttle = this.getNumberOfScuttlesPlaying()
+    // this.createScuttles()
   }
 
-  createScuttles () {
+  createNewPlayer(id) {
     let point = levelData.PLAYER_START[0]
+    if (point.isTaken) {
+      point = levelData.PLAYER_START[1]
+    }
     let startPoint = constants.convertToPixels(point.x, point.y)
-    this.scuttle = this.create(startPoint.x, startPoint.y, 'scuttle')
+    let player = this.create(startPoint.x, startPoint.y, 'scuttle')
+    point.isTaken = true
+    player.id = id
+    return player
   }
 
-  // getNumberOfScuttlesPlaying (playerList) {
-  //   for (let i = 0; i < playerList.length; i++) {
-  //     console.log(playerList[i])
-  //     this.create((15 * constants.TileSize) + constants.CenterOffset,
-  //       (18 * constants.TileSize) + constants.CenterOffset, 'scuttle')
-  //   }
+  // createScuttles () {
+  //   let point = levelData.PLAYER_START[0]
+  //   let startPoint = constants.convertToPixels(point.x, point.y)
+  //   this.scuttle = this.create(startPoint.x, startPoint.y, 'scuttle')
+  // }
+  //
+  // createSecondScuttle () {
+  //   let point = levelData.PLAYER_START[1]
+  //   let startPoint = constants.convertToPixels(point.x, point.y)
+  //   this.scuttle2 = this.create(startPoint.x, startPoint.y, 'scuttle')
+  //   return this.scuttle2
   // }
 
-  createSecondScuttle () {
-    let point = levelData.PLAYER_START[1]
-    let startPoint = constants.convertToPixels(point.x, point.y)
-    this.scuttle2 = this.create(startPoint.x, startPoint.y, 'scuttle')
-    return this.scuttle2
+  returnToNormal() {
+    this.children.iterate(child => {
+      child.returnToNormal()
+    })
   }
 }
 
@@ -47,12 +50,9 @@ class Scuttle extends Phaser.GameObjects.Sprite {
     scene.children.add(this)
     this.initializeVar(x, y)
 
-    console.log(`this is its initial x and y ${this.x} ${this.y}`)
+     this.messageLog(`this is its initial x and y ${this.x} ${this.y}`)
 
     this.body.setSize(constants.TileSize, constants.TileSize)
-    // constants.CenterOffset, constants.CenterOffset)
-    // console.log("scuttle's body ", this.body)
-    // this.move( directions.LEFT)
 
     this.createEgg(x, y)
     this.createAnimCompleteListeners()
@@ -100,16 +100,16 @@ class Scuttle extends Phaser.GameObjects.Sprite {
 
     this.egg.on('animationcomplete', () => {
       if (this.egg.anims.currentAnim.key === 'spawn') {
-        console.log('spawn')
+         this.messageLog('spawn')
         this.egg.setVisible(false)
         this.egg.setPosition(this.egg.initX, this.egg.initY)
         this.scene.time.delayedCall(1000, this.resetEgg, [], this)
         this.alive = true
         this.isDead = false
         this.setVisible(true)
-        if (this.lives === 3) {
-          this.scene.resetEnemies()
-        }
+        // if (this.lives === 3) {
+        //   this.scene.resetEnemies()
+        // }
       }
     }, [], this)
   }
@@ -209,33 +209,6 @@ class Scuttle extends Phaser.GameObjects.Sprite {
     }
   }
 
-  // control (cursors) {
-  //   if (this.alive) {
-  //     if (this.count === 1 && (cursors.LEFT.isDown || cursors.RIGHT.isDown ||
-  //       cursors.UP.isDown || cursors.DOWN.isDown)) {
-  //       // this.scene.ghosts.startMoving()
-  //       this.move( directions.LEFT)
-  //       this.count++
-  //     }
-  //
-  //     if (cursors.LEFT.isDown || cursors.A.isDown) {
-  //       this.nextDirection =  directions.LEFT
-  //       this.cheaperControls(this.nextDirection)
-  //     } else if (cursors.RIGHT.isDown || cursors.D.isDown) {
-  //       this.nextDirection =  directions.RIGHT
-  //       this.cheaperControls(this.nextDirection)
-  //     } else if (cursors.UP.isDown || cursors.W.isDown) {
-  //       this.nextDirection =  directions.UP
-  //       this.cheaperControls(this.nextDirection)
-  //     } else if (cursors.DOWN.isDown || cursors.S.isDown) {
-  //       this.nextDirection =  directions.DOWN
-  //       this.cheaperControls(this.nextDirection)
-  //     } else {
-  //       this.continueMoving()
-  //     }
-  //   }
-  // }
-
   continueMoving () {
     this.cheaperControls(this.nextDirection)
   }
@@ -285,16 +258,16 @@ class Scuttle extends Phaser.GameObjects.Sprite {
 
   cheaperCheckKeys (direction) {
     if (direction ===  directions.LEFT && this.currentDir !==  directions.LEFT) {
-      // console.log('left')
+      //  this.messageLog('left')
       this.checkDirection( directions.LEFT)
     } else if (direction ===  directions.RIGHT && this.currentDir !==  directions.RIGHT) {
-      // console.log('right')
+      //  this.messageLog('right')
       this.checkDirection( directions.RIGHT)
     } else if (direction ===  directions.DOWN && this.currentDir !==  directions.DOWN) {
-      // console.log('down')
+      //  this.messageLog('down')
       this.checkDirection( directions.DOWN)
     } else if (direction ===  directions.UP && this.currentDir !==  directions.UP) {
-      // console.log('up')
+      //  this.messageLog('up')
       this.checkDirection( directions.UP)
     } else {
       this.turning =  directions.NONE
@@ -312,7 +285,7 @@ class Scuttle extends Phaser.GameObjects.Sprite {
       this.alive = false
       this.isDead = true
       this.anims.delayedPlay(500, 'dying')
-      // console.log('dying', this.anims.isPaused, this.anims.isPlaying, this.anims)
+      //  this.messageLog('dying', this.anims.isPaused, this.anims.isPlaying, this.anims)
     }
   }
 
@@ -373,7 +346,7 @@ class Scuttle extends Phaser.GameObjects.Sprite {
   }
 
   getCurrentPosition () {
-    // console.log("am i called?")
+    //  this.messageLog("am i called?")
     return new Phaser.Geom.Point(this.x, this.y)
   }
 
@@ -387,6 +360,10 @@ class Scuttle extends Phaser.GameObjects.Sprite {
     this.speed = 250
     this.threshold = this.speed / 60
     this.body.speed = (this.speed)
+  }
+
+  messageLog(...message) {
+    constants.messageLog('scuttle'+ this.id, message)
   }
 }
 
