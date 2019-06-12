@@ -90,12 +90,12 @@ class MainGame extends Phaser.Scene {
     this.isFirstPlayer = true
   }
 
-  init (data) {
-    if (typeof data.menu !== 'undefined') {
-      console.log(data)
-      this.scene.stop(data.menu.key)
-    }
-  }
+  // init (data) {
+  //   if (typeof data.menu !== 'undefined') {
+  //     console.log(data)
+  //     this.scene.stop(data.menu.key)
+  //   }
+  // }
 
   create () {
     AnimationFactory.createAllAnimations(this.anims)

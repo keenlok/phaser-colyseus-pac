@@ -10,9 +10,14 @@ class ClientGame extends MainGame {
     console.log("Main game")
   }
 
+  init (data) {
+    this.options = data
+    console.log(data)
+
+  }
   create() {
     super.create()
-    this.createRoom()
+    this.createRoom(this.options)
     this.createListeners()
   }
 
@@ -23,14 +28,22 @@ class ClientGame extends MainGame {
     })
   }
 
-  createRoom() {
+  createRoom(options) {
+    console.log(options)
+    let roomName
+    if (typeof options === "undefined") {
+      roomName = 'practice'
+    } else {
+      roomName = options.room
+    }
     const client = new Client('ws://127.0.0.1:8000')
     console.log("What is my id?", client.id)
     this.clientId = client.id
 
     console.log("Joining rooms")
     // const room = client.join('2player')
-    const room = client.join('practice')
+    const room = client.join(roomName)
+    // const room = client.join('practice')
     console.log("Joined room", room)
     this.room = room
 
@@ -100,6 +113,7 @@ class ClientGame extends MainGame {
       })
 
       room.onMessage.add((message) => {
+        console.log("Room:    What is received from server?", message)
         if (message === 'start') {
           console.log('start!')
           this.scene.resume()
@@ -113,7 +127,7 @@ class ClientGame extends MainGame {
           this.returnToNormal()
         } else if (message.startsWith('restart')) {
           let id = message.substr(8)
-          console.log("this id received", id)
+          console.log("this id received to restart", id)
           this.restartGame(this.players[id])
         } else if (message.startsWith("eat_enemy")) {
           let substr =  message.substr(10)
@@ -127,7 +141,6 @@ class ClientGame extends MainGame {
           console.log("Enemy exit! received")
           this.enemieslist[id].delayedSpawn()
         } else if (message.startsWith("eat_player")) {
-          //TODO: CHANGE WHEN MULTIPLAYER ALLOWED.
           let numplayer = message.substr(11)
           let args = numplayer.split('_')
           let num = args[0]

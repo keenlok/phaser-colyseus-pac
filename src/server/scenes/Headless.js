@@ -264,7 +264,7 @@ class Headless extends Phaser.Scene {
   }
 
   alternateTargets(time) {
-    if (this.targetTimer < time) {
+    if (this.targetTimer <= time) {
       console.log("Alternating targets", this.targetTimer, time)
       this.targetTimer = time + this.alternateTime
       this.setTarget()
@@ -292,10 +292,10 @@ class Headless extends Phaser.Scene {
       // }
       if (this.enemyTarget === this.players[keys[0]]) {
         this.enemyTarget = this.players[keys[1]]
-        console.log("Current Enemy", this.players[keys[1]].id)
+        // console.log("Current Enemy", this.players[keys[1]].id)
       } else {
         this.enemyTarget = this.players[keys[0]]
-        console.log("Current Enemy", this.players[keys[0]].id)
+        // console.log("Current Enemy", this.players[keys[0]].id)
       }
     }
   }

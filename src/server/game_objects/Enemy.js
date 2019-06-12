@@ -359,109 +359,116 @@ class Enemy extends Phaser.GameObjects.Sprite {
     let destination
     let currentMode = this.scene.getCurrentMode()
     let targetInformation = this.scene.getTargetInformationForEnemy()
-    // this.messageLog("What is target Information,", targetInformation)
-    switch (this.type) {
-      case 'type1':
-        destination = targetInformation.position
-        if (typeof destination === 'undefined') {
-          // console.warn('Destination is undefined')
-          this.messageLog('Destination is undefined')
-
-        }
-        // this.messageLog("My destination", destination.x, destination.y)
-        return destination
-      case 'type2':
-
-        destination = targetInformation.position
-        if (typeof destination === 'undefined') {
-          // console.warn('Destination is undefined')
-          this.messageLog('Destination is undefined')
-
-        }
-        let direction = targetInformation.direction
-        let offsetX = 0
-        let offsetY = 0
-        if (direction === directions.LEFT || direction === directions.RIGHT) {
-          offsetX = (direction === directions.RIGHT) ? -4 : 4
-        }
-        if (direction === directions.UP || direction === directions.DOWN) {
-          offsetY = (direction === directions.LEFT) ? -4 : 4
-        }
-        offsetX *= constants.TileSize
-        offsetY *= constants.TileSize
-        destination.x -= offsetX
-        destination.y -= offsetY
-
-        // Makes sure destination still within the map
-        if (destination.x < constants.CenterOffset) {
-          destination.x = constants.CenterOffset
-        }
-        if (destination.x > levelData.WIDTH - constants.CenterOffset) {
-          destination.x = levelData.WIDTH - constants.CenterOffset
-        }
-        if (destination.y < constants.CenterOffset) {
-          destination.y = constants.CenterOffset
-        }
-        if (destination.y > levelData.WIDTH - constants.CenterOffset) {
-          destination.y = levelData.WIDTH - constants.CenterOffset
-        }
-
-        if (typeof destination === 'undefined') {
-          // console.warn('Enemy cannot get destination', this.name)
-          this.messageLog('Enemy cannot get destination', this.name)
-        }
-
-        if (this.mode === this.RETURNING_HOME) {
-          // this.messageLog('will i reache here 10011001010100101010101010100101010101')
-          destination = homePosition
-        }
-        // this.messageLog("My destination", destination.x, destination.y)
-        return destination
-
-      case 'type3':
-        let pacmanPostion = targetInformation.position
-        let sharkPosition = this.scene.enemy.getCurrentPosition()
-        let diff = {
-          x: pacmanPostion.x - sharkPosition.x,
-          y: pacmanPostion.y - sharkPosition.y
-        }
-        destination = new Phaser.Geom.Point(pacmanPostion.x + diff.x, pacmanPostion.y + diff.y)
-        if (typeof destination === 'undefined') {
-          this.messageLog(destination, pacmanPostion, diff)
-          // this.messageLog('oh no its a enemy')
-        }
-        // Makes sure destination still within the map
-        if (destination.x < constants.CenterOffset) {
-          destination.x = constants.CenterOffset
-        }
-        if (destination.x > levelData.WIDTH - constants.CenterOffset) {
-          destination.x = levelData.WIDTH - constants.CenterOffset
-        }
-        if (destination.y < constants.CenterOffset) {
-          destination.y = constants.CenterOffset
-        }
-        if (destination.y > levelData.WIDTH - constants.CenterOffset) {
-          destination.y = levelData.WIDTH - constants.CenterOffset
-        }
-        // this.messageLog("My destination", destination.x, destination.y)
-        return destination
-
-      case 'type4':
-        destination = targetInformation.position
-        let bluePosition = this.getCurrentPosition()
-        if (this.getDistance(bluePosition, destination) > 8 * constants.TileSize) {
+    // this.messageLog("What is mode", currentMode)
+    // if (currentMode === this.SCATTER) {
+    //   return this.scatterDestination
+    // } else {
+      switch (this.type) {
+        case 'type1':
+          destination = targetInformation.position
           if (typeof destination === 'undefined') {
-            this.messageLog('undefined?', destination, bluePosition)
+            // console.warn('Destination is undefined')
+            this.messageLog('Destination is undefined')
+
           }
           // this.messageLog("My destination", destination.x, destination.y)
           return destination
-        } else {
-          return new Phaser.Geom.Point(this.scatterDestination.x, this.scatterDestination.y)
-        }
+        case 'type2':
 
-      default:
-        return new Phaser.Geom.Point(this.scatterDestination.x, this.scatterDestination.y)
-    }
+          destination = targetInformation.position
+          // if (typeof destination === 'undefined') {
+          //   // console.warn('Destination is undefined')
+          //   this.messageLog('Destination is undefined')
+          // }
+
+          let direction = targetInformation.direction
+          if (typeof direction === 'undefined') {
+            this.messageLog("Direction is NONE, i'm stuck")
+          }
+          let offsetX = 0
+          let offsetY = 0
+          if (direction === directions.LEFT || direction === directions.RIGHT) {
+            offsetX = (direction === directions.RIGHT) ? -4 : 4
+          }
+          if (direction === directions.UP || direction === directions.DOWN) {
+            offsetY = (direction === directions.LEFT) ? -4 : 4
+          }
+          offsetX *= constants.TileSize
+          offsetY *= constants.TileSize
+          destination.x -= offsetX
+          destination.y -= offsetY
+
+          // Makes sure destination still within the map
+          if (destination.x < constants.CenterOffset) {
+            destination.x = constants.CenterOffset
+          }
+          if (destination.x > levelData.WIDTH - constants.CenterOffset) {
+            destination.x = levelData.WIDTH - constants.CenterOffset
+          }
+          if (destination.y < constants.CenterOffset) {
+            destination.y = constants.CenterOffset
+          }
+          if (destination.y > levelData.WIDTH - constants.CenterOffset) {
+            destination.y = levelData.WIDTH - constants.CenterOffset
+          }
+
+          if (typeof destination === 'undefined') {
+            // console.warn('Enemy cannot get destination', this.name)
+            this.messageLog('Enemy cannot get destination', this.name)
+          }
+
+          if (this.mode === this.RETURNING_HOME) {
+            // this.messageLog('will i reache here 10011001010100101010101010100101010101')
+            destination = homePosition
+          }
+          // this.messageLog("My destination", destination.x, destination.y)
+          return destination
+
+        case 'type3':
+          let pacmanPostion = targetInformation.position
+          let sharkPosition = this.scene.enemy.getCurrentPosition()
+          let diff = {
+            x: pacmanPostion.x - sharkPosition.x,
+            y: pacmanPostion.y - sharkPosition.y
+          }
+          destination = new Phaser.Geom.Point(pacmanPostion.x + diff.x, pacmanPostion.y + diff.y)
+          if (typeof destination === 'undefined') {
+            this.messageLog(destination, pacmanPostion, diff)
+            // this.messageLog('oh no its a enemy')
+          }
+          // Makes sure destination still within the map
+          if (destination.x < constants.CenterOffset) {
+            destination.x = constants.CenterOffset
+          }
+          if (destination.x > levelData.WIDTH - constants.CenterOffset) {
+            destination.x = levelData.WIDTH - constants.CenterOffset
+          }
+          if (destination.y < constants.CenterOffset) {
+            destination.y = constants.CenterOffset
+          }
+          if (destination.y > levelData.WIDTH - constants.CenterOffset) {
+            destination.y = levelData.WIDTH - constants.CenterOffset
+          }
+          // this.messageLog("My destination", destination.x, destination.y)
+          return destination
+
+        case 'type4':
+          destination = targetInformation.position
+          let bluePosition = this.getCurrentPosition()
+          if (this.getDistance(bluePosition, destination) > 8 * constants.TileSize) {
+            if (typeof destination === 'undefined') {
+              this.messageLog('undefined?', destination, bluePosition)
+            }
+            // this.messageLog("My destination", destination.x, destination.y)
+            return destination
+          } else {
+            return new Phaser.Geom.Point(this.scatterDestination.x, this.scatterDestination.y)
+          }
+
+        default:
+          return new Phaser.Geom.Point(this.scatterDestination.x, this.scatterDestination.y)
+      }
+    // }
   }
 
   checkWarp () {
@@ -621,19 +628,19 @@ class Enemy extends Phaser.GameObjects.Sprite {
 
     // If the enemy is currently on the special tile, don't allow it to go up,
     // according to the article
-    if (bestDecision === directions.UP) {
-      // if (this.name === 'shark') {
-      //   this.messageLog(x, y)
-      //   this.messageLog(this.scene.isSpecialTile({x: x, y: y}))
-      // } //TODO: For Debug remove if needed
-      if (this.scene.isSpecialTile({x: x, y: y}) && bestDecision === directions.UP) {
-        bestDecision = this.currentDir
-        let canContinue = this.checkSafetile(this.directions[this.currentDir])
-        if (!canContinue) {
-          // this.messageLog('do something')
-        }
-      }
-    }
+    // if (bestDecision === directions.UP) {
+    //   // if (this.name === 'shark') {
+    //   //   this.messageLog(x, y)
+    //   //   this.messageLog(this.scene.isSpecialTile({x: x, y: y}))
+    //   // } //TODO: For Debug remove if needed
+    //   if (this.scene.isSpecialTile({x: x, y: y}) && bestDecision === directions.UP) {
+    //     bestDecision = this.currentDir
+    //     let canContinue = this.checkSafetile(this.directions[this.currentDir])
+    //     if (!canContinue) {
+    //       // this.messageLog('do something')
+    //     }
+    //   }
+    // }
     // only resets the position if it is going to turn
     this.checkAbilityToTurn(bestDecision, x, y)
     this.move(bestDecision)
