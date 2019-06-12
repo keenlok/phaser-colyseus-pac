@@ -25,6 +25,7 @@ class ClientGame extends MainGame {
   createListeners() {
     this.events.on('player_created', (player) => {
       console.log('Player created, sending confirmation to server')
+      // console.log("send to server")
       this.room.send('client_player_created')
     })
 
