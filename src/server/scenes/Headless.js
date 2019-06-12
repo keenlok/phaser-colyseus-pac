@@ -82,10 +82,13 @@ class Headless extends Phaser.Scene {
     ]
     this.changeModeTimer = 0
     this.remainingTime = 0
+    this.targetTimer = 0
+    this.alternateTime = 29000
     this.currentMode = 0
     this.FRIGHTENED_MODE_TIME = 24000
     this.isHuntMode = false
     this.enemy = null
+    this.enemyTarget = null
     this.isRepeating = false
 
     this.isPinkOut = false
@@ -139,6 +142,7 @@ class Headless extends Phaser.Scene {
   update (time) {
     if (!this.isPaused) {
       this.checkTimer()
+      this.alternateTargets(time)
       if (!this.isRepeating) {
         this.checkEnemiesBehaviour(time)
       }
@@ -259,13 +263,40 @@ class Headless extends Phaser.Scene {
     return {position: targetPosition, direction: targetDirection}
   }
 
+  alternateTargets(time) {
+    if (this.targetTimer < time) {
+      console.log("Alternating targets", this.targetTimer, time)
+      this.targetTimer = time + this.alternateTime
+      this.setTarget()
+    }
+  }
+
   setTarget() {
     let keys = Object.keys(this.players)
+    let alternated = false
+    let count = 0
+    console.log(keys)
     if (keys.length === 1) {
       let key = keys[0]
-      Headless.messageLog(key)
-      console.log(keys)
       this.enemyTarget = this.players[key]
+      Headless.messageLog("Target set!", this.enemyTarget.id)
+    } else {
+      // while (!alternated && count++ < 5) {
+      //   let key = Phaser.Math.RND.between(0, keys.length - 1)
+      //   console.log("what key is generated?", key)
+      //   if (typeof this.enemyTarget === "undefined" || this.enemyTarget !== this.players[key]) {
+      //     this.enemyTarget = this.players[key]
+      //     alternated = true
+      //     console.log("Target alternated!")
+      //   }
+      // }
+      if (this.enemyTarget === this.players[keys[0]]) {
+        this.enemyTarget = this.players[keys[1]]
+        console.log("Current Enemy", this.players[keys[1]].id)
+      } else {
+        this.enemyTarget = this.players[keys[0]]
+        console.log("Current Enemy", this.players[keys[0]].id)
+      }
     }
   }
   // ---------------------------------End of Methods for Enemies -----------------------------------//
