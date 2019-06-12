@@ -41,7 +41,7 @@ class ScoreManager {
         break
     }
     this.score += increase
-    this.scene.updateScoreUI(increase)
+    // this.scene.updateScoreUI(increase)
     // console.log('what is the increase, in SM', increase)
     return increase
   }
