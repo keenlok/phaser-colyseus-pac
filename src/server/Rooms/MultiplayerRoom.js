@@ -124,9 +124,9 @@ export class MultiplayerRoom extends Room {
 
   onMessage (client, data) {
     let id = client.id
-    console.log("From who", id)
-    console.log("What is received", data)
-    if (data === 'client_player_created') {
+    // console.log("From who", id)
+    // console.log("What is received", data)
+    if (typeof data === 'string' && data === 'client_player_created') {
       console.log("How many players are there?", Object.keys(this.scene.players).length)
       if (Object.keys(this.scene.players).length === 2) {
         this.scene.restartGame(this.scene.players[id])
