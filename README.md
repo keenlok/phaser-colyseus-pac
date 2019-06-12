@@ -11,7 +11,7 @@
 
 ### Player:
 - [x] Spawn (kinda?)
-- [x] Delete unnecessary methods on client (mostly) 
+- [ ] Delete unnecessary methods on client (mostly) 
 - [x] Sync Movement
     - [x] Position
     - [x] Speed
@@ -19,12 +19,12 @@
 - [x] Sync Animation/Modes
 - [x] Sync Death
 - [x] Lives
-- [ ] Separate(?) the creation from game and link to joining of client
-- [ ] Add a second player
+- [x] Separate(?) the creation from game and link to joining of client
+- [x] Allow addition of a second player
 
 
 ### World:
-- [x] Points
+- [ ] Points (Not synced again)
 - [x] Time mode for Enemy
 - [x] World mode for Player and Enemy
 - [ ] Game status:
