@@ -65,24 +65,35 @@ class ClientGame extends MainGame {
         if (operation === "replace" || operation === "remove") {
           if (attribute === 'x' || attribute === 'y') {
             this.players[id][attribute] = value
-          } else if (attribute === 'velocityX' ) {
+          }
+          else if (attribute === 'velocityX') {
             this.players[id].body.setVelocityX(value)
-          } else if (attribute === 'velocityY') {
+          }
+          else if (attribute === 'velocityY') {
             this.players[id].body.setVelocityY(value)
           }
-          if (attribute === 'currDir') {
+          else if (attribute === 'currDir') {
             console.log(`Player ${id}:`, attribute, value)
             this.players[id].move(value)
           }
-          if (attribute === 'isPowUp') {
+          else if (attribute === 'isPowUp') {
             this.players[id][attribute] = value
           }
-          if (attribute === 'isDead' || attribute === 'alive') {
+          else if (attribute === 'isDead' || attribute === 'alive') {
             this.players[id][attribute] = value
             // ie it died
             // if (!value) {
             //   this.scuttle.dies()
             // }
+          }
+          else if (attribute === 'score') {
+            if (this.clientId === id) {
+              // this.players[id].score = data
+              this.increaseScore(value)
+            }
+          }
+          else {
+            console.log("What is received player", id, value, attribute)
           }
         }
       })
@@ -107,11 +118,11 @@ class ClientGame extends MainGame {
       })
 
       room.listen('world/:attribute', ({path: {attribute}, operation, value}) => {
-        if (attribute === 'score') {
-          this.increaseScore(value)
-        } else {
+        // if (attribute === 'score') {
+        //   this.increaseScore(value)
+        // } else {
           console.log("What is received for world", operation, attribute, value)
-        }
+        // }
       })
 
       room.onMessage.add((message) => {

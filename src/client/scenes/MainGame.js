@@ -452,6 +452,7 @@ class MainGame extends Phaser.Scene {
   // }
 
   increaseScore (newScore) {
+    console.log("increasing score?")
     let increase = newScore - this.score
     this.score = newScore
     this.scoreText.setText(this.scoreString + this.score)
@@ -473,9 +474,9 @@ class MainGame extends Phaser.Scene {
     return increase
   }
 
-  updateScoreUI (increase) {
+  // updateScoreUI (increase) {
 
-  }
+  // }
 
   addTextScore (x, y, score) {
     let text = this.add.text(x - 2, y, score)

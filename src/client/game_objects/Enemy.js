@@ -318,26 +318,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
   }
 
   update (time) {
-    // let point = constants.convertToGridUnits(this.x, this.y)
-    //
-    // // if (this.x < 0) {
-    // //   this.x = levelData.WIDTH - 2
-    // // }
-    // // if (this.x >= levelData.WIDTH - 1) {
-    // //   this.x = 1
-    // // }
-    //
-    // this.checkWarp()
-    // this.updateEnemyMode()
-    // // this is to check if it can turn
-    // let convertedPoint = constants.convertToPixels(point.x, point.y)
-    // Do  not turn if object is not in grid
-    // if (constants.isInGrid(convertedPoint.x, this.x, convertedPoint.y, this.y, constants.THRESHOLD)) {
-      // this.directions = constants.updateDirections(this.scene, point.x, point.y)
-      // this.moveAccordingToMode(convertedPoint, point.x, point.y, time)
-    // }
     this.isNear()
-    // this.checkAnimFrame()
   }
 
   behaveAccordingly (mode) {
@@ -371,14 +352,6 @@ class Enemy extends Phaser.GameObjects.Sprite {
     this.messageLog("This method is called")
     if (!this.isDead) {
       this.messageLog('Met this player', player.name)
-      // if (this.scene.isHuntMode && player.isPowerUp) {
-      //   // TODO: Move this to a method in extended game to remove coupling
-      //   num = this.scene.scuttle.eatAudio
-      //   this.dies()
-      // } else if (!player.isDead) {
-      //   num = this.eatAudio
-      //   this.scene.scuttleDies(num, player)
-      // }
     }
   }
 
