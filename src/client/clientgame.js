@@ -26,6 +26,8 @@ class ClientGame extends MainGame {
       console.log('Player created, sending confirmation to server')
       this.room.send('client_player_created')
     })
+
+    this.input.on('pointerup', this.endSwipe, this)
   }
 
   createRoom(options) {
@@ -113,43 +115,46 @@ class ClientGame extends MainGame {
       })
 
       room.onMessage.add((message) => {
-        console.log("Room:    What is received from server?", message)
-        if (message === 'start') {
-          console.log('start!')
-          this.scene.resume()
-        } else if (message.startsWith('hunt')) {
-          let args = message.split('_')
-          let id = args[1]
-          console.log("Room: ", "Change game to hunt", id)
-          this.changeToHuntMode(this.players[id])
-        } else if (message === 'normal') {
-          console.log("Room: ", "Change game to normal")
-          this.returnToNormal()
-        } else if (message.startsWith('restart')) {
-          let id = message.substr(8)
-          console.log("this id received to restart", id)
-          this.restartGame(this.players[id])
-        } else if (message.startsWith("eat_enemy")) {
-          let substr =  message.substr(10)
-          let args = substr.split('_')
-          let enemy_id = args[0]
-          let player_id = args[1]
-          console.log(`Enemy ${enemy_id} died by ${player_id}'s hands`)
-          this.enemieslist[enemy_id].dies(this.players[player_id])
-        } else if (message.startsWith("enemy_exit")) {
-          let id = message.substr(11)
-          console.log("Enemy exit! received")
-          this.enemieslist[id].delayedSpawn()
-        } else if (message.startsWith("eat_player")) {
-          let numplayer = message.substr(11)
-          let args = numplayer.split('_')
-          let num = args[0]
-          let id = args[1]
-          console.log("This audio num is to be played", num)
-          console.log("This player is eated", id)
-          this.scuttleDies(num, this.players[id])
+        if (typeof message === 'string') {
+          if (message === 'start') {
+            console.log('start!')
+            this.scene.resume()
+          } else if (message.startsWith('hunt')) {
+            let args = message.split('_')
+            let id = args[1]
+            console.log("Room: ", "Change game to hunt", id)
+            this.changeToHuntMode(this.players[id])
+          } else if (message === 'normal') {
+            console.log("Room: ", "Change game to normal")
+            this.returnToNormal()
+          } else if (message.startsWith('restart')) {
+            let id = message.substr(8)
+            console.log("this id received to restart", id)
+            this.restartGame(this.players[id])
+          } else if (message.startsWith("eat_enemy")) {
+            let substr = message.substr(10)
+            let args = substr.split('_')
+            let enemy_id = args[0]
+            let player_id = args[1]
+            console.log(`Enemy ${enemy_id} died by ${player_id}'s hands`)
+            this.enemieslist[enemy_id].dies(this.players[player_id])
+          } else if (message.startsWith("enemy_exit")) {
+            let id = message.substr(11)
+            console.log("Enemy exit! received")
+            this.enemieslist[id].delayedSpawn()
+          } else if (message.startsWith("eat_player")) {
+            let numplayer = message.substr(11)
+            let args = numplayer.split('_')
+            let num = args[0]
+            let id = args[1]
+            console.log("This audio num is to be played", num)
+            console.log("This player is eated", id)
+            this.scuttleDies(num, this.players[id])
+          } else {
+            console.log("Room: Received:", message)
+          }
         } else {
-          console.log("Room: Received:", message)
+          console.log("Room:    What is received from server?", message)
         }
       })
     })
@@ -169,6 +174,36 @@ class ClientGame extends MainGame {
       room.send({move: directions.DOWN})
     }
   }
+
+  endSwipe (event) {
+    let room = this.room
+    // Variables used for dragging in phaser
+    let swipeTime = event.upTime - event.downTime
+    let swipe = new Phaser.Geom.Point(event.upX - event.downX, event.upY - event.downY)
+    let swipeMagnitude = Phaser.Geom.Point.GetMagnitude(swipe)
+    let swipeNormal = new Phaser.Geom.Point(swipe.x / swipeMagnitude, swipe.y / swipeMagnitude)
+
+    if (swipeMagnitude > 20 && swipeTime < 1000 &&
+      (Math.abs(swipeNormal.x) > 0.8 || Math.abs(swipeNormal.y) > 0.8)) {
+      if (swipeNormal.x > 0.8) {
+        room.send({move: directions.RIGHT})
+        console.log('swiping right')
+      }
+      if (swipeNormal.x < -0.8) {
+        room.send({move: directions.LEFT})
+        console.log('swiping left')
+      }
+      if (swipeNormal.y > 0.8) {
+        room.send({move: directions.DOWN})
+        console.log('swiping down')
+      }
+      if (swipeNormal.y < -0.8) {
+        room.send({move: directions.UP})
+        console.log('swiping up')
+      }
+    }
+  }
 }
+
 
 export default ClientGame

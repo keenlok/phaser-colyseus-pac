@@ -25,7 +25,7 @@ function createSpecialFood(scene) {
 }
 
 function createPlayers(scene) {
-  GameObjFactory.messageLog('Creating player 1')
+  GameObjFactory.messageLog('Creating players group ')
 
   scene.group = new Players(scene)
   scene.players = {}

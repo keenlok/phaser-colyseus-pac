@@ -27,13 +27,13 @@ export default class Menu extends Phaser.Scene {
     let cY = sysY / 2
     let practice = this.add.text(cX - 40, cY, 'Practice').setInteractive()
 
-    practice.on('pointerup', () => {
+    practice.on('pointerdown', () => {
       this.scene.start('maingame', {room: 'practice'})
     })
 
-    let multiplayer = this.add.text(cX - 40, cY + 40, '2 Player').setInteractive()
+    let multiplayer = this.add.text(cX - 40, cY + 80, '2 Player').setInteractive()
 
-    multiplayer.on('pointerup', () => {
+    multiplayer.on('pointerdown', () => {
       this.scene.start('maingame', {room: '2player'})
     })
     // this.input.on('gameobjectup', this.handleClick, this)
