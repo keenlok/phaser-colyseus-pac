@@ -29,7 +29,8 @@ class ClientGame extends MainGame {
     this.clientId = client.id
 
     console.log("Joining rooms")
-    const room = client.join('2player')
+    // const room = client.join('2player')
+    const room = client.join('practice')
     console.log("Joined room", room)
     this.room = room
 
