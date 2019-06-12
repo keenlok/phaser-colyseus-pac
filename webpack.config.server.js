@@ -8,7 +8,7 @@ module.exports = {
   entry: {
     server: './src/server/Server.js',
   },
-  devtool: 'source-map',
+  // devtool: 'source-map',
   output: {
     path: path.resolve(__dirname, 'dist/server'),
     filename: '[name].js',
