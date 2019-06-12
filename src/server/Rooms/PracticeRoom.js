@@ -122,14 +122,17 @@ export class PracticeRoom extends Room {
 
   onMessage (client, data) {
     let id = client.id
-    console.log("From who", id)
-    console.log("What is received", data)
-    if (data === 'client_player_created') {
-      this.scene.restartGame(this.scene.players[id])
-    } else {
-      this.scene.players[id].storeDirectionToMove(data.move)
+    // console.log("From who", id)
+    // console.log("What is received", data)
+    if (this.isGameSet) {
+      if (typeof data === 'string' && data === 'client_player_created') {
+        this.scene.restartGame(this.scene.players[id])
+      } else {
+        this.scene.players[id].storeDirectionToMove(data.move)
+      }
     }
   }
+
 
   update () {
     if (this.isGameSet) {
