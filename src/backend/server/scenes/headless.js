@@ -4,7 +4,7 @@ import * as GameObjectFactory from '../gameObjectFactory'
 import PhysicsFactory from '../../../shared/factory/PhysicsFactory'
 import AnimationFactory from '../../../shared/factory/AnimationFactory'
 import ScoreManager from '../../../shared/manager/ScoreManager'
-import Preload from './Preload'
+import Preload from './preload'
 
 import Phaser from 'phaser'
 

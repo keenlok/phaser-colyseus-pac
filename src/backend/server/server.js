@@ -106,8 +106,8 @@ import { Server } from 'colyseus'
 import { monitor } from '@colyseus/monitor'
 import * as cors from 'cors'
 import * as express from 'express'
-import { PracticeRoom } from './Rooms/PracticeRoom'
-import { MultiplayerRoom } from './Rooms/MultiplayerRoom'
+import { PracticeRoom } from './rooms/basicRoom'
+import { MultiplayerRoom } from './rooms/multiplayerRoom'
 
 const app = express();
 const server = http.Server(app);

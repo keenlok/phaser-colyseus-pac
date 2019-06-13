@@ -1,5 +1,5 @@
 import {HEADLESS, Game} from 'phaser'
-import Headless from './scenes/Headless'
+import Headless from './scenes/headless'
 import {DEBUG} from '../../shared/config/constants'
 
 class GameSinglePlayer extends Headless {
