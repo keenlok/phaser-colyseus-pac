@@ -3,4 +3,5 @@ package-lock.json
 /node_modules
 /dist
 /public
+/views
 /src/shared/config/config.js
