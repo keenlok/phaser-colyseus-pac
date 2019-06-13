@@ -36,7 +36,8 @@ module.exports = {
         commons: {
           test: /[\\/]node_modules[\\/]/,
           name: 'vendors',
-          chunks: 'all'
+          chunks: 'all',
+          reuseExistingChunk: true
         }
       }
     }
