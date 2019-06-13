@@ -142,7 +142,11 @@ class ClientGame extends MainGame {
           } else if (message.startsWith('restart')) {
             let id = message.substr(8)
             console.log("this id received to restart", id)
-            this.restartGame(this.players[id])
+            if (typeof this.players[id] === 'undefined') {
+              console.warn("this id received has not been initialised in client", id)
+            } else {
+              this.restartGame(this.players[id])
+            }
           } else if (message.startsWith("eat_enemy")) {
             let substr = message.substr(10)
             let args = substr.split('_')
