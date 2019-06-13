@@ -1,7 +1,9 @@
-## TODO:   
+## TODO: 
+
+## Frontend:
 ### Enemy: 
 - [x] Spawn
-- [ ] Delete unnecessary methods on client 
+- [ ] Delete unnecessary methods on client  (mostly)
 - [x] Sync Movement
     - [x] Position
     - [x] Speed
@@ -27,7 +29,11 @@
 - [x] Points (Not synced again)
 - [x] Time mode for Enemy
 - [x] World mode for Player and Enemy
-- [ ] Game status:
-     - [ ] Pause
+- [x] Game status:
+     - [x] Pause
      - [x] Over
-     - [ ] Start
+     - [x] Start
+     
+## Backend: 
+- [ ] Routes
+- [ ] 
