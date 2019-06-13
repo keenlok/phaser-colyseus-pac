@@ -122,14 +122,17 @@ const PORT = 8000
 colyServer.register("practice", PracticeRoom, { server: gameServer })
 colyServer.register("2player", MultiplayerRoom, { server: gameServer })
 
-// app.use(cors())
-// app.use("/colyseus", monitor(colyServer))
+app.use(cors())
+app.use("/colyseus", monitor(colyServer))
 
-app.use('/', express.static('dist'))
-app.use('/static', express.static('public')) //JSDOM cant open?
+// app.use('/', express.static('dist'))
+// app.use('/static', express.static('public')) //JSDOM use static?
 
 console.log('/')
 
+app.listen(PORT + 1, () => {
+  console.log(`Listening on ${PORT + 1}`)
+})
 
 colyServer.listen(PORT, undefined, undefined, function () {
   console.log(`Listening on ws://${server.address().port}`);
