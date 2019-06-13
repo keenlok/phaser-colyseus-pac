@@ -2,16 +2,14 @@ import * as levelData from '../leveldata/newLevelData'
 import { messageLog as log } from '../config/constants'
 import Phaser from 'phaser'
 
-let messageLog = (...messages) => {
-  const name = "GameObjectFactory"
-  log(name, messages)
-}
+export default class CommonObjectFactory {
+  static messageLog (...messages) {
+    const name = "GameObjectFactory"
+    log(name, messages)
+  }
 
-export default {
-  messageLog,
-
-  createMap(scene) {
-    messageLog('Creating map')
+  static createMap(scene) {
+    this.messageLog('Creating map')
 
     scene.image = scene.add.image(0, 0, 'background')
     scene.image.setScale(3.5)
@@ -30,28 +28,28 @@ export default {
     // Food Layer
     scene.food = scene.map.addTilesetImage('Food', 'foodTile')
     scene.foodLayer = scene.map.createDynamicLayer('Food', scene.food, 0, 0)
-  },
+  }
 
-  createCursors(scene) {
-    messageLog("Create cursors for input")
+  static createCursors(scene) {
+    CommonObjectFactory.messageLog("Create cursors for input")
     scene.cursors = scene.input.keyboard.addKeys('W,A,S,D,UP,DOWN,LEFT,RIGHT,SPACE') // can only be
-  },
+  }
 
-  createAndConfigureCameras(scene) {
-    // This enables camera to zoom in on scuttle and follow him
+  static createAndConfigureCameras(scene) {
+    // this enables camera to zoom in on scuttle and follow him
     // scene.checkGameSize() // can handle sizes larger than the game map
     scene.cameras.main.setBounds(0, 0, levelData.WIDTH, levelData.HEIGHT)
     // scene.cameras.main.startFollow(scene.scuttle, true, 0.1, 0.1)
     scene.cameras.main.roundPixels = true
     let stuff = scene.cameras.main
-    messageLog("Initialise World View:", stuff.worldView, stuff.width, stuff.height,
+    this.messageLog("Initialise World View:", stuff.worldView, stuff.width, stuff.height,
       stuff.displayHeight, stuff.displayWidth)
     scene.cameraView = stuff.worldView
-  },
+  }
 
-  createPauseButton(scene) {
-    messageLog("Create pause button")
-    createButtonsGraphics(scene)
+  static createPauseButton(scene) {
+    this.messageLog("Create pause button")
+    this.createButtonsGraphics(scene)
 
     // For some reason, a graphic can't listen to these events.....
     scene.pauseButton = scene.add.image(0, 0, 'pause')
@@ -77,9 +75,9 @@ export default {
 
     console.log(scene.pauseButton.eventNames())
     console.log("")
-  },
+  }
 
-  createButtonsGraphics(scene) {
+  static createButtonsGraphics(scene) {
     let x = scene.scoreText.x
     let y = scene.scoreText.height
 
@@ -110,9 +108,9 @@ export default {
 
     smallButton.generateTexture('smallbuttongraphic', 50, 50)
     smallButton.destroy()
-  },
+  }
 
-  createMiniMap(scene) {
+  static createMiniMap(scene) {
     let x = scene.sys.game.config.width
     let y = scene.sys.game.config.height
     console.log(x, y)
@@ -124,13 +122,13 @@ export default {
     scene.miniMap = scene.cameras.add(0, y - height, width, height, false, 'minimap')
       .setZoom(zoomFactor)
       .setBounds(0, 0, levelData.WIDTH, levelData.HEIGHT, true)
-      // .startFollow(scene.scuttle)
-      // .ignore([scene.scoreText, scene.liveText, scene.pauseButton])
+    // .startFollow(scene.scuttle)
+    // .ignore([scene.scoreText, scene.liveText, scene.pauseButton])
     scene.miniMap.setAlpha(0.95)
-  },
+  }
 
-  createScoreAndText(scene) {
-    messageLog("create score text")
+  static createScoreAndText(scene) {
+    this.messageLog("create score text")
     scene.scoreText = scene.add.text(60, 0, scene.scoreString + scene.score)
       .setScrollFactor(0)
       .setFontFamily('Fredoka One')
@@ -138,8 +136,9 @@ export default {
     scene.liveText = scene.add.text(370, 0, scene.liveString + 0)
       .setScrollFactor(0)
       .setFontFamily('Fredoka One')
-  },
+  }
 }
+
 
 
 // export default GameObjFactory

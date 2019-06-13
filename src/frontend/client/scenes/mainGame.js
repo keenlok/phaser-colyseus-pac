@@ -1,7 +1,7 @@
 import * as constants from '../../../shared/config/constants'
 import * as levelData from '../../../shared/leveldata/newLevelData'
 import Phaser from 'phaser'
-import * as GameObjectFactory from '../gameObjectFactory'
+import GameObjectFactory from '../gameObjectFactory'
 import PhysicsFactory from '../../../shared/factory/physicsFactory'
 import AnimationFactory from '../../../shared/factory/animationFactory'
 import SoundFactory from '../../../shared/factory/soundFactory'
@@ -123,6 +123,7 @@ class MainGame extends Phaser.Scene {
       // this.createLights()
       // this.createCheats()
     }
+    GameObjectFactory.createPauseButton(this)
 
     // this.scene.pause()
 
@@ -388,6 +389,34 @@ class MainGame extends Phaser.Scene {
     return false
   }
 
+  createPauseButton () {
+    GameObjectFactory.GameObjFactory.createButtonsGraphics(this)
+
+    // For some reason, a graphic can't listen to these events.....
+    this.pauseButton = this.add.image(0, 0, 'pause')
+      .setScrollFactor(0)
+      .setOrigin(0)
+
+    this.pauseButton.setInteractive()
+    console.log(this.pauseButton.eventNames())
+
+    this.pauseButton.on('pointerover', () => {
+      this.pauseButton.blendMode = Phaser.BlendModes.ADD
+      // gameObject.blendMode = Phaser.BlendModes.ADD
+    })
+
+    this.pauseButton.on('pointerout', () => {
+      // console.log('out', pointer, gameObject)
+      this.pauseButton.blendMode = Phaser.BlendModes.NORMAL
+    })
+
+    this.pauseButton.on('pointerup', this.launchPauseScreen, this)
+
+    this.input.keyboard.on('keydown_ESC', this.launchPauseScreen, this)
+
+    console.log(this.pauseButton.eventNames())
+  }
+
   launchPauseScreen () {
     // this.scene.launch('pause')
     // this.scene.pause()
@@ -448,33 +477,6 @@ class MainGame extends Phaser.Scene {
     }
   }
 
-  // increaseScore (key, player) {
-  //   // If the score to increase is not for first player do not increase it.
-  //   if ((this.isFirstPlayer && this.scuttle !== player) ||
-  //     (!this.isFirstPlayer && this.player2 !== player)) {
-  //     return
-  //   }
-  //   let increase = this.scoreManager.increaseScore(key)
-  //   this.score += increase
-  //   this.scoreText.setText(this.scoreString + this.score)
-  //   let text = this.add.text(this.scoreText.width + 5 + this.scoreText.x,
-  //     this.scoreText.y, '+' + increase)
-  //     .setScrollFactor(0)
-  //     .setFontFamily('Fredoka One')
-  //     .setFontSize(25)
-  //   this.tweens.add({
-  //     targets: text,
-  //     duration: 1000,
-  //     y: '-=50',
-  //     alpha: 0,
-  //     delay: 200,
-  //     onComplete: (tweens, targets) => {
-  //       targets[0].destroy()
-  //     }
-  //   })
-  //   return increase
-  // }
-
   increaseScore (newScore) {
     console.log("increasing score?")
     let increase = newScore - this.score
@@ -497,10 +499,6 @@ class MainGame extends Phaser.Scene {
     })
     return increase
   }
-
-  // updateScoreUI (increase) {
-
-  // }
 
   addTextScore (x, y, score) {
     let text = this.add.text(x - 2, y, score)
