@@ -10,7 +10,7 @@ module.exports = {
   },
   // devtool: 'source-map',
   output: {
-    path: path.resolve(__dirname, 'dist/server'),
+    path: path.resolve(__dirname, 'dist/server/server'),
     filename: '[name].js',
     publicPath: "/"
   },
@@ -29,13 +29,13 @@ module.exports = {
   },
   plugins: [
     // new CleanWebpackPlugin(),
-    // new CopyWebpackPlugin([
-    //   {
-    //     from: 'src/practice_server/index.html',
-    //     to: 'index.html',
-    //     toType: 'file'
-    //   }
-    // ])
+    new CopyWebpackPlugin([
+      {
+        from: 'src/backend/server/index.html',
+        to: 'index.html',
+        toType: 'file'
+      }
+    ]),
   ],
   node: {
     // Need this when working with express, otherwise the build fails

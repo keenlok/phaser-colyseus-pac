@@ -9,7 +9,7 @@
     "build-client": "webpack --config webpack.config.client.js",
     "start": "nodemon run src/client/app.js",
     "headless-server": "nodemon run dist/server/server.js",
-    "dev-server": "NODE_ENV=development nodemon dist/server/server.js",
+    "dev-server": "NODE_ENV=development nodemon dist/server/server/server.js",
     "dev-client": "NODE_ENV=development nodemon src/backend/client/app.js"
   },
   "author": "",
@@ -24,6 +24,7 @@
     "express": "^4.17.1",
     "jsdom": "^15.1.1",
     "phaser": "3.17.0",
+    "pug": "^2.0.3",
     "webpack-node-externals": "^1.7.2"
   },
   "devDependencies": {

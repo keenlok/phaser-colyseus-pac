@@ -10,7 +10,7 @@ module.exports = {
   },
   // devtool: 'source-map',
   output: {
-    path: path.resolve(__dirname, 'dist/server'),
+    path: path.resolve(__dirname, 'dist/server/game'),
     filename: '[name].bundle.js',
     publicPath: "/"
   },
@@ -27,6 +27,18 @@ module.exports = {
     ]
   },
   plugins: [
-    // new CleanWebpackPlugin()
+    new CleanWebpackPlugin(),
   ],
+  optimization: {
+    // minimize: true,
+    splitChunks: {
+      cacheGroups: {
+        commons: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all'
+        }
+      }
+    }
+  }
 };
