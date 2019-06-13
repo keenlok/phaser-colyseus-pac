@@ -26,4 +26,16 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin()
   ],
+  optimization: {
+    // minimize: true,
+    splitChunks: {
+      cacheGroups: {
+        commons: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all'
+        }
+      }
+    }
+  }
 };
