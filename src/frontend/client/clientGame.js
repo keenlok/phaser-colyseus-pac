@@ -184,13 +184,32 @@ class ClientGame extends MainGame {
           console.log("This audio num is to be played", num)
           console.log("This player is eated", id)
           this.scuttleDies(num, this.players[id])
-        } else {
+        }
+        else if (message.type === 'pause') {
+          this.launchPauseScreen()
+        }
+        else if (message.type === 'resume') {
+          this.scene.resume(message.key)
+        }
+        else {
           console.log("Room: Received:", message)
         }
       })
     })
-
   }
+
+  launchPauseScreen () {
+    // this.scene.launch('pause')
+    // this.scene.pause()
+    this.soundManager.playButtonSoundEffect()
+    this.scene.pause()
+    this.scene.launch('pause', {
+      scene:  this,
+      button: this.soundManager.buttonSfx,
+      room:   this.room
+    })
+  }
+
 
   update() {
     let cursors = this.cursors

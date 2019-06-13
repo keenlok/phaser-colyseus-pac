@@ -127,11 +127,23 @@ export class PracticeRoom extends Room {
     // console.log("What is received", data)
     if (data.type === 'initialise' && data.message === 'client_player_created') {
       this.scene.restartGame(this.scene.players[id])
-    } else if (data.type === 'move') {
+    }
+    else if (data.type === 'move') {
       if (this.isGameSet) {
         this.scene.players[id].storeDirectionToMove(data.move)
       }
-    } else {
+    }
+    else if (data.type === 'pause') {
+      console.log("Room: Pause!")
+      this.scene.launchPauseScreen()
+      this.broadcast({type: 'pause'})
+    }
+    else if (data.type === 'resume') {
+      console.log("Room: Resume!")
+      this.scene.resumeGame(data.key)
+      this.broadcast({type: 'resume', key: data.key})
+    }
+    else {
       console.log("what is received?", data)
     }
   }

@@ -461,6 +461,10 @@ class Headless extends Preload {
     // })
   }
 
+  resumeGame(key) {
+    this.scene.resume(key)
+  }
+
   // The scuttle eats food that are visible. Eating the food will turn it
   // invisible, and increase the score.
   eatFood (player, tile) {

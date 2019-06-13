@@ -69,9 +69,9 @@ export default class CommonObjectFactory {
       scene.pauseButton.blendMode = Phaser.BlendModes.NORMAL
     })
 
-    scene.pauseButton.on('pointerup', scene.launchPauseScreen, scene)
+    scene.pauseButton.on('pointerup', scene.requestToPause, scene)
 
-    scene.input.keyboard.on('keydown_ESC', scene.launchPauseScreen, scene)
+    scene.input.keyboard.on('keydown_ESC', scene.requestToPause, scene)
 
     console.log(scene.pauseButton.eventNames())
     console.log("")

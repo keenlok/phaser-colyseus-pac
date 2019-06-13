@@ -418,7 +418,6 @@ class MainGame extends Phaser.Scene {
   }
 
   launchPauseScreen () {
-    this.events.emit('pause')
     // this.scene.launch('pause')
     // this.scene.pause()
     this.soundManager.playButtonSoundEffect()
@@ -429,8 +428,8 @@ class MainGame extends Phaser.Scene {
     })
   }
 
-  pause() {
-
+  requestToPause() {
+    this.events.emit('pause')
   }
 
   // The scuttle eats food that are visible. Eating the food will turn it

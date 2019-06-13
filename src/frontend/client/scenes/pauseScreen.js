@@ -8,6 +8,7 @@ export default class PauseScreen extends Phaser.Scene {
   init (data) {
     this.prevScene = data.scene
     this.button = data.button
+    this.room = data.room
   }
 
   create () {
@@ -23,13 +24,15 @@ export default class PauseScreen extends Phaser.Scene {
     console.log(menu)
 
     let closeScene = () => {
-      this.scene.resume(this.prevScene.scene.key)
+      // this.scene.resume(this.prevScene.scene.key)
       this.scene.stop('pause')
+      this.room.send({type: 'resume', key: this.prevScene.scene.key})
     }
     this.createResumeButton(width, height, closeScene)
     this.createSoundSettings(width, height)
     this.createReplay(width, height, closeScene)
     this.input.keyboard.on('keydown_ESC', closeScene)
+    // this.room.onMessage()
   }
 
   createResumeButton (width, height, callback) {
