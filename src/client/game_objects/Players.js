@@ -205,9 +205,9 @@ class Player extends Phaser.GameObjects.Sprite {
   disappears () {
     this.setVisible(false)
     this.lives--
-    if (this.lives >= 0) {
-      this.scene.time.delayedCall(500, this.scene.restartGame, [this], this.scene)
-    }
+    // if (this.lives >= 0) {
+    //   this.scene.time.delayedCall(500, this.scene.restartGame, [this], this.scene)
+    // }
   }
 
   // allows scuttle to wrap around the map

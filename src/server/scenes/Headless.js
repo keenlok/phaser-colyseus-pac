@@ -10,6 +10,8 @@ import Phaser from 'phaser'
 
 const SCATTER = 'scatter'
 const CHASE = 'chase'
+const WIN = 'win'
+const LOSE = 'lose'
 
 class Headless extends Preload {
 
@@ -402,13 +404,13 @@ class Headless extends Preload {
     this.events.emit('restartGame', player)
     // let player
     // this.messageLog(args)
-    if (typeof player === 'undefined') {
-      player = this.scuttle
-    } else {
-      // player = pl
-      console.log(player.id)
-    }
-    Headless.messageLog('Restarting Game')
+    // if (typeof player === 'undefined') {
+    //   player = this.scuttle
+    // } else {
+    //   // player = pl
+    //   // console.log(player.id)
+    // }
+    Headless.messageLog('Restarting Game', player.id)
     this.currentMode = 0
     this.isHuntMode = false
     player.returnToNormal()
@@ -423,7 +425,7 @@ class Headless extends Preload {
       this.changeModeTimer = this.time.now + this.TIME_MODES[this.currentMode].time
       this.count = 0
     } else {
-      this.gameOver('lose')
+      this.gameOver(LOSE, player)
     }
   }
 
@@ -580,22 +582,23 @@ class Headless extends Preload {
   checkScoreToEndGame () {
     if (this.numFoodEaten >= levelData.numFood) {
       // console.warn('gameover', this.numFoodEaten, this.normalBGM)
-      this.gameOver('win')
+      this.gameOver(WIN)
       return true
     }
   }
 
   // Just pause the game since cannot launch new scene in HEADLESS
-  gameOver (type) {
-    // let isAlpha = true // Change this to allow different screens
-    // this.scene.launch('gameover', {
-    //   lives: this.scuttle.lives,
-    //   score: this.score,
-    //   prevScene: this,
-    //   type: type,
-    //   isAlpha: isAlpha
-    // })
-    Headless.messageLog("Game over "+ this.scuttle.lives)
+  gameOver (type, player) {
+    if (type === WIN) {
+      Headless.messageLog(`Game over: WIN`)
+      for (let id in this.players) {
+        let player = this.players[id]
+        //TODO: Do something with these information?
+        Headless.messageLog(`Game over: ${player.id}: Lives: ${player.lives}, Score: ${player.score}`)
+      }
+    } else if (type === LOSE) {
+      Headless.messageLog(`Game over: LOSE ${player.id}: Lives: ${player.lives}, Score: ${player.score}`)
+    }
     this.scene.pause()
   }
 

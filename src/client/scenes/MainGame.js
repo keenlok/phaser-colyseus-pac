@@ -7,6 +7,11 @@ import AnimationFactory from '../../shared/factory/AnimationFactory'
 import SoundFactory from '../../shared/factory/SoundFactory'
 import ScoreManager from '../../shared/manager/ScoreManager'
 
+const SCATTER = 'scatter'
+const CHASE = 'chase'
+const WIN = 'win'
+const LOSE = 'lose'
+
 class MainGame extends Phaser.Scene {
   constructor () {
     super({ key: 'maingame' })
@@ -166,12 +171,12 @@ class MainGame extends Phaser.Scene {
     }, this)
 
     this.input.keyboard.on('keydown_L', () => {
-      console.log('lose')
-      this.gameOver('lose')
+      console.log(LOSE)
+      this.gameOver(LOSE)
     }, this)
     this.input.keyboard.on('keydown_P', () => {
-      console.log('win')
-      this.gameOver('win')
+      console.log(WIN)
+      this.gameOver(WIN)
     }, this)
     this.input.keyboard.on('keydown_T', () => {
       console.log('thanks for playing')
@@ -275,14 +280,14 @@ class MainGame extends Phaser.Scene {
   }
 
   update (time) {
-    if (!this.isPaused) {
-      this.checkTimer()
-      if (!this.scuttle.isDead || !this.isRepeating) {
+    // if (!this.isPaused) {
+      // this.checkTimer()
+      // if (!this.scuttle.isDead || !this.isRepeating) {
         // this.checkEnemiesBehaviour(time)
-      }
-      this.updatePlayer()
+      // }
+      // this.updatePlayer()
       // this.updateEnemies(time)
-    }
+    // }
     this.checkScoreToEndGame()
     // this.checkGameSize()
   }
@@ -355,7 +360,7 @@ class MainGame extends Phaser.Scene {
       this.changeModeTimer = this.time.now + this.TIME_MODES[this.currentMode].time
       this.count = 0
     } else {
-      this.gameOver('lose')
+      this.gameOver(LOSE, player)
     }
   }
 
@@ -568,12 +573,12 @@ class MainGame extends Phaser.Scene {
   checkScoreToEndGame () {
     if (this.numFoodEaten >= levelData.numFood) {
       console.warn('gameover', this.numFoodEaten, this.normalBGM)
-      this.gameOver('win')
+      this.gameOver(WIN)
       return true
     }
   }
 
-  gameOver (type) {
+  gameOver (type, player) {
     let isAlpha = true // Change this to allow different screens
     // console.log(this.plugins)
     // console.log(this.normalBGM)
@@ -581,13 +586,19 @@ class MainGame extends Phaser.Scene {
     // let soundFadeIn = this.plugins.get('rexSoundFade').fadeOut
     // soundFadeOut(this.scene.get('gameover'), this.normalBGM, 300, false)
     this.soundManager.setBgmVolume(0.1)
-    if (type === 'win') {
+    if (type === WIN) {
       this.soundManager.playWinSequence()
-    } else {
-      console.log('did it come here', this)
+      for (let id in this.players) {
+        let player = this.players[id]
+        //TODO: Do something with these information?
+        console.log(`Game over: ${player.id}: Lives: ${player.lives}, Score: ${player.score}`)
+      }
+    } else if (type === LOSE) {
+      // console.log('did it come here', this)
       this.soundManager.playGameOverSequence()
+      console.log(`Game over: LOSE ${player.id}: Lives: ${player.lives}, Score: ${player.score}`)
     }
-    console.log("Game over "+ this.scuttle.lives)
+    // console.log("Game over "+ this.scuttle.lives)
     // this.scene.launch('gameover', { TODO: Renable when modal is available in HTML/pug
     //   lives: this.scuttle.lives,
     //   score: this.score,

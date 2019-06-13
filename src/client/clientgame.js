@@ -92,6 +92,7 @@ class ClientGame extends MainGame {
               // this.players[id].score = data
               this.increaseScore(value)
             }
+            this.players[id][attribute] = value
           }
           else {
             console.log("What is received player", id, value, attribute)
