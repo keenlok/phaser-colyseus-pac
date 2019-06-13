@@ -6,7 +6,7 @@ import GameOver from './scenes/GameOver'
 import Menu from './scenes/Menu'
 import PauseScreen from './scenes/PauseScreen'
 import Preload from './scenes/Preload'
-import * as constants from '../shared/config/constants'
+import * as constants from '../../shared/config/constants'
 
 
 const config = {

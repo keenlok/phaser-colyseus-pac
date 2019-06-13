@@ -1,8 +1,8 @@
 import Phaser from 'phaser'
-import * as constants from '../../shared/config/constants'
-import { START_COORD } from '../../shared/leveldata/NewLevelData'
+import * as constants from '../../../shared/config/constants'
+import { START_COORD } from '../../../shared/leveldata/NewLevelData'
 // import seedrandom from 'seedrandom'
-import Enemy from './Enemy'
+import Enemy from './enemy'
 
 class Enemies extends Phaser.GameObjects.Group {
   constructor (scene) {

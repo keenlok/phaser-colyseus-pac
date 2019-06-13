@@ -10,7 +10,7 @@
     "start": "nodemon run src/client/app.js",
     "headless-server": "nodemon run dist/server/server.js",
     "dev-server": "NODE_ENV=development nodemon dist/server/server.js",
-    "dev-client": "NODE_ENV=development nodemon src/client/app.js"
+    "dev-client": "NODE_ENV=development nodemon src/backend/client/app.js"
   },
   "author": "",
   "license": "ISC",

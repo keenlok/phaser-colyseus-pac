@@ -1,6 +1,6 @@
-import MainGame from "./scenes/MainGame"
-import {directions} from '../shared/config/constants'
-import {wsUrl} from '../shared/config/config'
+import MainGame from "./scenes/mainGame"
+import {directions} from '../../shared/config/constants'
+import {wsUrl} from '../../shared/config/config'
 
 import {Client} from "colyseus.js"
 import Phaser from 'phaser'

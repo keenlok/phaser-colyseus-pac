@@ -1,7 +1,7 @@
-import SpecialDots from './game_objects/SpecialDots'
-import Players from './game_objects/Players'
-import GameObjFactory from '../shared/factory/GameObjFactory'
-import Enemies from "./game_objects/Enemies"
+import SpecialDots from './game_objects/specialDots'
+import Players from './game_objects/players'
+import GameObjFactory from '../../shared/factory/GameObjFactory'
+import Enemies from "./game_objects/enemies"
 
 function createEnemies(scene) {
   GameObjFactory.messageLog('Creating enemies')

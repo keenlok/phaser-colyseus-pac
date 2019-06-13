@@ -4,7 +4,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin')
 module.exports = {
   watch: true,
   entry: {
-    client: './src/client/client.js',
+    client: './src/frontend/client/client.js',
   },
   // devtool: 'source-map',
   output: {
