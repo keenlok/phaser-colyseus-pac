@@ -14,6 +14,7 @@ export class gameServer {
   setupAuthoritativeServer() {
     let self = this
     this.jsdom1 = JSDOM.fromFile(path.join(__dirname, 'index.html'), {
+    // this.jsdom1 = JSDOM.fromFile('/server/server/index.html', {
       runScripts: "dangerously",
       resources: "usable",
       pretendToBeVisual: true
@@ -102,10 +103,10 @@ export class gameServer {
 
 
 import http from 'http'
-import { Server } from 'colyseus'
 import { monitor } from '@colyseus/monitor'
+import { Server } from 'colyseus'
 import * as cors from 'cors'
-import * as express from 'express'
+import express from 'express'
 import { PracticeRoom } from './rooms/basicRoom'
 import { MultiplayerRoom } from './rooms/multiplayerRoom'
 
@@ -121,14 +122,17 @@ const PORT = 8000
 colyServer.register("practice", PracticeRoom, { server: gameServer })
 colyServer.register("2player", MultiplayerRoom, { server: gameServer })
 
-// let game_server = new gameServer()
-// game_server.setupAuthoritativeServer()
+// app.use(cors())
+// app.use("/colyseus", monitor(colyServer))
 
-app.use(cors())
-app.use("/colyseus", monitor(colyServer))
+app.use('/', express.static('dist'))
+app.use('/static', express.static('public')) //JSDOM cant open?
+
+console.log('/')
+
 
 colyServer.listen(PORT, undefined, undefined, function () {
   console.log(`Listening on ws://${server.address().port}`);
 });
 
-console.log("Hello")
+// console.log("Hello")
