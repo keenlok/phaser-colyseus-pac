@@ -1,6 +1,6 @@
 import Phaser from 'phaser'
 import * as constants from '../../../shared/config/constants'
-import {specialFood} from '../../../shared/leveldata/NewLevelData'
+import {specialFood} from '../../../shared/leveldata/newLevelData'
 
 class SpecialDots extends Phaser.GameObjects.Group {
   constructor (scene) {

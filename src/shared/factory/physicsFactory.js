@@ -1,4 +1,4 @@
-import * as levelData from '../leveldata/NewLevelData'
+import * as levelData from '../leveldata/newLevelData'
 
 class PhysicsFactory {
   constructor (scene, physics) {

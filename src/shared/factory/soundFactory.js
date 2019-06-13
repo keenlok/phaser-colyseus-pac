@@ -1,4 +1,4 @@
-import SoundManager from '../manager/SoundManager'
+import SoundManager from '../manager/soundManager'
 
 export default class SoundFactory {
   static createAllAudio (scene, soundCreator) {

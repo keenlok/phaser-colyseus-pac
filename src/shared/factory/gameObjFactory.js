@@ -1,4 +1,4 @@
-import * as levelData from '../leveldata/NewLevelData'
+import * as levelData from '../leveldata/newLevelData'
 import { messageLog as log } from '../config/constants'
 import Phaser from 'phaser'
 

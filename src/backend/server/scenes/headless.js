@@ -1,9 +1,9 @@
 import * as constants from '../../../shared/config/constants'
-import * as levelData from '../../../shared/leveldata/NewLevelData'
+import * as levelData from '../../../shared/leveldata/newLevelData'
 import * as GameObjectFactory from '../gameObjectFactory'
-import PhysicsFactory from '../../../shared/factory/PhysicsFactory'
-import AnimationFactory from '../../../shared/factory/AnimationFactory'
-import ScoreManager from '../../../shared/manager/ScoreManager'
+import PhysicsFactory from '../../../shared/factory/physicsFactory'
+import AnimationFactory from '../../../shared/factory/animationFactory'
+import ScoreManager from '../../../shared/manager/scoreManager'
 import Preload from './preload'
 
 import Phaser from 'phaser'

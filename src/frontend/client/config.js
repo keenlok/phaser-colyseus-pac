@@ -1,11 +1,11 @@
 import {AUTO} from 'phaser'
 
-import ClientGame from './clientgame'
-import Boot from './scenes/Boot'
-import GameOver from './scenes/GameOver'
-import Menu from './scenes/Menu'
-import PauseScreen from './scenes/PauseScreen'
-import Preload from './scenes/Preload'
+import ClientGame from './clientGame'
+import Boot from './scenes/boot'
+import GameOver from './scenes/gameOver'
+import Menu from './scenes/menu'
+import PauseScreen from './scenes/pauseScreen'
+import Preload from './scenes/preload'
 import * as constants from '../../shared/config/constants'
 
 

@@ -1,6 +1,6 @@
 import Phaser from 'phaser'
 import * as constants from '../../../shared/config/constants'
-import { START_COORD } from '../../../shared/leveldata/NewLevelData'
+import { START_COORD } from '../../../shared/leveldata/newLevelData'
 // import seedrandom from 'seedrandom'
 import Enemy from './enemy'
 
