@@ -1,5 +1,5 @@
 import Phaser from 'phaser'
-import * as constants from "../../shared/config/constants"
+import * as constants from "../../../shared/config/constants"
 
 export default class Preload extends Phaser.Scene {
   constructor(key) {

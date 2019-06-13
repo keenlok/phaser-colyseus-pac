@@ -1,5 +1,5 @@
 import { Room,  FossilDeltaSerializer, serialize} from 'colyseus'
-import { messageLog, DEBUG } from '../../shared/config/constants'
+import { messageLog, DEBUG } from '../../../shared/config/constants'
 import { State } from "../states/objectStates"
 
 export class MultiplayerRoom extends Room {
