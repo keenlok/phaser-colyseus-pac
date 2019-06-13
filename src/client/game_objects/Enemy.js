@@ -228,12 +228,12 @@ class Enemy extends Phaser.GameObjects.Sprite {
     }
   }
 
-  resetPosition (x, y) {
-    this.turnPoint = constants.convertToPixels(x, y)
-    this.x = this.turnPoint.x
-    this.y = this.turnPoint.y
-    this.body.reset(this.turnPoint.x, this.turnPoint.y)
-  }
+  // resetPosition (x, y) {
+  //   this.turnPoint = constants.convertToPixels(x, y)
+  //   this.x = this.turnPoint.x
+  //   this.y = this.turnPoint.y
+  //   this.body.reset(this.turnPoint.x, this.turnPoint.y)
+  // }
 
   /** This movement function is quite similar to scuttle */
   move (direction) {
@@ -344,14 +344,6 @@ class Enemy extends Phaser.GameObjects.Sprite {
       this.play(this.name + '_hunt_left')
     } else {
       this.play(this.name + '_hunt_right')
-    }
-  }
-
-  crabEatCrab (player) {
-    let num
-    this.messageLog("This method is called")
-    if (!this.isDead) {
-      this.messageLog('Met this player', player.name)
     }
   }
 

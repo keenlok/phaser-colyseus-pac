@@ -20,20 +20,10 @@ class Enemies extends Phaser.GameObjects.Group {
       (START_COORD.C.y * constants.TileSize) + constants.CenterOffset, 'jelly_left', 'type3')
     this.enemy3 = this.create((START_COORD.D.x * constants.TileSize) + constants.CenterOffset,
       (START_COORD.D.y * constants.TileSize) + constants.CenterOffset, 'hermit_left', 'type2')
-
-    // this.enemytest = this.create(1000, 120, 'hermit_left', 'type1')
   }
 
   // update (time) {
   //   // this.children.iterate(child => child.update(time))
-  // }
-  //
-  // attack () {
-  // //   this.children.iterate(child => child.attack())
-  // }
-  // //
-  // scatter () {
-  // //   this.children.iterate(child => child.scatter())
   // }
 
   becomeScared () {
@@ -70,25 +60,19 @@ class Enemies extends Phaser.GameObjects.Group {
     })
   }
 
-  increaseSpeed () {
-    this.children.iterate(child => {
-      child.enemyScatterSpeed += 50
-      child.cruiseElroySpeed += 50
-      child.enemySpeed += 50
-      child.enemyFrightenedSpeed += 50
-      child.TURNING_COOLDOWN -= 10
-      child.RETURNING_COOLDOWN -= 10
-    })
-  }
-
-  baseSpeed () {
-    this.children.iterate(child => child.baseSpeed())
-  }
-
-  // setRandomNumberGenerator (seed) {
+  // increaseSpeed () {
   //   this.children.iterate(child => {
-  //     child.rng = seedrandom(seed)
+  //     child.enemyScatterSpeed += 50
+  //     child.cruiseElroySpeed += 50
+  //     child.enemySpeed += 50
+  //     child.enemyFrightenedSpeed += 50
+  //     child.TURNING_COOLDOWN -= 10
+  //     child.RETURNING_COOLDOWN -= 10
   //   })
+  // }
+  //
+  // baseSpeed () {
+  //   this.children.iterate(child => child.baseSpeed())
   // }
 
   getChildren () {
