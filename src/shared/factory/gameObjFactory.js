@@ -31,7 +31,7 @@ export default class CommonObjectFactory {
   }
 
   static createCursors(scene) {
-    CommonObjectFactory.messageLog("Create cursors for input")
+    this.messageLog("Create cursors for input")
     scene.cursors = scene.input.keyboard.addKeys('W,A,S,D,UP,DOWN,LEFT,RIGHT,SPACE') // can only be
   }
 

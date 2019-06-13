@@ -26,10 +26,14 @@ class ClientGame extends MainGame {
     this.events.on('player_created', (player) => {
       console.log('Player created, sending confirmation to server')
       // console.log("send to server")
-      this.room.send('client_player_created')
+      this.room.send({type: 'initialise',  message:'client_player_created'})
     })
 
     this.input.on('pointerup', this.endSwipe, this)
+
+    this.events.on('pause', () => {
+      this.room.send({type: 'pause'})
+    })
   }
 
   createRoom(options) {
@@ -128,51 +132,60 @@ class ClientGame extends MainGame {
       })
 
       room.onMessage.add((message) => {
-        if (typeof message === 'string') {
-          if (message === 'start') {
-            console.log('start!')
-            this.scene.resume()
-          } else if (message.startsWith('hunt')) {
-            let args = message.split('_')
-            let id = args[1]
-            console.log("Room: ", "Change game to hunt", id)
-            this.changeToHuntMode(this.players[id])
-          } else if (message === 'normal') {
-            console.log("Room: ", "Change game to normal")
-            this.returnToNormal()
-          } else if (message.startsWith('restart')) {
-            let id = message.substr(8)
-            console.log("this id received to restart", id)
-            if (typeof this.players[id] === 'undefined') {
-              console.warn("this id received has not been initialised in client", id)
-            } else {
-              this.restartGame(this.players[id])
-            }
-          } else if (message.startsWith("eat_enemy")) {
-            let substr = message.substr(10)
-            let args = substr.split('_')
-            let enemy_id = args[0]
-            let player_id = args[1]
-            console.log(`Enemy ${enemy_id} died by ${player_id}'s hands`)
-            this.enemieslist[enemy_id].dies(this.players[player_id])
-          } else if (message.startsWith("enemy_exit")) {
-            let id = message.substr(11)
-            console.log("Enemy exit! received")
-            this.enemieslist[id].delayedSpawn()
-          } else if (message.startsWith("eat_player")) {
-            let numplayer = message.substr(11)
-            console.log("What is received???", message)
-            let args = numplayer.split('_')
-            let num = args[0]
-            let id = args[1]
-            console.log("This audio num is to be played", num)
-            console.log("This player is eated", id)
-            this.scuttleDies(num, this.players[id])
+        if (message === 'start') {
+          console.log('start!')
+          this.scene.resume()
+        }
+        else if (message.type === 'hunt') {
+          // let args = message.split('_')
+          // let id = args[1]
+          let id = message.id
+          console.log("Room: ", "Change game to hunt", id)
+          this.changeToHuntMode(this.players[id])
+        }
+        else if (message.type === 'normal') {
+          console.log("Room: ", "Change game to normal")
+          this.returnToNormal()
+        }
+        else if (message.type === 'restart') {
+          // let id = message.substr(8)
+          let id = message.id
+          console.log("this id received to restart", id)
+          if (typeof this.players[id] === 'undefined') {
+            console.warn("this id received has not been initialised in client", id)
           } else {
-            console.log("Room: Received:", message)
+            this.restartGame(this.players[id])
           }
+        }
+        else if (message.type === "eat_enemy") {
+          // let substr = message.substr(10)
+          // let args = substr.split('_')
+          // let enemy_id = args[0]
+          // let player_id = args[1]
+          let enemy_id = message.enemy_id
+          let player_id = message.player_id
+          console.log(`Enemy ${enemy_id} died by ${player_id}'s hands`)
+          this.enemieslist[enemy_id].dies(this.players[player_id])
+        }
+        else if (message.type === "enemy_exit") {
+          // let id = message.substr(11)
+          let id = message.id
+          console.log("Enemy exit! received")
+          this.enemieslist[id].delayedSpawn()
+        }
+        else if (message.type === "eat_player") {
+          // let numplayer = message.substr(11)
+          // console.log("What is received???", message)
+          // let args = numplayer.split('_')
+          // let num = args[0]
+          // let id = args[1]
+          let num = message.num
+          let id = message.id
+          console.log("This audio num is to be played", num)
+          console.log("This player is eated", id)
+          this.scuttleDies(num, this.players[id])
         } else {
-          console.log("Room:    What is received from server?", message)
+          console.log("Room: Received:", message)
         }
       })
     })
@@ -183,13 +196,13 @@ class ClientGame extends MainGame {
     let cursors = this.cursors
     let room = this.room
     if (cursors.LEFT.isDown || cursors.A.isDown) {
-      room.send({move: directions.LEFT})
+      room.send({type: 'move', move: directions.LEFT})
     } else if (cursors.RIGHT.isDown || cursors.D.isDown) {
-      room.send({move: directions.RIGHT})
+      room.send({type: 'move', move: directions.RIGHT})
     } else if (cursors.UP.isDown || cursors.W.isDown) {
-      room.send({move: directions.UP})
+      room.send({type: 'move', move: directions.UP})
     } else if (cursors.DOWN.isDown || cursors.S.isDown) {
-      room.send({move: directions.DOWN})
+      room.send({type: 'move', move: directions.DOWN})
     }
   }
 
@@ -204,19 +217,19 @@ class ClientGame extends MainGame {
     if (swipeMagnitude > 20 && swipeTime < 1000 &&
       (Math.abs(swipeNormal.x) > 0.8 || Math.abs(swipeNormal.y) > 0.8)) {
       if (swipeNormal.x > 0.8) {
-        room.send({move: directions.RIGHT})
+        room.send({type: 'move', move: directions.RIGHT})
         console.log('swiping right')
       }
       if (swipeNormal.x < -0.8) {
-        room.send({move: directions.LEFT})
+        room.send({type: 'move', move: directions.LEFT})
         console.log('swiping left')
       }
       if (swipeNormal.y > 0.8) {
-        room.send({move: directions.DOWN})
+        room.send({type: 'move', move: directions.DOWN})
         console.log('swiping down')
       }
       if (swipeNormal.y < -0.8) {
-        room.send({move: directions.UP})
+        room.send({type: 'move', move: directions.UP})
         console.log('swiping up')
       }
     }

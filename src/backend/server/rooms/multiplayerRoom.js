@@ -83,27 +83,27 @@ export class MultiplayerRoom extends Room {
     }, self)
 
     scene.events.on('change_to_hunt', (player) => {
-      self.broadcast('hunt_'+player.id)
+      self.broadcast({type:'hunt', id: player.id})
     }, self)
 
     scene.events.on('return_normal', () => {
-      self.broadcast('normal')
+      self.broadcast({type: 'normal'})
     }, self)
 
     scene.events.on('restartGame', (player) => {
-      self.broadcast('restart_'+player.id)
+      self.broadcast({type:'restart', id:player.id})
     }, self)
 
     scene.events.on('send_exit', (enemy) => {
-      self.broadcast('enemy_exit'+'_'+enemy.name+enemy.type)
+      self.broadcast({type:'enemy_exit', id:enemy.name+enemy.type})
     }, self)
 
     scene.events.on('eat_player', (player, num) => {
-      self.broadcast('eat_player'+'_'+num+'_'+player.id)
+      self.broadcast({type: 'eat_player', num: num, id:player.id})
     }, self)
 
     scene.events.on('eat_enemy', (enemy, player) => {
-      self.broadcast('eat_enemy_'+enemy.name+enemy.type+'_'+player.id)
+      self.broadcast({type: 'eat_enemy', enemy_id:enemy.name+enemy.type, player_id: player.id})
     }, self)
 
     MultiplayerRoom.messageLog("Event listeners created!")
@@ -126,16 +126,18 @@ export class MultiplayerRoom extends Room {
     let id = client.id
     // console.log("From who", id)
     // console.log("What is received", data)
-      if (typeof data === 'string' && data === 'client_player_created') {
+      if (data.type === 'initialise' && data.message === 'client_player_created') {
         console.log("How many players are there?", Object.keys(this.scene.players).length)
         if (Object.keys(this.scene.players).length === 2) {
           this.scene.restartGame(this.scene.players[id])
           this.isGameSet = true
         }
-      } else {
+      } else if (data.type === 'move') {
         if (this.isGameSet) {
           this.scene.players[id].storeDirectionToMove(data.move)
         }
+      } else {
+        console.warn("what is received?", data)
       }
 
   }
