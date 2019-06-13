@@ -6,7 +6,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin')
 module.exports = {
   watch: true,
   entry: {
-    game: './src/server/index.js',
+    game: './src/backend/server/index.js',
   },
   // devtool: 'source-map',
   output: {
