@@ -5,7 +5,7 @@ import {wsUrl} from '../../shared/config/config'
 import {Client} from "colyseus.js"
 import Phaser from 'phaser'
 
-class ClientGame extends MainGame {
+export default class ClientGame extends MainGame {
   constructor() {
     super({key: 'maingame'})
     console.log("Main game")
@@ -86,17 +86,12 @@ class ClientGame extends MainGame {
           }
           else if (attribute === 'isDead' || attribute === 'alive') {
             this.players[id][attribute] = value
-            // ie it died
-            // if (!value) {
-            //   this.scuttle.dies()
-            // }
           }
           else if (attribute === 'score') {
             if (this.clientId === id) {
-              // this.players[id].score = data
               this.increaseScore(value)
             }
-            this.players[id][attribute] = value
+            this.players[id][attribute] = value // Still updates the score
           }
           else {
             console.log("What is received player", id, value, attribute)
@@ -124,11 +119,7 @@ class ClientGame extends MainGame {
       })
 
       room.listen('world/:attribute', ({path: {attribute}, operation, value}) => {
-        // if (attribute === 'score') {
-        //   this.increaseScore(value)
-        // } else {
           console.log("What is received for world", operation, attribute, value)
-        // }
       })
 
       room.onMessage.add((message) => {
@@ -137,8 +128,6 @@ class ClientGame extends MainGame {
           this.scene.resume()
         }
         else if (message.type === 'hunt') {
-          // let args = message.split('_')
-          // let id = args[1]
           let id = message.id
           console.log("Room: ", "Change game to hunt", id)
           this.changeToHuntMode(this.players[id])
@@ -158,27 +147,17 @@ class ClientGame extends MainGame {
           }
         }
         else if (message.type === "eat_enemy") {
-          // let substr = message.substr(10)
-          // let args = substr.split('_')
-          // let enemy_id = args[0]
-          // let player_id = args[1]
           let enemy_id = message.enemy_id
           let player_id = message.player_id
           console.log(`Enemy ${enemy_id} died by ${player_id}'s hands`)
           this.enemieslist[enemy_id].dies(this.players[player_id])
         }
         else if (message.type === "enemy_exit") {
-          // let id = message.substr(11)
           let id = message.id
           console.log("Enemy exit! received")
           this.enemieslist[id].delayedSpawn()
         }
         else if (message.type === "eat_player") {
-          // let numplayer = message.substr(11)
-          // console.log("What is received???", message)
-          // let args = numplayer.split('_')
-          // let num = args[0]
-          // let id = args[1]
           let num = message.num
           let id = message.id
           console.log("This audio num is to be played", num)
@@ -199,8 +178,6 @@ class ClientGame extends MainGame {
   }
 
   launchPauseScreen () {
-    // this.scene.launch('pause')
-    // this.scene.pause()
     this.soundManager.playButtonSoundEffect()
     this.scene.pause()
     this.scene.launch('pause', {
@@ -254,6 +231,3 @@ class ClientGame extends MainGame {
     }
   }
 }
-
-
-export default ClientGame

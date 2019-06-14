@@ -411,14 +411,18 @@ class Headless extends Preload {
     //   // console.log(player.id)
     // }
     Headless.messageLog('Restarting Game', player.id)
-    this.currentMode = 0
-    this.isHuntMode = false
+    if (Object.keys(this.players).length === 1) {
+      Headless.messageLog('Resetting modes')
+      this.currentMode = 0
+      this.isHuntMode = false
+    }
     player.returnToNormal()
     if (player.lives > 0) {
       player.respawn()
       this.isPaused = false
       // This makes sure that the enemies doesn't always respawn when scuttle dies
       if (player.lives === 3) {
+        Headless.messageLog('Resetting modes')
         this.resetEnemies()
       }
       this.isRepeating = false
@@ -610,10 +614,13 @@ class Headless extends Preload {
     Headless.messageLog("comes here")
     player.dies()
     // if ((typeof NODE_ENV === 'undefined' && NODE_ENV !== 'production') || this.isTwoPlayer) {
-    if ((true) || this.isTwoPlayer) {
-      this.currentMode = 0
-      this.enemies.scatter()
-    } else {
+    if (this.isTwoPlayer) {
+      if (!this.isHuntMode) {
+        this.currentMode = 0
+        this.enemies.scatter()
+      }
+    }
+    else if (!this.isTwoPlayer) {
       this.isPaused = true // previous logic where enemies will disappear when scuttle dies
       this.enemies.disappears()
     }

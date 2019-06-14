@@ -59,6 +59,7 @@ export class MultiplayerRoom extends Room {
       if (!self.isGameSet)  {
         // self.createEventListeners(self.scene)
         if (Object.keys(this.clientId).length === 2) {
+          self.scene.isTwoPlayer = true
           // self.state.setPlayer(self.scene.scuttle)
           MultiplayerRoom.messageLog("Game is Set")
           self.broadcast('start')
